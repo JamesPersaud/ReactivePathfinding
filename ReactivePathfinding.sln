@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePathfinding.WinformsVis", "ReactivePathfinding.WinformsVis\ReactivePathfinding.WinformsVis.csproj", "{CCDEF95C-5261-4E50-B659-27DB5A820FAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePathfinding.Core", "ReactivePathfinding.Core\ReactivePathfinding.Core.csproj", "{9DE0B678-33E1-4DD6-9F19-F84B253DB514}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCDEF95C-5261-4E50-B659-27DB5A820FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCDEF95C-5261-4E50-B659-27DB5A820FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCDEF95C-5261-4E50-B659-27DB5A820FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCDEF95C-5261-4E50-B659-27DB5A820FAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
