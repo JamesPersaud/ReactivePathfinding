@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ReactivePathfinding.Core;
 
 namespace ReactivePathfinding.WinformsVis
 {
@@ -17,6 +18,9 @@ namespace ReactivePathfinding.WinformsVis
         private OutputWindow outputWindow;
         private Version version;
 
+        //Experiment
+        Experiment currentExperiment = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -24,10 +28,7 @@ namespace ReactivePathfinding.WinformsVis
 
             //initialize interface components
             CreateOutputWindow();
-            outputWindow.Println("Application Started - running version " 
-                + version.Major.ToString() + "." 
-                + version.Minor.ToString() + "."
-                + version.Build.ToString());
+            outputWindow.Println("Application Started - running version " + version.ToString());
         }
 
         private void CreateOutputWindow()
@@ -39,7 +40,7 @@ namespace ReactivePathfinding.WinformsVis
         void outputWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             ShowOutputWindow = false;
-            outputToolStripMenuItem.Checked = false;
+            outputToolStripMenuItem1.Checked = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -71,20 +72,34 @@ namespace ReactivePathfinding.WinformsVis
             }
 
             ShowOutputWindow = show;
-            outputToolStripMenuItem.Checked = ShowOutputWindow;
+            outputToolStripMenuItem1.Checked = ShowOutputWindow;
+        }                      
+
+        /// <summary>
+        /// Show version information
+        /// </summary>        
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Reactive Pathfinding" 
+                + Environment.NewLine + Environment.NewLine
+                + "Copyright © 2015" + Environment.NewLine 
+                + "James Persaud" + Environment.NewLine
+                + "The Open University" + Environment.NewLine + Environment.NewLine
+                + "Running version " + version.ToString()
+                , "About Reactive Pathfinding");
         }
 
         /// <summary>
         /// show or hide the output window
-        /// </summary>        
-        private void outputToolStripMenuItem_Click(object sender, EventArgs e)
+        /// </summary>  
+        private void outputToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ToggleOutputVisibility();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Application.Exit();
         }
     }
 }

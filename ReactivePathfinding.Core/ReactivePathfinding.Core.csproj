@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experiment.cs" />
     <Compile Include="HeightmapSettings.cs" />
     <Compile Include="PRNG.cs" />
     <Compile Include="HeightmapGenerator.cs" />
