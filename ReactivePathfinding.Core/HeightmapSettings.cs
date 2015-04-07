@@ -10,7 +10,10 @@ namespace ReactivePathfinding.Core
     /// 
     /// </summary>
     public class HeightmapSettings
-    {
+    {        
+        public const int DEFAULT_MAP_WIDTH = 16;
+        public const int DEFAULT_MAP_HEIGHT = 16;
+
         public const int DEFAULT_SAMPLEWIDTH = 120;
         public const int DEFAULT_SAMPLEHEIGHT = 120;
         public const int DEFAULT_SEED = 6587687;
@@ -29,7 +32,22 @@ namespace ReactivePathfinding.Core
         private float lacunarity;
         private float offset;
         private float gain;
-        private float spectral;            
+        private float spectral;
+        
+        private int mapHeight;
+        private int mapWidth;
+
+        public int MapWidth
+        {
+            get { return mapWidth; }
+            set { mapWidth = value; }
+        }
+
+        public int MapHeight
+        {
+            get { return mapHeight; }
+            set { mapHeight = value; }
+        }
 
         public float Spectral
         {
@@ -90,6 +108,9 @@ namespace ReactivePathfinding.Core
             offset = DEFAULT_OFFSET;
             gain = DEFAULT_GAIN;
             spectral = DEFAULT_SPECTRAL;
+
+            mapHeight = DEFAULT_MAP_HEIGHT;
+            mapWidth = DEFAULT_MAP_WIDTH;
         }        
     }
 }
