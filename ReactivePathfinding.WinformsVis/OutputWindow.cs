@@ -19,6 +19,14 @@ namespace ReactivePathfinding.WinformsVis
             InitializeComponent();
             this.FormClosing += OutputWindow_FormClosing;
             RestoreLastContentWhenInstantiating();
+
+            //listen to core logging events
+            ReactivePathfinding.Core.Logging.Instance.Logged += Instance_Logged;
+        }
+
+        void Instance_Logged(string s)
+        {
+            Println(s);
         }
 
         /// <summary>

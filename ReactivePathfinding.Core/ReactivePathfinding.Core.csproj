@@ -44,8 +44,9 @@
   <ItemGroup>
     <Compile Include="Experiment.cs" />
     <Compile Include="HeightmapSettings.cs" />
+    <Compile Include="Logging.cs" />
     <Compile Include="PRNG.cs" />
-    <Compile Include="HeightmapGenerator.cs" />
+    <Compile Include="Heightmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

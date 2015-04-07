@@ -38,7 +38,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainViewContainer = new System.Windows.Forms.SplitContainer();
             this.pnlControls = new System.Windows.Forms.Panel();
-            this.lblControlsTitle = new System.Windows.Forms.Label();
+            this.lblExperimentName = new System.Windows.Forms.Label();
             this.newExperimentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.loadExperimentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +55,8 @@
             this.conicalHillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTerrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
             this.MainViewContainer.Panel2.SuspendLayout();
@@ -94,8 +96,11 @@
             // 
             // eDITToolStripMenuItem
             // 
+            this.eDITToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem});
             this.eDITToolStripMenuItem.Name = "eDITToolStripMenuItem";
-            this.eDITToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.eDITToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.eDITToolStripMenuItem.Text = "Edit";
             // 
             // helpToolStripMenuItem
@@ -103,7 +108,7 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -118,7 +123,7 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.outputToolStripMenuItem1});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // outputToolStripMenuItem1
@@ -155,39 +160,40 @@
             // pnlControls
             // 
             this.pnlControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.pnlControls.Controls.Add(this.lblControlsTitle);
+            this.pnlControls.Controls.Add(this.lblExperimentName);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlControls.Location = new System.Drawing.Point(0, 0);
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(196, 706);
             this.pnlControls.TabIndex = 0;
             // 
-            // lblControlsTitle
+            // lblExperimentName
             // 
-            this.lblControlsTitle.AutoSize = true;
-            this.lblControlsTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblControlsTitle.ForeColor = System.Drawing.Color.White;
-            this.lblControlsTitle.Location = new System.Drawing.Point(4, 4);
-            this.lblControlsTitle.Name = "lblControlsTitle";
-            this.lblControlsTitle.Size = new System.Drawing.Size(115, 16);
-            this.lblControlsTitle.TabIndex = 0;
-            this.lblControlsTitle.Text = "No Experiment";
+            this.lblExperimentName.AutoSize = true;
+            this.lblExperimentName.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExperimentName.ForeColor = System.Drawing.Color.White;
+            this.lblExperimentName.Location = new System.Drawing.Point(4, 4);
+            this.lblExperimentName.Name = "lblExperimentName";
+            this.lblExperimentName.Size = new System.Drawing.Size(115, 16);
+            this.lblExperimentName.TabIndex = 0;
+            this.lblExperimentName.Text = "No Experiment";
             // 
             // newExperimentToolStripMenuItem
             // 
             this.newExperimentToolStripMenuItem.Name = "newExperimentToolStripMenuItem";
-            this.newExperimentToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.newExperimentToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.newExperimentToolStripMenuItem.Text = "New Experiment";
+            this.newExperimentToolStripMenuItem.Click += new System.EventHandler(this.newExperimentToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(204, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(196, 6);
             // 
             // loadExperimentToolStripMenuItem
             // 
             this.loadExperimentToolStripMenuItem.Name = "loadExperimentToolStripMenuItem";
-            this.loadExperimentToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.loadExperimentToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.loadExperimentToolStripMenuItem.Text = "Load Experiment";
             // 
             // saveExperimentAsToolStripMenuItem
@@ -207,12 +213,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(196, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(204, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(196, 6);
             // 
             // experimentToolStripMenuItem
             // 
@@ -223,30 +229,29 @@
             this.loadTerrainToolStripMenuItem,
             this.toolStripSeparator3,
             this.saveTerrainToolStripMenuItem});
+            this.experimentToolStripMenuItem.Enabled = false;
             this.experimentToolStripMenuItem.Name = "experimentToolStripMenuItem";
             this.experimentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.experimentToolStripMenuItem.Text = "Experiment";
             // 
             // newRandomTerrainToolStripMenuItem
             // 
-            this.newRandomTerrainToolStripMenuItem.Enabled = false;
             this.newRandomTerrainToolStripMenuItem.Name = "newRandomTerrainToolStripMenuItem";
             this.newRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.newRandomTerrainToolStripMenuItem.Text = "New Random Terrain";
+            this.newRandomTerrainToolStripMenuItem.Text = "New Procedural Terrain";
+            this.newRandomTerrainToolStripMenuItem.Click += new System.EventHandler(this.newRandomTerrainToolStripMenuItem_Click);
             // 
             // newTerrainTemplateToolStripMenuItem
             // 
             this.newTerrainTemplateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.flatPlaneToolStripMenuItem,
             this.conicalHillToolStripMenuItem});
-            this.newTerrainTemplateToolStripMenuItem.Enabled = false;
             this.newTerrainTemplateToolStripMenuItem.Name = "newTerrainTemplateToolStripMenuItem";
             this.newTerrainTemplateToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.newTerrainTemplateToolStripMenuItem.Text = "New Terrain from Template";
             // 
             // loadTerrainToolStripMenuItem
             // 
-            this.loadTerrainToolStripMenuItem.Enabled = false;
             this.loadTerrainToolStripMenuItem.Name = "loadTerrainToolStripMenuItem";
             this.loadTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.loadTerrainToolStripMenuItem.Text = "Load Terrain";
@@ -259,18 +264,19 @@
             // flatPlaneToolStripMenuItem
             // 
             this.flatPlaneToolStripMenuItem.Name = "flatPlaneToolStripMenuItem";
-            this.flatPlaneToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.flatPlaneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.flatPlaneToolStripMenuItem.Text = "Flat Plane";
+            this.flatPlaneToolStripMenuItem.Click += new System.EventHandler(this.flatPlaneToolStripMenuItem_Click);
             // 
             // conicalHillToolStripMenuItem
             // 
             this.conicalHillToolStripMenuItem.Name = "conicalHillToolStripMenuItem";
-            this.conicalHillToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.conicalHillToolStripMenuItem.Text = "Step Pyramid";
+            this.conicalHillToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.conicalHillToolStripMenuItem.Text = "Conical Hill";
+            this.conicalHillToolStripMenuItem.Click += new System.EventHandler(this.conicalHillToolStripMenuItem_Click);
             // 
             // saveTerrainToolStripMenuItem
             // 
-            this.saveTerrainToolStripMenuItem.Enabled = false;
             this.saveTerrainToolStripMenuItem.Name = "saveTerrainToolStripMenuItem";
             this.saveTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.saveTerrainToolStripMenuItem.Text = "Save Terrain As";
@@ -279,6 +285,20 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(241, 6);
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Enabled = false;
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Text = "Undo";
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Enabled = false;
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Text = "Redo";
             // 
             // MainWindow
             // 
@@ -316,7 +336,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.SplitContainer MainViewContainer;
         private System.Windows.Forms.Panel pnlControls;
-        private System.Windows.Forms.Label lblControlsTitle;
+        private System.Windows.Forms.Label lblExperimentName;
         private System.Windows.Forms.ToolStripMenuItem newExperimentToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadExperimentToolStripMenuItem;
@@ -333,6 +353,8 @@
         private System.Windows.Forms.ToolStripMenuItem loadTerrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem saveTerrainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }
 }
 

@@ -31,6 +31,19 @@ namespace ReactivePathfinding.WinformsVis
             outputWindow.Println("Application Started - running version " + version.ToString());
         }
 
+        private void UpdateControlPanel()
+        {
+            if(currentExperiment != null)
+            {
+                lblExperimentName.Text = currentExperiment.Name;
+            }
+        }
+
+        private void EnableExperimentMenu()
+        {
+            experimentToolStripMenuItem.Enabled = true;
+        }
+
         private void CreateOutputWindow()
         {
             outputWindow = new OutputWindow();
@@ -100,6 +113,37 @@ namespace ReactivePathfinding.WinformsVis
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }        
+
+        /// <summary>
+        /// Start a new experiment
+        /// </summary>        
+        private void newExperimentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CreateExperiment createDialog = new CreateExperiment())
+            {
+                if(createDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    currentExperiment = new Experiment(createDialog.Name);
+                    EnableExperimentMenu();
+                    UpdateControlPanel();
+                }
+            }
+        }
+
+        private void newRandomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flatPlaneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void conicalHillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
