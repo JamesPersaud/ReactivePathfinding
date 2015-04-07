@@ -76,6 +76,12 @@
     <Compile Include="OutputWindow.Designer.cs">
       <DependentUpon>OutputWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="PreviewWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PreviewWindow.Designer.cs">
+      <DependentUpon>PreviewWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CreateExperimentWindow.resx">
@@ -89,6 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OutputWindow.resx">
       <DependentUpon>OutputWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewWindow.resx">
+      <DependentUpon>PreviewWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

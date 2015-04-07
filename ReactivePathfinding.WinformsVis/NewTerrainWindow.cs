@@ -91,7 +91,11 @@ namespace ReactivePathfinding.WinformsVis
             updateSettings();
             Map = Heightmap.CreateHeightmap(Settings, (HeightMapType)ddlType.SelectedItem);
 
-            //preview window
+            using(PreviewWindow preview = new PreviewWindow())
+            {
+                preview.Map = Map;
+                preview.ShowDialog();
+            }
         }
 
         private void ddlType_SelectedIndexChanged(object sender, EventArgs e)
@@ -100,7 +104,7 @@ namespace ReactivePathfinding.WinformsVis
 
             if (grpProcedural.Enabled != procedural)
             {
-                foreach (Control c in grpProcedural.Controls)                
+                foreach (Control c in grpProcedural.Controls)
                     c.Enabled = procedural;
 
                 grpProcedural.Enabled = procedural;

@@ -11,11 +11,11 @@ namespace ReactivePathfinding.Core
     /// </summary>
     public class HeightmapSettings
     {        
-        public const int DEFAULT_MAP_WIDTH = 16;
-        public const int DEFAULT_MAP_HEIGHT = 16;
+        public const int DEFAULT_MAP_WIDTH = 128;
+        public const int DEFAULT_MAP_HEIGHT = 128;
 
-        public const int DEFAULT_SAMPLEWIDTH = 120;
-        public const int DEFAULT_SAMPLEHEIGHT = 120;
+        public const int DEFAULT_SAMPLEWIDTH = 256;
+        public const int DEFAULT_SAMPLEHEIGHT = 256;
         public const int DEFAULT_SEED = 6587687;
 
         public const float DEFAULT_OCTAVES = 6f;

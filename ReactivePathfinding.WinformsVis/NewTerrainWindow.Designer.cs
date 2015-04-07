@@ -338,7 +338,7 @@
             this.numSampleWidth.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numSampleWidth.Location = new System.Drawing.Point(196, 63);
             this.numSampleWidth.Maximum = new decimal(new int[] {
-            256,
+            2048,
             0,
             0,
             0});
@@ -433,6 +433,11 @@
             // 
             this.numMapWidth.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numMapWidth.Location = new System.Drawing.Point(212, 72);
+            this.numMapWidth.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
             this.numMapWidth.Minimum = new decimal(new int[] {
             8,
             0,
@@ -451,6 +456,11 @@
             // 
             this.numMapHeight.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numMapHeight.Location = new System.Drawing.Point(212, 100);
+            this.numMapHeight.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
             this.numMapHeight.Minimum = new decimal(new int[] {
             8,
             0,

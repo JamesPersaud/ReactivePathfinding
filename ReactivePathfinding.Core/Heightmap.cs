@@ -17,10 +17,15 @@ namespace ReactivePathfinding.Core
         private NoiseMapBuilderPlane proceduralNoiseBuilder;
         private SumFractal filter;
 
-        private HeightmapSettings settings;
+        private HeightmapSettings settings;        
         private HeightMapType type;
 
         private float[,] heights;
+
+        public HeightmapSettings Settings
+        {
+            get { return settings; }
+        }
 
         public HeightMapType Type
         {
