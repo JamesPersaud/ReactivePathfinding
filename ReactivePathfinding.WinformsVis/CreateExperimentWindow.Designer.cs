@@ -1,6 +1,6 @@
 ﻿namespace ReactivePathfinding.WinformsVis
 {
-    partial class CreateExperiment
+    partial class CreateExperimentWindow
     {
         /// <summary>
         /// Required designer variable.

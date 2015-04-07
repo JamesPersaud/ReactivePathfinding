@@ -120,7 +120,7 @@ namespace ReactivePathfinding.WinformsVis
         /// </summary>        
         private void newExperimentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (CreateExperiment createDialog = new CreateExperiment())
+            using (CreateExperimentWindow createDialog = new CreateExperimentWindow())
             {
                 if(createDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -131,19 +131,31 @@ namespace ReactivePathfinding.WinformsVis
             }
         }
 
+        private void NewTerrain(HeightMapType type)
+        {
+            using (NewTerrainWindow terrainDialog = new NewTerrainWindow())
+            {
+                terrainDialog.initialise(currentExperiment.CurrentHeightmapSettings, type);
+                if (terrainDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    
+                }
+            }
+        }
+
         private void newRandomTerrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            NewTerrain(HeightMapType.PROCEDURAL);
         }
 
         private void flatPlaneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            NewTerrain(HeightMapType.PLANE);
         }
 
         private void conicalHillToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            NewTerrain(HeightMapType.CONICAL_HILL);
         }
     }
 }

@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace ReactivePathfinding.WinformsVis
 {
-    public partial class CreateExperiment : Form
+    public partial class CreateExperimentWindow : Form
     {
         public string Name;
 
-        public CreateExperiment()
+        public CreateExperimentWindow()
         {
             InitializeComponent();
         }

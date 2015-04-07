@@ -52,11 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateExperiment.cs">
+    <Compile Include="CreateExperimentWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateExperiment.Designer.cs">
-      <DependentUpon>CreateExperiment.cs</DependentUpon>
+    <Compile Include="CreateExperimentWindow.Designer.cs">
+      <DependentUpon>CreateExperimentWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -64,11 +64,11 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewTerrain.cs">
+    <Compile Include="NewTerrainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewTerrain.Designer.cs">
-      <DependentUpon>NewTerrain.cs</DependentUpon>
+    <Compile Include="NewTerrainWindow.Designer.cs">
+      <DependentUpon>NewTerrainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="OutputWindow.cs">
       <SubType>Form</SubType>
@@ -78,14 +78,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CreateExperiment.resx">
-      <DependentUpon>CreateExperiment.cs</DependentUpon>
+    <EmbeddedResource Include="CreateExperimentWindow.resx">
+      <DependentUpon>CreateExperimentWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewTerrain.resx">
-      <DependentUpon>NewTerrain.cs</DependentUpon>
+    <EmbeddedResource Include="NewTerrainWindow.resx">
+      <DependentUpon>NewTerrainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OutputWindow.resx">
       <DependentUpon>OutputWindow.cs</DependentUpon>

@@ -36,6 +36,11 @@ namespace ReactivePathfinding.Core
             set { proceduralNoise = value; }
         }
 
+        public float GetHeight(int x, int z)
+        {
+            return heights[x,z];
+        }
+
         public static Heightmap CreateHeightmap(HeightmapSettings hms, HeightMapType t)
         {
             Heightmap map = new Heightmap();
@@ -55,6 +60,12 @@ namespace ReactivePathfinding.Core
         /// </summary>        
         public void Initialise(HeightmapSettings hms, HeightMapType t)
         {
+            if (t == HeightMapType.PROCEDURAL)
+            {
+                Initialise(hms);
+                return;
+            }
+
             settings = hms;
             type = t;
 
@@ -68,16 +79,16 @@ namespace ReactivePathfinding.Core
 
             for (int x = 0; x < settings.MapWidth; x++)
             {
-                for(int y =0; y < settings.MapHeight;y++)
+                for(int z =0; z < settings.MapHeight;z++)
                 {
                     if (type == HeightMapType.PLANE)
                     {
-                        heights[x, y] = 0f;
+                        heights[x, z] = 0f;
                     }
                     else if (type == HeightMapType.CONICAL_HILL)
                     {
                         double a = (double)x;
-                        double b = (double)y;                        
+                        double b = (double)z;   
 
                         double da = Math.Abs(a - mida);
                         double db = Math.Abs(b - midb);
@@ -85,7 +96,7 @@ namespace ReactivePathfinding.Core
                         double dist = Math.Sqrt(da * da + db * db);
                         
                         //the height at this point will be the ratio of how close it is to the centre
-                        heights[x, y] = 1f - (float)(dist / maxdist);
+                        heights[x, z] = 1f - (float)(dist / maxdist);
                     }
                 }
             }
@@ -106,6 +117,7 @@ namespace ReactivePathfinding.Core
             filter = new SumFractal();
 
             filter.OctaveCount = settings.Octaves;
+            filter.Frequency = settings.Frequency;
             filter.Lacunarity = settings.Lacunarity;
             filter.Offset = settings.Offset;
             filter.Gain = settings.Gain;
@@ -119,6 +131,15 @@ namespace ReactivePathfinding.Core
             proceduralNoiseBuilder.Build();
 
             heights = new float[settings.MapWidth, settings.MapHeight];
+
+            int x_separation = settings.SampleWidth / settings.MapWidth;
+            int z_separation = settings.SampleHeight / settings.MapHeight;
+
+            for (int x = 0; x < settings.MapWidth; x++)
+            {
+                for (int z = 0; z < settings.MapHeight; z++)
+                    heights[x, z] = proceduralNoise.GetValue(x * x_separation, z * z_separation);
+            }
         }
     }
 

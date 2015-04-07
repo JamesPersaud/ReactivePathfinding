@@ -19,6 +19,7 @@ namespace ReactivePathfinding.Core
         public const int DEFAULT_SEED = 6587687;
 
         public const float DEFAULT_OCTAVES = 6f;
+        public const float DEFAULT_FREQUENCY = 2f;
         public const float DEFAULT_LACUNARITY = 2f;
         public const float DEFAULT_OFFSET = 1f;
         public const float DEFAULT_GAIN = 2f;
@@ -33,9 +34,16 @@ namespace ReactivePathfinding.Core
         private float offset;
         private float gain;
         private float spectral;
+        private float frequency;        
         
         private int mapHeight;
         private int mapWidth;
+
+        public float Frequency
+        {
+            get { return frequency; }
+            set { frequency = value; }
+        }
 
         public int MapWidth
         {
@@ -108,6 +116,7 @@ namespace ReactivePathfinding.Core
             offset = DEFAULT_OFFSET;
             gain = DEFAULT_GAIN;
             spectral = DEFAULT_SPECTRAL;
+            frequency = DEFAULT_FREQUENCY;
 
             mapHeight = DEFAULT_MAP_HEIGHT;
             mapWidth = DEFAULT_MAP_WIDTH;
