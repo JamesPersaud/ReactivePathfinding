@@ -34,7 +34,6 @@
             this.coloursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greyscaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.islandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.x1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.x2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,8 +74,7 @@
             // 
             this.coloursToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.greyscaleToolStripMenuItem,
-            this.terrainToolStripMenuItem,
-            this.islandsToolStripMenuItem});
+            this.terrainToolStripMenuItem});
             this.coloursToolStripMenuItem.Name = "coloursToolStripMenuItem";
             this.coloursToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.coloursToolStripMenuItem.Text = "Colour Scheme";
@@ -96,13 +94,6 @@
             this.terrainToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.terrainToolStripMenuItem.Text = "Mountains";
             this.terrainToolStripMenuItem.Click += new System.EventHandler(this.terrainToolStripMenuItem_Click);
-            // 
-            // islandsToolStripMenuItem
-            // 
-            this.islandsToolStripMenuItem.Name = "islandsToolStripMenuItem";
-            this.islandsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.islandsToolStripMenuItem.Text = "Archipelago";
-            this.islandsToolStripMenuItem.Click += new System.EventHandler(this.islandsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -136,7 +127,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(496, 474);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.pnlPreview);
@@ -159,7 +149,6 @@
         private System.Windows.Forms.ToolStripMenuItem coloursToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem greyscaleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem islandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem x1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem x2ToolStripMenuItem;

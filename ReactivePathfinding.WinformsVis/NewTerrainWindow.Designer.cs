@@ -58,6 +58,8 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numSmooth = new System.Windows.Forms.NumericUpDown();
             this.grpProcedural.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpectral)).BeginInit();
@@ -70,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -145,6 +148,8 @@
             // 
             // grpProcedural
             // 
+            this.grpProcedural.Controls.Add(this.numSmooth);
+            this.grpProcedural.Controls.Add(this.label12);
             this.grpProcedural.Controls.Add(this.btnRandomSeed);
             this.grpProcedural.Controls.Add(this.label11);
             this.grpProcedural.Controls.Add(this.numFrequency);
@@ -167,7 +172,7 @@
             this.grpProcedural.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpProcedural.Location = new System.Drawing.Point(16, 143);
             this.grpProcedural.Name = "grpProcedural";
-            this.grpProcedural.Size = new System.Drawing.Size(336, 302);
+            this.grpProcedural.Size = new System.Drawing.Size(336, 333);
             this.grpProcedural.TabIndex = 7;
             this.grpProcedural.TabStop = false;
             this.grpProcedural.Text = "Procedural Parameters";
@@ -194,6 +199,7 @@
             // 
             // numFrequency
             // 
+            this.numFrequency.DecimalPlaces = 1;
             this.numFrequency.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numFrequency.Increment = new decimal(new int[] {
             1,
@@ -217,13 +223,14 @@
             // 
             // numSpectral
             // 
+            this.numSpectral.DecimalPlaces = 1;
             this.numSpectral.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numSpectral.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numSpectral.Location = new System.Drawing.Point(196, 261);
+            this.numSpectral.Location = new System.Drawing.Point(196, 205);
             this.numSpectral.Maximum = new decimal(new int[] {
             10,
             0,
@@ -235,13 +242,14 @@
             // 
             // numGain
             // 
+            this.numGain.DecimalPlaces = 1;
             this.numGain.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numGain.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numGain.Location = new System.Drawing.Point(196, 233);
+            this.numGain.Location = new System.Drawing.Point(196, 303);
             this.numGain.Maximum = new decimal(new int[] {
             10,
             0,
@@ -253,13 +261,14 @@
             // 
             // numOffset
             // 
+            this.numOffset.DecimalPlaces = 1;
             this.numOffset.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numOffset.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numOffset.Location = new System.Drawing.Point(196, 205);
+            this.numOffset.Location = new System.Drawing.Point(196, 275);
             this.numOffset.Maximum = new decimal(new int[] {
             10,
             0,
@@ -271,6 +280,7 @@
             // 
             // numLacunarity
             // 
+            this.numLacunarity.DecimalPlaces = 1;
             this.numLacunarity.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numLacunarity.Increment = new decimal(new int[] {
             1,
@@ -315,7 +325,7 @@
             this.numSampleHeight.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numSampleHeight.Location = new System.Drawing.Point(196, 91);
             this.numSampleHeight.Maximum = new decimal(new int[] {
-            256,
+            2048,
             0,
             0,
             0});
@@ -373,7 +383,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(6, 263);
+            this.label10.Location = new System.Drawing.Point(6, 207);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(89, 14);
             this.label10.TabIndex = 12;
@@ -383,7 +393,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(6, 235);
+            this.label9.Location = new System.Drawing.Point(6, 305);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(35, 14);
             this.label9.TabIndex = 11;
@@ -393,11 +403,12 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(6, 207);
+            this.label8.Location = new System.Drawing.Point(6, 277);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(45, 14);
             this.label8.TabIndex = 10;
             this.label8.Text = "Offset";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label7
             // 
@@ -477,7 +488,7 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(277, 451);
+            this.btnCreate.Location = new System.Drawing.Point(277, 492);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 10;
@@ -487,7 +498,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(196, 451);
+            this.btnCancel.Location = new System.Drawing.Point(196, 492);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 11;
@@ -497,7 +508,7 @@
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(16, 451);
+            this.btnPreview.Location = new System.Drawing.Point(16, 492);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 12;
@@ -505,11 +516,45 @@
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(6, 235);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(55, 14);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Smooth";
+            // 
+            // numSmooth
+            // 
+            this.numSmooth.DecimalPlaces = 2;
+            this.numSmooth.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numSmooth.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numSmooth.Location = new System.Drawing.Point(196, 233);
+            this.numSmooth.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numSmooth.Name = "numSmooth";
+            this.numSmooth.Size = new System.Drawing.Size(134, 22);
+            this.numSmooth.TabIndex = 23;
+            this.numSmooth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // NewTerrainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 486);
+            this.ClientSize = new System.Drawing.Size(361, 527);
             this.Controls.Add(this.btnPreview);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnCreate);
@@ -537,6 +582,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -574,5 +620,7 @@
         private System.Windows.Forms.NumericUpDown numFrequency;
         private System.Windows.Forms.Button btnPreview;
         private System.Windows.Forms.Button btnRandomSeed;
+        private System.Windows.Forms.NumericUpDown numSmooth;
+        private System.Windows.Forms.Label label12;
     }
 }

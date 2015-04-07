@@ -24,6 +24,7 @@ namespace ReactivePathfinding.Core
         public const float DEFAULT_OFFSET = 1f;
         public const float DEFAULT_GAIN = 2f;
         public const float DEFAULT_SPECTRAL = 0.9f;
+        public const float DEFAULT_SMOOTH = 1f;
 
         private int sampleWidth;
         private int sampleHeight;
@@ -34,10 +35,17 @@ namespace ReactivePathfinding.Core
         private float offset;
         private float gain;
         private float spectral;
-        private float frequency;        
-        
+        private float frequency;
+        private float smooth;
+
         private int mapHeight;
         private int mapWidth;
+
+        public float Smooth
+        {
+            get { return smooth; }
+            set { smooth = value; }
+        }                
 
         public float Frequency
         {
@@ -120,6 +128,8 @@ namespace ReactivePathfinding.Core
 
             mapHeight = DEFAULT_MAP_HEIGHT;
             mapWidth = DEFAULT_MAP_WIDTH;
+
+            smooth = DEFAULT_SMOOTH;
         }        
     }
 }

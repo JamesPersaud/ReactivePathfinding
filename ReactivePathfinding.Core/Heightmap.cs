@@ -43,7 +43,7 @@ namespace ReactivePathfinding.Core
 
         public float GetHeight(int x, int z)
         {
-            return heights[x,z];
+            return heights[x, z];            
         }
 
         public static Heightmap CreateHeightmap(HeightmapSettings hms, HeightMapType t)
@@ -101,11 +101,10 @@ namespace ReactivePathfinding.Core
                         double dist = Math.Sqrt(da * da + db * db);
                         
                         //the height at this point will be the ratio of how close it is to the centre
-                        heights[x, z] = 1f - (float)(dist / maxdist);
+                        heights[x, z] = 1f - (float)(dist / maxdist *2); // *2 because the range is -1 to 1
                     }
                 }
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -143,7 +142,12 @@ namespace ReactivePathfinding.Core
             for (int x = 0; x < settings.MapWidth; x++)
             {
                 for (int z = 0; z < settings.MapHeight; z++)
-                    heights[x, z] = proceduralNoise.GetValue(x * x_separation, z * z_separation);
+                {
+                    heights[x, z] = (proceduralNoise.GetValue(x * x_separation, z * z_separation)) / settings.Smooth;
+
+                    if (heights[x, z] < -1) heights[x, z] = - 1;
+                    if (heights[x, z] > 1) heights[x, z] = 1;                    
+                }
             }
         }
     }

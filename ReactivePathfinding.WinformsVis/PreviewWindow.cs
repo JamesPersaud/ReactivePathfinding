@@ -17,7 +17,7 @@ namespace ReactivePathfinding.WinformsVis
     {
         public int MapScale = 1;
         public PreviewScheme scheme = PreviewScheme.CLOUDS;
-        private Heightmap map;
+        private Heightmap map;        
 
         public Heightmap Map
         {
@@ -31,13 +31,14 @@ namespace ReactivePathfinding.WinformsVis
 
         public PreviewWindow()
         {
-            InitializeComponent();            
-        }
-
+            InitializeComponent();
+            pnlPreview.Paint += pnlPreview_Paint;            
+        }        
+        
         /// <summary>
         /// Draw a preview of the heightmap at the specified scale and in the specified colour scheme
         /// </summary>        
-        protected override void OnPaint(PaintEventArgs e)
+        void pnlPreview_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.CornflowerBlue);
 
@@ -54,23 +55,13 @@ namespace ReactivePathfinding.WinformsVis
                 y = (y + 1f) /2f; //transform height from the range -1 to 1, to the range 0 - 1;
                 //clamp y
                 if(y < 0) y =0;
-                else if (y > 1) y=1;
-
-                if (scheme == PreviewScheme.CLOUDS)
-                {
-                    byte b = (byte)(y * 256);                    
-                    bytes[i * bpp] = b;
-                    bytes[i * bpp + 1] = b;
-                    bytes[i * bpp + 2] = b;
-                }
-                else if (scheme == PreviewScheme.MOUNTAINS)
-                {
-
-                }
-                else if (scheme == PreviewScheme.ISLANDS)
-                {
-
-                }
+                else if (y > 1) y=1;                
+                
+                byte[] pixel = GetHeightShade(y, scheme);
+                    
+                bytes[i * bpp] = pixel[0];
+                bytes[i * bpp + 1] = pixel[1];
+                bytes[i * bpp + 2] = pixel[2];                
             }
 
             //create a bitmap and copy in the bits
@@ -82,18 +73,66 @@ namespace ReactivePathfinding.WinformsVis
 
             Graphics g = pnlPreview.CreateGraphics();
             g.Clear(Color.CornflowerBlue);            
-            g.DrawImage(bmp, 0, 0);
+            g.DrawImage(bmp, 0, 0, bmp.Width*MapScale,bmp.Height*MapScale);
 
             base.OnPaint(e);
+        }
+
+        private static byte[] GetHeightShade(float y, PreviewScheme s)
+        {
+            byte[] bytes = new byte[3];
+
+            byte b = (byte)(y * 255);
+
+            if (s == PreviewScheme.CLOUDS)
+            {                
+                bytes[0] = b;
+                bytes[1] = b;
+                bytes[2] = b;
+            }
+            else if (s == PreviewScheme.MOUNTAINS)
+            {
+                if (y < 0.5)
+                {
+                    bytes[0] = (byte)(b/2);
+                    bytes[1] = (byte)Math.Min((int)b * 2, 255);
+                    bytes[2] = (byte)(b/2);
+                }
+                else if (y < 0.7)
+                {
+                    bytes[0] = (byte)Math.Max((int)b -64, 0);
+                    bytes[1] = b;
+                    bytes[2] = (byte)Math.Min((int)b * 1.25, 255);
+                }
+                else if (y < 0.9)
+                {
+                    bytes[0] = (byte)(b / 1.5);
+                    bytes[1] = (byte)(b / 1.5);
+                    bytes[2] = (byte)(b / 1.5);
+                }                
+                else
+                {
+                    bytes[0] = b;
+                    bytes[1] = b;
+                    bytes[2] = b;
+                }
+            }
+
+            return bytes;
+        }
+
+        public void ForceRedraw()
+        {
+            pnlPreview.Invalidate();
+            TopMost = true;
         }
 
         private void islandsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             terrainToolStripMenuItem.Checked = false;
-            greyscaleToolStripMenuItem.Checked = false;
-            islandsToolStripMenuItem.Checked = true;
+            greyscaleToolStripMenuItem.Checked = false;            
             scheme = PreviewScheme.ISLANDS;
-            this.Invalidate(true);
+            ForceRedraw();
         }
 
         private void x1ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -103,7 +142,7 @@ namespace ReactivePathfinding.WinformsVis
             x4ToolStripMenuItem.Checked = false;
             MapScale = 1;
             pnlPreview.Size = new Size(Map.Settings.MapWidth * MapScale, Map.Settings.MapHeight * MapScale);
-            this.Invalidate(true);
+            ForceRedraw();
         }
 
         private void x2ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -113,7 +152,7 @@ namespace ReactivePathfinding.WinformsVis
             x4ToolStripMenuItem.Checked = false;
             MapScale = 2;
             pnlPreview.Size = new Size(Map.Settings.MapWidth * MapScale, Map.Settings.MapHeight * MapScale);
-            this.Invalidate(true);
+            ForceRedraw();
         }
 
         private void x4ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -123,25 +162,23 @@ namespace ReactivePathfinding.WinformsVis
             x4ToolStripMenuItem.Checked = true;
             MapScale = 4;
             pnlPreview.Size = new Size(Map.Settings.MapWidth * MapScale, Map.Settings.MapHeight * MapScale);
-            this.Invalidate(true);
+            ForceRedraw();
         }
 
         private void greyscaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             terrainToolStripMenuItem.Checked = false;
-            greyscaleToolStripMenuItem.Checked = true;
-            islandsToolStripMenuItem.Checked = false;
+            greyscaleToolStripMenuItem.Checked = true;            
             scheme = PreviewScheme.CLOUDS;
-            this.Invalidate(true);
+            ForceRedraw();
         }
 
         private void terrainToolStripMenuItem_Click(object sender, EventArgs e)
         {
             terrainToolStripMenuItem.Checked = true;
-            greyscaleToolStripMenuItem.Checked = false;
-            islandsToolStripMenuItem.Checked = false;
+            greyscaleToolStripMenuItem.Checked = false;            
             scheme = PreviewScheme.MOUNTAINS;
-            this.Invalidate(true);
+            ForceRedraw();
         }
     }
 

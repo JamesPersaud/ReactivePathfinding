@@ -17,13 +17,34 @@ namespace ReactivePathfinding.WinformsVis
         public Heightmap Map;
         public static PRNG random = new PRNG();
 
+        private static PreviewWindow preview = null;
+
         public NewTerrainWindow()
         {
             InitializeComponent();
 
+            this.FormClosing += NewTerrainWindow_FormClosing;
+
             ddlType.Items.Add(HeightMapType.PROCEDURAL);
             ddlType.Items.Add(HeightMapType.PLANE);
             ddlType.Items.Add(HeightMapType.CONICAL_HILL);
+        }
+
+        private bool ValidateSettings()
+        {
+            if (Settings.MapHeight > Settings.SampleHeight || Settings.MapWidth > Settings.SampleWidth)
+            {
+                MessageBox.Show("Map dimensions cannot be larger than " + Environment.NewLine + "sample dimensions.","Invalid Settings");
+                return false;
+            }
+
+            return true;
+        }
+
+        void NewTerrainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (preview != null)
+                preview.Close();
         }        
 
         /// <summary>
@@ -44,6 +65,7 @@ namespace ReactivePathfinding.WinformsVis
             numSampleWidth.Value = (Decimal)settings.SampleWidth;
             numSeed.Value = (Decimal)settings.Seed;
             numSpectral.Value = (Decimal)settings.Spectral;
+            numSmooth.Value = (Decimal)settings.Smooth;
 
             this.Settings = settings;
         }
@@ -61,6 +83,7 @@ namespace ReactivePathfinding.WinformsVis
             Settings.SampleWidth = (int)numSampleWidth.Value;
             Settings.Seed = (int)numSeed.Value;
             Settings.Spectral = (float)numSpectral.Value;
+            Settings.Smooth = (float)numSmooth.Value;
         }
 
         private void btnRandomSeed_Click(object sender, EventArgs e)
@@ -74,8 +97,12 @@ namespace ReactivePathfinding.WinformsVis
         private void btnCreate_Click(object sender, EventArgs e)
         {
             updateSettings();
-            Map = Heightmap.CreateHeightmap(Settings, (HeightMapType)ddlType.SelectedItem);
-            DialogResult = System.Windows.Forms.DialogResult.OK;
+
+            if (ValidateSettings())
+            {
+                Map = Heightmap.CreateHeightmap(Settings, (HeightMapType)ddlType.SelectedItem);
+                DialogResult = System.Windows.Forms.DialogResult.OK;
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -89,12 +116,22 @@ namespace ReactivePathfinding.WinformsVis
         private void btnPreview_Click(object sender, EventArgs e)
         {
             updateSettings();
-            Map = Heightmap.CreateHeightmap(Settings, (HeightMapType)ddlType.SelectedItem);
 
-            using(PreviewWindow preview = new PreviewWindow())
+            if (ValidateSettings())
             {
-                preview.Map = Map;
-                preview.ShowDialog();
+                Map = Heightmap.CreateHeightmap(Settings, (HeightMapType)ddlType.SelectedItem);
+
+                if (preview == null)
+                {
+                    preview = new PreviewWindow();
+                    preview.Map = Map;
+                    preview.Show();
+                }
+                else
+                {
+                    preview.Map = Map;
+                    preview.ForceRedraw();
+                }
             }
         }
 
@@ -109,6 +146,11 @@ namespace ReactivePathfinding.WinformsVis
 
                 grpProcedural.Enabled = procedural;
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
