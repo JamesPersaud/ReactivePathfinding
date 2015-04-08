@@ -56,9 +56,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainViewContainer = new System.Windows.Forms.SplitContainer();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.lblExperimentFilename = new System.Windows.Forms.Label();
+            this.txtContext = new System.Windows.Forms.TextBox();
             this.lblExperimentName = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtTerrain = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
             this.MainViewContainer.Panel2.SuspendLayout();
@@ -200,8 +200,8 @@
             // newRandomTerrainToolStripMenuItem
             // 
             this.newRandomTerrainToolStripMenuItem.Name = "newRandomTerrainToolStripMenuItem";
-            this.newRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.newRandomTerrainToolStripMenuItem.Text = "New Procedural Terrain";
+            this.newRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.newRandomTerrainToolStripMenuItem.Text = "New Procedural Heightmap";
             this.newRandomTerrainToolStripMenuItem.Click += new System.EventHandler(this.newRandomTerrainToolStripMenuItem_Click);
             // 
             // newTerrainTemplateToolStripMenuItem
@@ -210,8 +210,8 @@
             this.flatPlaneToolStripMenuItem,
             this.conicalHillToolStripMenuItem});
             this.newTerrainTemplateToolStripMenuItem.Name = "newTerrainTemplateToolStripMenuItem";
-            this.newTerrainTemplateToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.newTerrainTemplateToolStripMenuItem.Text = "New Terrain from Template";
+            this.newTerrainTemplateToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.newTerrainTemplateToolStripMenuItem.Text = "New Heightmap from Template";
             // 
             // flatPlaneToolStripMenuItem
             // 
@@ -230,24 +230,24 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(241, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(265, 6);
             // 
             // loadTerrainToolStripMenuItem
             // 
             this.loadTerrainToolStripMenuItem.Name = "loadTerrainToolStripMenuItem";
-            this.loadTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.loadTerrainToolStripMenuItem.Text = "Load Terrain";
+            this.loadTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.loadTerrainToolStripMenuItem.Text = "Load Heightmap";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(241, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(265, 6);
             // 
             // saveTerrainToolStripMenuItem
             // 
             this.saveTerrainToolStripMenuItem.Name = "saveTerrainToolStripMenuItem";
-            this.saveTerrainToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.saveTerrainToolStripMenuItem.Text = "Save Terrain As";
+            this.saveTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.saveTerrainToolStripMenuItem.Text = "Save Heightmap As";
             // 
             // helpToolStripMenuItem
             // 
@@ -284,8 +284,8 @@
             // pnlControls
             // 
             this.pnlControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.pnlControls.Controls.Add(this.txtTerrain);
-            this.pnlControls.Controls.Add(this.label1);
+            this.pnlControls.Controls.Add(this.lblExperimentFilename);
+            this.pnlControls.Controls.Add(this.txtContext);
             this.pnlControls.Controls.Add(this.lblExperimentName);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlControls.Location = new System.Drawing.Point(0, 0);
@@ -293,41 +293,40 @@
             this.pnlControls.Size = new System.Drawing.Size(196, 706);
             this.pnlControls.TabIndex = 0;
             // 
+            // lblExperimentFilename
+            // 
+            this.lblExperimentFilename.AutoSize = true;
+            this.lblExperimentFilename.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExperimentFilename.ForeColor = System.Drawing.Color.White;
+            this.lblExperimentFilename.Location = new System.Drawing.Point(3, 31);
+            this.lblExperimentFilename.Name = "lblExperimentFilename";
+            this.lblExperimentFilename.Size = new System.Drawing.Size(0, 16);
+            this.lblExperimentFilename.TabIndex = 3;
+            // 
+            // txtContext
+            // 
+            this.txtContext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.txtContext.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.txtContext.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContext.ForeColor = System.Drawing.Color.White;
+            this.txtContext.Location = new System.Drawing.Point(0, 329);
+            this.txtContext.Multiline = true;
+            this.txtContext.Name = "txtContext";
+            this.txtContext.ReadOnly = true;
+            this.txtContext.Size = new System.Drawing.Size(196, 377);
+            this.txtContext.TabIndex = 2;
+            this.txtContext.WordWrap = false;
+            // 
             // lblExperimentName
             // 
             this.lblExperimentName.AutoSize = true;
             this.lblExperimentName.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblExperimentName.ForeColor = System.Drawing.Color.White;
-            this.lblExperimentName.Location = new System.Drawing.Point(4, 4);
+            this.lblExperimentName.Location = new System.Drawing.Point(3, 9);
             this.lblExperimentName.Name = "lblExperimentName";
             this.lblExperimentName.Size = new System.Drawing.Size(115, 16);
             this.lblExperimentName.TabIndex = 0;
             this.lblExperimentName.Text = "No Experiment";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 296);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "No Terrain";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // txtTerrain
-            // 
-            this.txtTerrain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.txtTerrain.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txtTerrain.Location = new System.Drawing.Point(0, 315);
-            this.txtTerrain.Multiline = true;
-            this.txtTerrain.Name = "txtTerrain";
-            this.txtTerrain.ReadOnly = true;
-            this.txtTerrain.Size = new System.Drawing.Size(196, 391);
-            this.txtTerrain.TabIndex = 2;
-            this.txtTerrain.WordWrap = false;
             // 
             // MainWindow
             // 
@@ -384,8 +383,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveTerrainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTerrain;
+        private System.Windows.Forms.TextBox txtContext;
+        private System.Windows.Forms.Label lblExperimentFilename;
     }
 }
 

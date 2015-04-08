@@ -29,13 +29,28 @@ namespace ReactivePathfinding.WinformsVis
             //initialize interface components
             CreateOutputWindow();
             Logging.Instance.Log("Application Started - running version " + version.ToString());
-        }
+        }        
 
+        /// <summary>
+        /// Should be called whenever something in the experiment changes that relates to the side control panel
+        /// e.g. the terrain or agent population
+        /// </summary>
         private void UpdateControlPanel()
         {
             if(currentExperiment != null)
             {
+                //update experiment info
                 lblExperimentName.Text = currentExperiment.Name;
+                lblExperimentFilename.Text = currentExperiment.Filename;
+
+                //update terrain info
+                if (currentExperiment.CurrentHeightmap != null)
+                    txtContext.Text = currentExperiment.CurrentHeightmap.ToString();
+            }
+            else
+            {
+                lblExperimentName.Text = "No Experiment";
+                lblExperimentFilename.Text = "";
             }
         }
 
@@ -133,12 +148,14 @@ namespace ReactivePathfinding.WinformsVis
 
         private void NewTerrain(HeightMapType type)
         {
-            using (NewTerrainWindow terrainDialog = new NewTerrainWindow())
+            using (NewHeightmapWindow terrainDialog = new NewHeightmapWindow())
             {
                 terrainDialog.initialise(currentExperiment.CurrentHeightmapSettings, type);
                 if (terrainDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     Logging.Instance.Log("Created New Terrain");
+                    currentExperiment.CurrentHeightmap = terrainDialog.Map;
+                    UpdateControlPanel();
                 }
             }
         }
@@ -161,7 +178,7 @@ namespace ReactivePathfinding.WinformsVis
         private void label1_Click(object sender, EventArgs e)
         {
 
-        }
+        }             
     }
 }
 

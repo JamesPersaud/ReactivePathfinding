@@ -7,6 +7,7 @@ using Graphics.Tools.Noise.Builder;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public class Experiment
     {        
         private PRNG random = null;
@@ -15,6 +16,38 @@ namespace ReactivePathfinding.Core
         private Heightmap currentHeightmap = null;
         private HeightmapSettings currentHeightmapSettings = null;
 
+        private string filename;
+        private string heightmapFilename;
+
+        private bool isNew = true;
+
+        public bool IsNew
+        {
+            get { return isNew; }
+            set { isNew = value; }
+        }
+
+        /// <summary>
+        /// Used to save a link between experiment and heightmap
+        /// </summary>
+        public string HeightmapFilename
+        {
+            get { return heightmapFilename; }
+            set { heightmapFilename = value; }
+        }
+
+        public string Filename
+        {
+            get
+            {
+                if (isNew)
+                    return "{Not Saved}";
+                else
+                    return filename;
+            }
+            set { filename = value; }
+        }
+
         public HeightmapSettings CurrentHeightmapSettings
         {
             get { return currentHeightmapSettings; }
@@ -22,7 +55,12 @@ namespace ReactivePathfinding.Core
 
         public Heightmap CurrentHeightmap
         {
-            get { return currentHeightmap; }            
+            get { return currentHeightmap; }
+            set
+            {
+
+                currentHeightmap = value;
+            }
         }        
 
         public string Name

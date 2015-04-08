@@ -10,6 +10,7 @@ using Graphics.Tools.Noise.Filter;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public class Heightmap
     {
         private ImprovedPerlin noiseModule;
@@ -17,17 +18,39 @@ namespace ReactivePathfinding.Core
         private NoiseMapBuilderPlane proceduralNoiseBuilder;
         private SumFractal filter;
 
-        private HeightmapSettings settings;        
+        private HeightmapSettings settings;
         private HeightMapType type;
 
+        private string filename;
+
         private float[,] heights;
+
+        private bool isNew = true;
+
+        public bool IsNew
+        {
+            get { return isNew; }
+            set { isNew = value; }
+        }
+
+        public string Filename
+        {
+            get
+            {
+                if (isNew)
+                    return "{New Heightmap}";
+                else
+                    return filename; 
+            }
+            set { filename = value; }
+        }
 
         public HeightmapSettings Settings
         {
             get { return settings; }
         }
 
-        public HeightMapType Type
+        public HeightMapType MapType
         {
             get { return type; }            
         }
@@ -149,6 +172,17 @@ namespace ReactivePathfinding.Core
                     if (heights[x, z] > 1) heights[x, z] = 1;                    
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            string s = string.Empty;
+            s += Filename + Environment.NewLine;
+            s += MapType.ToString() + Environment.NewLine;
+            s += Environment.NewLine;
+            s += settings.ToString();
+
+            return s;
         }
     }
 

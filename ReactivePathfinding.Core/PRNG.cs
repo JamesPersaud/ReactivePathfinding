@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// Responsible for delivering random numbers to the other parts of the application
     /// </summary>
+    [Serializable]
     public class PRNG
     {
         private Random random = new Random();

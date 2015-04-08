@@ -1,6 +1,6 @@
 ﻿namespace ReactivePathfinding.WinformsVis
 {
-    partial class NewTerrainWindow
+    partial class NewHeightmapWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -36,6 +36,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.grpProcedural = new System.Windows.Forms.GroupBox();
+            this.numSmooth = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
             this.btnRandomSeed = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.numFrequency = new System.Windows.Forms.NumericUpDown();
@@ -58,9 +60,8 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.numSmooth = new System.Windows.Forms.NumericUpDown();
             this.grpProcedural.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpectral)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGain)).BeginInit();
@@ -72,7 +73,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -81,9 +81,9 @@
             this.lblTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(13, 13);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(148, 16);
+            this.lblTitle.Size = new System.Drawing.Size(171, 16);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Create a new Terrain";
+            this.lblTitle.Text = "Create a new Heightmap";
             // 
             // lblType
             // 
@@ -176,6 +176,40 @@
             this.grpProcedural.TabIndex = 7;
             this.grpProcedural.TabStop = false;
             this.grpProcedural.Text = "Procedural Parameters";
+            // 
+            // numSmooth
+            // 
+            this.numSmooth.DecimalPlaces = 2;
+            this.numSmooth.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numSmooth.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numSmooth.Location = new System.Drawing.Point(196, 233);
+            this.numSmooth.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numSmooth.Name = "numSmooth";
+            this.numSmooth.Size = new System.Drawing.Size(134, 22);
+            this.numSmooth.TabIndex = 23;
+            this.numSmooth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(6, 235);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(55, 14);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Smooth";
             // 
             // btnRandomSeed
             // 
@@ -516,41 +550,7 @@
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(6, 235);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(55, 14);
-            this.label12.TabIndex = 22;
-            this.label12.Text = "Smooth";
-            // 
-            // numSmooth
-            // 
-            this.numSmooth.DecimalPlaces = 2;
-            this.numSmooth.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numSmooth.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.numSmooth.Location = new System.Drawing.Point(196, 233);
-            this.numSmooth.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            131072});
-            this.numSmooth.Name = "numSmooth";
-            this.numSmooth.Size = new System.Drawing.Size(134, 22);
-            this.numSmooth.TabIndex = 23;
-            this.numSmooth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // NewTerrainWindow
+            // NewHeightmapWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -567,10 +567,11 @@
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "NewTerrainWindow";
-            this.Text = "NewTerrain";
+            this.Name = "NewHeightmapWindow";
+            this.Text = "New Heightmap";
             this.grpProcedural.ResumeLayout(false);
             this.grpProcedural.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numFrequency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpectral)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGain)).EndInit();
@@ -582,7 +583,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMapHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSmooth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

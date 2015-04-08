@@ -11,7 +11,7 @@ using ReactivePathfinding.Core;
 
 namespace ReactivePathfinding.WinformsVis
 {
-    public partial class NewTerrainWindow : Form
+    public partial class NewHeightmapWindow : Form
     {
         public HeightmapSettings Settings;
         public Heightmap Map;
@@ -19,7 +19,7 @@ namespace ReactivePathfinding.WinformsVis
 
         private static PreviewWindow preview = null;
 
-        public NewTerrainWindow()
+        public NewHeightmapWindow()
         {
             InitializeComponent();
 

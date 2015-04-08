@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// Save/load settings
     /// 
     /// </summary>
+    [Serializable]
     public class HeightmapSettings
     {        
         public const int DEFAULT_MAP_WIDTH = 128;
@@ -130,6 +131,28 @@ namespace ReactivePathfinding.Core
             mapWidth = DEFAULT_MAP_WIDTH;
 
             smooth = DEFAULT_SMOOTH;
-        }        
+        }
+
+        public override string ToString()
+        {
+            string s = string.Empty;
+
+            s += "Seed         " + seed.ToString() + Environment.NewLine;
+            s += Environment.NewLine;
+            s += "Map Size     " + mapWidth.ToString() + "x" + mapHeight.ToString() + Environment.NewLine;
+            s += "Sample Size  " + sampleWidth.ToString() + "x" + sampleHeight.ToString() + Environment.NewLine;
+            s += Environment.NewLine;
+            s += "Octaves      " + Octaves.ToString() + Environment.NewLine;
+            s += "Frequency    " + Frequency.ToString() + Environment.NewLine; 
+            s += "Lacunarity   " + Lacunarity.ToString() + Environment.NewLine;
+            s += "Spectral Exp " + Spectral.ToString() + Environment.NewLine;
+            s += Environment.NewLine;
+            s += "Smoothness   " + Smooth.ToString() + Environment.NewLine;
+            s += Environment.NewLine;
+            s += "Gain         " + Gain.ToString() + Environment.NewLine;
+            s += "Offset       " + Offset.ToString();
+
+            return s;
+        }
     }
 }
