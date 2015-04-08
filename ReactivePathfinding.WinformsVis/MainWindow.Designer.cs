@@ -59,8 +59,11 @@
             this.lblExperimentFilename = new System.Windows.Forms.Label();
             this.txtContext = new System.Windows.Forms.TextBox();
             this.lblExperimentName = new System.Windows.Forms.Label();
+            this.glControl = new OpenTK.GLControl();
+            this.lblFPS = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
+            this.MainViewContainer.Panel1.SuspendLayout();
             this.MainViewContainer.Panel2.SuspendLayout();
             this.MainViewContainer.SuspendLayout();
             this.pnlControls.SuspendLayout();
@@ -272,6 +275,8 @@
             // 
             // MainViewContainer.Panel1
             // 
+            this.MainViewContainer.Panel1.Controls.Add(this.lblFPS);
+            this.MainViewContainer.Panel1.Controls.Add(this.glControl);
             this.MainViewContainer.Panel1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // MainViewContainer.Panel2
@@ -309,11 +314,11 @@
             this.txtContext.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.txtContext.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContext.ForeColor = System.Drawing.Color.White;
-            this.txtContext.Location = new System.Drawing.Point(0, 329);
+            this.txtContext.Location = new System.Drawing.Point(0, 433);
             this.txtContext.Multiline = true;
             this.txtContext.Name = "txtContext";
             this.txtContext.ReadOnly = true;
-            this.txtContext.Size = new System.Drawing.Size(196, 377);
+            this.txtContext.Size = new System.Drawing.Size(196, 273);
             this.txtContext.TabIndex = 2;
             this.txtContext.WordWrap = false;
             // 
@@ -327,6 +332,28 @@
             this.lblExperimentName.Size = new System.Drawing.Size(115, 16);
             this.lblExperimentName.TabIndex = 0;
             this.lblExperimentName.Text = "No Experiment";
+            // 
+            // glControl
+            // 
+            this.glControl.BackColor = System.Drawing.Color.Black;
+            this.glControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl.Location = new System.Drawing.Point(0, 0);
+            this.glControl.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.glControl.Name = "glControl";
+            this.glControl.Size = new System.Drawing.Size(808, 706);
+            this.glControl.TabIndex = 0;
+            this.glControl.VSync = false;
+            this.glControl.Load += new System.EventHandler(this.glControl_Load);
+            // 
+            // lblFPS
+            // 
+            this.lblFPS.AutoSize = true;
+            this.lblFPS.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFPS.ForeColor = System.Drawing.Color.White;
+            this.lblFPS.Location = new System.Drawing.Point(12, 679);
+            this.lblFPS.Name = "lblFPS";
+            this.lblFPS.Size = new System.Drawing.Size(0, 16);
+            this.lblFPS.TabIndex = 1;
             // 
             // MainWindow
             // 
@@ -342,6 +369,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.MainViewContainer.Panel1.ResumeLayout(false);
+            this.MainViewContainer.Panel1.PerformLayout();
             this.MainViewContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).EndInit();
             this.MainViewContainer.ResumeLayout(false);
@@ -385,6 +414,8 @@
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.TextBox txtContext;
         private System.Windows.Forms.Label lblExperimentFilename;
+        private OpenTK.GLControl glControl;
+        private System.Windows.Forms.Label lblFPS;
     }
 }
 

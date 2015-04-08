@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePathfinding.Winform
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePathfinding.Core", "ReactivePathfinding.Core\ReactivePathfinding.Core.csproj", "{9DE0B678-33E1-4DD6-9F19-F84B253DB514}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePathfinding.SceneGraph", "ReactivePathfinding.SceneGraph\ReactivePathfinding.SceneGraph.csproj", "{2AB3D3C4-584E-418E-8FA5-F4E9299B5977}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DE0B678-33E1-4DD6-9F19-F84B253DB514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB3D3C4-584E-418E-8FA5-F4E9299B5977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB3D3C4-584E-418E-8FA5-F4E9299B5977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB3D3C4-584E-418E-8FA5-F4E9299B5977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB3D3C4-584E-418E-8FA5-F4E9299B5977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

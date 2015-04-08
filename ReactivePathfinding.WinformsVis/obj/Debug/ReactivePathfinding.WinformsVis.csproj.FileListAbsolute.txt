@@ -20,3 +20,5 @@ E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Winforms
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.CreateExperimentWindow.resources
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.PreviewWindow.resources
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.NewHeightmapWindow.resources
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\bin\Debug\ReactivePathfinding.SceneGraph.dll
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\bin\Debug\ReactivePathfinding.SceneGraph.pdb

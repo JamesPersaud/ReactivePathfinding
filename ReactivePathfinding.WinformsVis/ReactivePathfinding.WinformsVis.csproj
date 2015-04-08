@@ -126,6 +126,10 @@
       <Project>{9de0b678-33e1-4dd6-9f19-f84b253db514}</Project>
       <Name>ReactivePathfinding.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReactivePathfinding.SceneGraph\ReactivePathfinding.SceneGraph.csproj">
+      <Project>{2ab3d3c4-584e-418e-8fa5-f4e9299b5977}</Project>
+      <Name>ReactivePathfinding.SceneGraph</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
