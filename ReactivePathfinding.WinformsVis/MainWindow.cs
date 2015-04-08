@@ -28,7 +28,7 @@ namespace ReactivePathfinding.WinformsVis
 
             //initialize interface components
             CreateOutputWindow();
-            outputWindow.Println("Application Started - running version " + version.ToString());
+            Logging.Instance.Log("Application Started - running version " + version.ToString());
         }
 
         private void UpdateControlPanel()
@@ -75,13 +75,13 @@ namespace ReactivePathfinding.WinformsVis
             if (show)
             {
                 outputWindow.Show();
-                outputWindow.Println("Output Window opened");
+                Logging.Instance.Log("Output Window opened");
                 this.Focus();
             }
             else
             {
                 outputWindow.Hide();
-                outputWindow.Println("Output Window closed");
+                Logging.Instance.Log("Output Window closed");
             }
 
             ShowOutputWindow = show;
@@ -138,7 +138,7 @@ namespace ReactivePathfinding.WinformsVis
                 terrainDialog.initialise(currentExperiment.CurrentHeightmapSettings, type);
                 if (terrainDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    
+                    Logging.Instance.Log("Created New Terrain");
                 }
             }
         }
@@ -156,6 +156,11 @@ namespace ReactivePathfinding.WinformsVis
         private void conicalHillToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewTerrain(HeightMapType.CONICAL_HILL);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

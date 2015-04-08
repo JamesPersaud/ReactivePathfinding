@@ -17,7 +17,13 @@ namespace ReactivePathfinding.WinformsVis
     {
         public int MapScale = 1;
         public PreviewScheme scheme = PreviewScheme.CLOUDS;
-        private Heightmap map;        
+        private Heightmap map;
+        private Bitmap terrainBitmap;
+
+        public Bitmap TerrainBitmap
+        {
+            get { return terrainBitmap; }            
+        }
 
         public Heightmap Map
         {
@@ -65,15 +71,15 @@ namespace ReactivePathfinding.WinformsVis
             }
 
             //create a bitmap and copy in the bits
-            Bitmap bmp = new Bitmap(Map.Settings.MapWidth, Map.Settings.MapHeight,format);
-            BitmapData bdata = bmp.LockBits(new Rectangle(0, 0, Map.Settings.MapWidth, Map.Settings.MapHeight), ImageLockMode.ReadWrite,format);
+            terrainBitmap = new Bitmap(Map.Settings.MapWidth, Map.Settings.MapHeight,format);
+            BitmapData bdata = terrainBitmap.LockBits(new Rectangle(0, 0, Map.Settings.MapWidth, Map.Settings.MapHeight), ImageLockMode.ReadWrite, format);
             //copy the bits in
             System.Runtime.InteropServices.Marshal.Copy(bytes, 0, bdata.Scan0, bytes.Length);
-            bmp.UnlockBits(bdata);            
+            terrainBitmap.UnlockBits(bdata);            
 
             Graphics g = pnlPreview.CreateGraphics();
-            g.Clear(Color.CornflowerBlue);            
-            g.DrawImage(bmp, 0, 0, bmp.Width*MapScale,bmp.Height*MapScale);
+            g.Clear(Color.CornflowerBlue);
+            g.DrawImage(terrainBitmap, 0, 0, terrainBitmap.Width * MapScale, terrainBitmap.Height * MapScale);
 
             base.OnPaint(e);
         }
