@@ -17,6 +17,11 @@ namespace ReactivePathfinding.WinformsVis
 {
     public partial class MainWindow : Form
     {
+        //Camera controls        
+        private bool mouseLeftDown = false;
+        private bool mouseRightDown = false;
+        private Point lastMousePos = Point.Empty;
+
         //Simulation scene graph
         private Scene scene = null;
         private CameraComponent camera = null;
@@ -28,7 +33,7 @@ namespace ReactivePathfinding.WinformsVis
         private int glViewportWidth;
         private int glViewportHeight;
 
-        private double Fov = Math.PI / 3;
+        private double Fov = Math.PI / 4;
         private double Znear = 1.0;
         private double Zfar = 400.0;
 
@@ -36,7 +41,14 @@ namespace ReactivePathfinding.WinformsVis
         private Stopwatch timer = new Stopwatch();
         private int frames = 0;
         private double FPS = 0;
-        private double lifetime = 0;
+        private double fpsperiod = 0;        
+        private double targetFPS = 60;
+        private double frameTimer = 0;
+        private bool paused = false;
+
+        //memory related
+        long totalmemory;
+        double memoryCountdown = 0;
 
         //window display flags
         private bool ShowOutputWindow = true;
@@ -54,20 +66,37 @@ namespace ReactivePathfinding.WinformsVis
             //initialize interface components
             CreateOutputWindow();
             Logging.Instance.Log("Application Started - running version " + version.ToString());            
-        }
+
+            //set the mousewheel event
+            glControl.MouseWheel += glControl_MouseWheel;
+        }        
 
         /// <summary>
         /// Update the FPS value
         /// </summary>        
         private void UpdateFPS(double elapsed)
         {
-            lifetime += elapsed;
+            if (paused)
+            {
+                frames = 0;
+                fpsperiod = 1;
+                paused = false;
+            }
+
             frames++;
 
-            double seconds = lifetime / 1000.0;
+            double seconds = fpsperiod / 1000.0;
             FPS = frames / seconds;
 
-            lblFPS.Text =  string.Format("{0:0.00}",FPS) + " FPS";
+            lblFPS.Text =  string.Format("{0:0.00}",FPS) + " FPS  "+ totalmemory.ToString() + " KB";
+            lblFPS.Top = lblFPS.Parent.Height - lblFPS.Height;
+
+            memoryCountdown -= elapsed /1000;
+            if(memoryCountdown <= 0)
+            {
+                totalmemory = GC.GetTotalMemory(false) / 1024;
+                memoryCountdown = 2;
+            }            
         }
 
         /// <summary>
@@ -79,7 +108,7 @@ namespace ReactivePathfinding.WinformsVis
             double millis = timer.Elapsed.TotalMilliseconds;
             timer.Reset();
             timer.Start();
-            lifetime += millis;
+            fpsperiod += millis;
             return millis;
         }
 
@@ -191,7 +220,7 @@ namespace ReactivePathfinding.WinformsVis
             {
                 if(createDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    currentExperiment = new Experiment(createDialog.Name);
+                    currentExperiment = new Experiment(createDialog.Name);                    
                     EnableExperimentMenu();
                     UpdateControlPanel();                    
                 }
@@ -213,8 +242,12 @@ namespace ReactivePathfinding.WinformsVis
                     scene = new Scene();
                     camera = scene.AddNewObject<CameraComponent>();
                     heightmapComponent = scene.AddNewObject<HeightmapComponent>();
+                    heightmapComponent.Map = currentExperiment.CurrentHeightmap;                    
 
-                    camera.Position = new Vector3(0, 0, -5f);
+                    camera.Position = new Vector3(
+                        -currentExperiment.CurrentHeightmap.Settings.MapWidth/2,
+                        -currentExperiment.CurrentHeightmap.Settings.MapHeight/ 2
+                        , -50f);
                 }
             }
         }
@@ -249,6 +282,11 @@ namespace ReactivePathfinding.WinformsVis
             Application.Idle += Application_Idle;
             glControl.Paint += glControl_Paint;
             glControl.Resize += glControl_Resize;
+
+            //GL setup
+            GL.Enable(EnableCap.DepthTest);
+            GL.EnableClientState(EnableCap.VertexArray);
+            GL.EnableClientState(EnableCap.ColorArray);
 
             SetupOpenGLViewport();
         }
@@ -296,8 +334,17 @@ namespace ReactivePathfinding.WinformsVis
         {
             while(glControl.IsIdle)
             {
-                UpdateFPS(getElapsedTime());
-                RenderOpenGL();
+                double elapsed = getElapsedTime();
+                double elapsedSeconds = elapsed / 1000;
+
+                frameTimer -= elapsedSeconds;
+
+                if(frameTimer <= 0)
+                {
+                    UpdateFPS(elapsed);
+                    RenderOpenGL();
+                    frameTimer = 1 / targetFPS;
+                }                                                                
             }
         }
 
@@ -324,6 +371,64 @@ namespace ReactivePathfinding.WinformsVis
                 glControl.SwapBuffers();
             }
         }
+
+        private void resetMouseScrolling()
+        {
+            mouseLeftDown = false;
+            mouseRightDown = false;
+            lastMousePos = Point.Empty;
+        }
+
+        private void glControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                mouseLeftDown = true;
+            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                mouseRightDown = true;
+        }        
+
+        private void glControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (camera != null && lastMousePos != Point.Empty)
+            {
+                int dx = e.Location.X - lastMousePos.X;
+                int dy = e.Location.Y - lastMousePos.Y;
+
+                if (mouseLeftDown)
+                {                    
+                    camera.Position = new Vector3(camera.Position.X + dx, camera.Position.Y - dy, camera.Position.Z);
+                }
+                if(mouseRightDown)
+                {
+                    camera.Rotation = new Vector3(camera.Rotation.X + dy, camera.Rotation.Y, camera.Rotation.Z + dx);
+                }
+            }
+
+            lastMousePos = e.Location;
+        }
+
+        void glControl_MouseWheel(object sender, MouseEventArgs e)
+        {
+            float dz = e.Delta / 100f;
+
+            if (camera != null)
+                camera.Position = new Vector3(camera.Position.X, camera.Position.Y, camera.Position.Z - dz);
+        }
+
+        private void glControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            resetMouseScrolling();
+        }
+
+        private void glControl_MouseLeave(object sender, EventArgs e)
+        {
+            resetMouseScrolling();
+        }
+
+        private void glControl_MouseEnter(object sender, EventArgs e)
+        {
+            resetMouseScrolling();
+        }        
     }
 }
 

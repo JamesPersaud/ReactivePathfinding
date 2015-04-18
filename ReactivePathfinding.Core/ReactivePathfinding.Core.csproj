@@ -42,12 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actuator.cs" />
+    <Compile Include="Agent.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Experiment.cs" />
+    <Compile Include="Generation.cs" />
     <Compile Include="HeightmapSettings.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="PRNG.cs" />
     <Compile Include="Heightmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sensor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

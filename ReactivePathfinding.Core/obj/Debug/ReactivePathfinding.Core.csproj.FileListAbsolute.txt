@@ -4,3 +4,4 @@ E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Core\obj
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Core\obj\Debug\ReactivePathfinding.Core.pdb
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Core\bin\Debug\libnoise.dll
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Core\bin\Debug\libnoise.pdb
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Core\obj\Debug\ReactivePathfinding.Core.csprojResolveAssemblyReference.cache

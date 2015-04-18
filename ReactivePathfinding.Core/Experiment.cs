@@ -9,17 +9,55 @@ namespace ReactivePathfinding.Core
 {
     [Serializable]
     public class Experiment
-    {        
-        private PRNG random = null;
+    {
+        //basic attributes
         private string name = string.Empty;
 
+        //random number generator
+        private PRNG random = null;        
+
+        //Height map
         private Heightmap currentHeightmap = null;
         private HeightmapSettings currentHeightmapSettings = null;
 
+        //File system settings
         private string filename;
         private string heightmapFilename;
-
+        //load/save flag
         private bool isNew = true;
+
+        //GA parameters
+        private int populationSize;
+        private float crossoverRate;
+        private float mutationRate;
+        private float elitismThreshold;        
+
+        private List<Generation> previousGenerations = new List<Generation>();
+        private Generation currentGeneration;
+
+        public float ElitismThreshold
+        {
+            get { return elitismThreshold; }
+            set { elitismThreshold = value; }
+        }
+
+        public float CrossoverRate
+        {
+            get { return crossoverRate; }
+            set { crossoverRate = value; }
+        }
+
+        public float MutationRate
+        {
+            get { return mutationRate; }
+            set { mutationRate = value; }
+        }       
+
+        public int PopulationSize
+        {
+            get { return populationSize; }
+            set { populationSize = value; }
+        }
 
         public bool IsNew
         {

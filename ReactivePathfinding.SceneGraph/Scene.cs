@@ -60,7 +60,10 @@ namespace ReactivePathfinding.SceneGraph
             GL.LoadIdentity();
 
             if(currentCamera != null)
-            {
+            {                
+                GL.Rotate(currentCamera.Rotation.X, new OpenTK.Vector3d(1, 0, 0));
+                GL.Rotate(currentCamera.Rotation.Y, new OpenTK.Vector3d(0, 1, 0));
+                GL.Rotate(currentCamera.Rotation.Z, new OpenTK.Vector3d(0, 0, 1));
                 GL.Translate(currentCamera.Position);
             }
 
