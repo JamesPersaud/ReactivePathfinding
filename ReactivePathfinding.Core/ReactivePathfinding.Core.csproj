@@ -49,9 +49,11 @@
     <Compile Include="Generation.cs" />
     <Compile Include="HeightmapSettings.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="MapPoint.cs" />
     <Compile Include="PRNG.cs" />
     <Compile Include="Heightmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadialPoint.cs" />
     <Compile Include="Sensor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

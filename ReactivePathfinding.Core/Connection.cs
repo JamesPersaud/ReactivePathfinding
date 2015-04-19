@@ -29,5 +29,15 @@ namespace ReactivePathfinding.Core
             get { return weight; }
             set { weight = value; }
         }
+
+        public Connection(Sensor s, Actuator a, float initialWeight)
+        {
+            this.weight = initialWeight;
+            this.connectedActuator = a;
+            this.connectedSensor = s;
+
+            a.AddConnection(this);
+            s.AddConnection(this);
+        }
     }
 }
