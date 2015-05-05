@@ -29,6 +29,11 @@ namespace ReactivePathfinding.Core
             return (float)random.NextDouble();
         }
 
+        public float GetFloat(float lowerBoundary, float upperBoundary)
+        {
+            return GetFloat() * (upperBoundary - lowerBoundary) + lowerBoundary;
+        }
+
         public double GetDouble()
         {
             return random.NextDouble();

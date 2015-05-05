@@ -144,20 +144,6 @@ namespace ReactivePathfinding.SceneGraph
                 GL.VertexPointer(3, VertexPointerType.Float, 0, vertices);
                 GL.ColorPointer(4, ColorPointerType.Float, 0, colors);
                 GL.DrawElements(BeginMode.Triangles, triangles.Length, DrawElementsType.UnsignedInt, triangles);
-
-                //rendering test
-                //GL.Color3(0, 0, 0);
-                /*GL.Begin(PrimitiveType.Triangles);
-
-                GL.Vertex3(0, 0, 0);
-                GL.Vertex3(0, 1, 0);
-                GL.Vertex3(1, 1, 0);
-
-                GL.Vertex3(0, 0, 0);
-                GL.Vertex3(1, 0, 0);
-                GL.Vertex3(1, 1, 0);
-
-                GL.End(); */
             }
         }
 

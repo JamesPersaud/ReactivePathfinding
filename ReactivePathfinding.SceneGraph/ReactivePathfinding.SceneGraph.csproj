@@ -50,6 +50,7 @@
     <Compile Include="SceneGraphComponent.cs" />
     <Compile Include="SceneGraphObject.cs" />
     <Compile Include="HeightmapComponent.cs" />
+    <Compile Include="MapPointComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReactivePathfinding.Core\ReactivePathfinding.Core.csproj">

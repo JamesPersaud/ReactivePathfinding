@@ -96,7 +96,6 @@ namespace ReactivePathfinding.Core
             get { return currentHeightmap; }
             set
             {
-
                 currentHeightmap = value;
             }
         }        
@@ -109,7 +108,7 @@ namespace ReactivePathfinding.Core
 
         public PRNG Random
         {
-            get { return random; }            
+            get { return random; }
         }
 
         /// <summary>

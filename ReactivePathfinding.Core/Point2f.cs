@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
-    public class MapPoint
+    public abstract class Point2f
     {
         public float X;
         public float Y;
 
-        public MapPoint(float x, float y)
+        public Point2f(float x, float y)
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public Point2f()
+        {
+
         }
     }
 }

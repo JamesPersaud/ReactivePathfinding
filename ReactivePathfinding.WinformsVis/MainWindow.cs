@@ -17,10 +17,10 @@ namespace ReactivePathfinding.WinformsVis
 {
     public partial class MainWindow : Form
     {
-        //Camera controls        
+        //Camera controls
         private bool mouseLeftDown = false;
         private bool mouseRightDown = false;
-        private Point lastMousePos = Point.Empty;
+        private Point lastMousePos = Point.Empty;        
 
         //Simulation scene graph
         private Scene scene = null;

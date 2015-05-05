@@ -127,7 +127,7 @@ namespace ReactivePathfinding.Core
                         heights[x, z] = 1f - (float)(dist / maxdist *2); // *2 because the range is -1 to 1
                     }
                 }
-            }            
+            }
         }
 
         /// <summary>

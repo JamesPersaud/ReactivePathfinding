@@ -12,16 +12,24 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class SceneGraphObject
     {
-        Vector3 position = Vector3.Zero;
-        Vector3 rotation = Vector3.Zero;
-        Vector3 forwards = Vector3.Zero;
-        Vector3 up = Vector3.Zero;
+        private Matrix4 transform;        
+
+        private Vector3 position = Vector3.Zero;
+        private Vector3 rotation = Vector3.Zero;
+        private Vector3 forwards = Vector3.Zero;
+        private Vector3 up = Vector3.Zero;
 
         private SceneGraphObject parent;
         private List<SceneGraphObject> children = new List<SceneGraphObject>();
         private List<SceneGraphComponent> components = new List<SceneGraphComponent>();        
 
         private bool isRoot = false;
+
+        public Matrix4 Transform
+        {
+            get { return transform; }
+            set { transform = value; }
+        }
 
         public Vector3 Forwards
         {
