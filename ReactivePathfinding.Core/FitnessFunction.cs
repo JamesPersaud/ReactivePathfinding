@@ -16,6 +16,16 @@ namespace ReactivePathfinding.Core
     {
         private string name;
         private FitnessFunctionType functionType;
+        private StandardFitnessResolver resolver;
+
+        /// <summary>
+        /// Specifies the function to resolve the fitness of an agent
+        /// </summary>
+        public StandardFitnessResolver Resolver
+        {
+            get { return resolver; }
+            set { resolver = value; }
+        }
 
         public FitnessFunctionType FunctionType
         {
@@ -27,6 +37,19 @@ namespace ReactivePathfinding.Core
         {
             get { return name; }
             set { name = value; }
+        }        
+
+        public float CalculateFitness(Agent a)
+        {            
+            if(functionType == FitnessFunctionType.STANDARD)
+            {
+                return resolver(a);
+            }
+            else
+            {
+                //run user specified function
+                return 0;
+            }            
         }
 
         public static List<FitnessFunction> GetStandardFunctions()
@@ -34,8 +57,33 @@ namespace ReactivePathfinding.Core
             List<FitnessFunction> functions = new List<FitnessFunction>();
 
             FitnessFunction f = new FitnessFunction();
-            f.name = "Total Distance";
+            f.FunctionType = FitnessFunctionType.STANDARD;
+            f.name = "Total moved";
+            f.resolver = (agent) => 
+            {
+                return agent.TotalDistance;
+            };
+            functions.Add(f);
 
+            f = new FitnessFunction();
+            f.FunctionType = FitnessFunctionType.STANDARD;
+            f.name = "Closest to Target";
+            f.resolver = (agent) =>
+            {
+                return agent.ClosestToTarget;
+            };
+            functions.Add(f);
+
+            f = new FitnessFunction();
+            f.functionType = FitnessFunctionType.STANDARD;
+            f.name = "Time taken";
+            f.resolver = (agent) =>
+            {
+                if (agent.ReachedTarget)
+                    return agent.TotalTime;
+                else
+                    return 1000;
+            };
             functions.Add(f);
 
             return functions;
@@ -46,6 +94,8 @@ namespace ReactivePathfinding.Core
             return name;
         }
     }
+
+    public delegate float StandardFitnessResolver(Agent a);
 
     public enum FitnessFunctionType
     {

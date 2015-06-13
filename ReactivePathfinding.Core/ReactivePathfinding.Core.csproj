@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="Agent\Actuator.cs" />
     <Compile Include="Agent\Agent.cs" />
+    <Compile Include="Agent\GradientSensor.cs" />
+    <Compile Include="Agent\HeightSensor.cs" />
+    <Compile Include="Agent\MotorActuator.cs" />
+    <Compile Include="Agent\TargetSensor.cs" />
     <Compile Include="AStar\AStarNode.cs" />
     <Compile Include="Agent\Connection.cs" />
     <Compile Include="BitstringGenome.cs" />
@@ -54,14 +58,12 @@
     <Compile Include="Heightmap\HeightmapSettings.cs" />
     <Compile Include="Helper\Logging.cs" />
     <Compile Include="Genome.cs" />
-    <Compile Include="Point2f.cs" />
-    <Compile Include="Origin.cs" />
+    <Compile Include="Helper\Maths.cs" />
     <Compile Include="Helper\PRNG.cs" />
     <Compile Include="Heightmap\Heightmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadialPoint.cs" />
     <Compile Include="Agent\Sensor.cs" />
-    <Compile Include="Target.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

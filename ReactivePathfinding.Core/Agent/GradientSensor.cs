@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
-    public class Target : Point2f
+    class GradientSensor : Sensor
     {
     }
 }

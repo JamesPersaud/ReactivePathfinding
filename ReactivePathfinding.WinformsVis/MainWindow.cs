@@ -69,7 +69,106 @@ namespace ReactivePathfinding.WinformsVis
 
             //set the mousewheel event
             glControl.MouseWheel += glControl_MouseWheel;
-        }        
+
+            RunInitialTests();
+        }
+
+        /// <summary>
+        /// Use this method to run any tests of new classes 
+        /// 
+        /// TODO - proper unit tests
+        /// 
+        /// </summary>
+        private void RunInitialTests()
+        {
+            //test genomes
+
+            PRNG rng = new PRNG();
+
+            Genome genome1 = new BoundaryFloatGenome(8, 0, 1, rng); genome1.Name = "genome1";
+            Genome genome2 = new BoundaryFloatGenome(8, 0, 1, rng); genome2.Name = "genome2";
+
+            Logging.Instance.Log(genome1.ToString());
+            Logging.Instance.Log(genome2.ToString());
+
+            Logging.Instance.Log("mutating both");
+
+            genome1.Mutate(0, 0, 1);
+            genome2.Mutate(0, 0, 1);
+
+            Logging.Instance.Log(genome1.ToString());
+            Logging.Instance.Log(genome2.ToString());
+
+            Logging.Instance.Log("cloning");
+
+            Genome genome3 = genome1.Clone(); genome3.Name = "genome3";
+            Genome genome4 = genome2.Clone(); genome4.Name = "genome4";
+
+            Logging.Instance.Log(genome3.ToString());
+            Logging.Instance.Log(genome4.ToString());
+
+            Logging.Instance.Log("crossing over");            
+
+            genome3.Crossover(0, 0, 1, genome4);
+
+            Logging.Instance.Log(genome1.ToString());
+            Logging.Instance.Log(genome2.ToString());
+
+            Logging.Instance.Log(genome3.ToString());
+            Logging.Instance.Log(genome4.ToString());
+
+            //test assigning genomes to agents
+            Agent a = new Agent();
+
+            Sensor s1 = new TargetSensor(new RadialPoint(315f, 1f)); s1.Name = "s1";
+            Sensor s2 = new TargetSensor(new RadialPoint(45f, 1f)); s2.Name = "s2";
+            Actuator a1 = new MotorActuator(MotorTypes.LEFT); a1.Name = "a1";
+            Actuator a2 = new MotorActuator(MotorTypes.RIGHT); a2.Name = "a2";
+
+            a.AddSensor(s1);
+            a.AddSensor(s1);
+
+            a.AddActuator(a1);
+            a.AddActuator(a2);
+
+            Connection c1 = new Connection(s1, a2, rng.GetFloat(), ConnectionTypes.EXCITATORY); c1.Name = "c1";
+            Connection c2 = new Connection(s2, a1, rng.GetFloat(), ConnectionTypes.EXCITATORY); c2.Name = "c2";
+            Connection c3 = new Connection(s1, a1, rng.GetFloat(), ConnectionTypes.INHIBITORY); c3.Name = "c3";
+            Connection c4 = new Connection(s2, a2, rng.GetFloat(), ConnectionTypes.INHIBITORY); c4.Name = "c4";
+
+            BoundaryFloatGenome g = new BoundaryFloatGenome(4, 0.0f, 0.1f, rng);
+
+            a.WeightGenome = g;
+
+            Logging.Instance.Log("Assigning genome " +g.ToString() + " to agent");
+            Logging.Instance.Log("Weights set to " + c1.ToString() + " " + c2.ToString() + " " + c3.ToString() + " " + c4.ToString());
+
+            //testing sigmoid activation function                                                                        
+            testSigmoid(-100f);
+            testSigmoid(-10f);
+            testSigmoid(-5f);            
+            testSigmoid(-1f);            
+            testSigmoid(-0.5f);            
+            testSigmoid(0);            
+            testSigmoid(0.5f);            
+            testSigmoid(1);            
+            testSigmoid(5f);
+            testSigmoid(10f);
+            testSigmoid(100f);
+        }
+
+        private void testSigmoid(float i)
+        {
+            try
+            {
+                float s = Maths.Sigmoid(i);
+                Logging.Instance.Log("Sigmoid of " + i.ToString() + " is " + s.ToString());
+            }
+            catch(Exception ex)
+            {
+                Logging.Instance.Log(" Can't do sigmoid of " + i.ToString() + " " + ex.Message);
+            }
+        }
 
         /// <summary>
         /// Update the FPS value
@@ -143,7 +242,7 @@ namespace ReactivePathfinding.WinformsVis
         private void CreateOutputWindow()
         {
             outputWindow = new OutputWindow();
-            outputWindow.FormClosed += outputWindow_FormClosed;            
+            outputWindow.FormClosed += outputWindow_FormClosed;
         }
 
         void outputWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -182,7 +281,7 @@ namespace ReactivePathfinding.WinformsVis
 
             ShowOutputWindow = show;
             outputToolStripMenuItem1.Checked = ShowOutputWindow;
-        }                      
+        }
 
         /// <summary>
         /// Show version information
@@ -431,4 +530,6 @@ namespace ReactivePathfinding.WinformsVis
         }        
     }
 }
+
+
 

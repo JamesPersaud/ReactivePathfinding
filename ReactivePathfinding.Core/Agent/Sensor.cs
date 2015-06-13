@@ -8,11 +8,11 @@ namespace ReactivePathfinding.Core
 {
     public enum SensorTypes
     {
-        DISTANCE_TO_POINT,
+        TARGET,
         HEIGHT,
         HEIGHTMAP_GRADIENT
     }
-
+    
     public class Sensor
     {
         private List<Connection> connections = new List<Connection>();
@@ -20,6 +20,23 @@ namespace ReactivePathfinding.Core
         private RadialPoint location;
         private float direction;
         private SensorTypes sensorType;
+        private string name = string.Empty;
+        private float input;
+
+        /// <summary>
+        /// The overall input to this sensor
+        /// </summary>
+        public float Input
+        {
+            get { return input; }
+            set { input = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         public SensorTypes SensorType
         {
@@ -43,6 +60,19 @@ namespace ReactivePathfinding.Core
         {
             get { return connections; }
             set { connections = value; }
+        }        
+
+        public Sensor()
+        {
+
+        }
+
+        public virtual float Output
+        {
+            get
+            {
+                return Input;
+            }
         }
 
         public Sensor(RadialPoint loc, float dir)

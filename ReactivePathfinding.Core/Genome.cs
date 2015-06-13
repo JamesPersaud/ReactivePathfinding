@@ -15,17 +15,34 @@ namespace ReactivePathfinding.Core
     /// </summary>
     public abstract class Genome
     {
+        public const bool DEBUG_MUTATION = true;
+        public const bool DEBUG_CROSSOVER = true;
+
         protected PRNG rng;
+        protected string name;
+
+        /// <summary>
+        /// Optional identifier for use in debugging.
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
 
         /// <summary>
         /// Mutate if the mutation condition is met
         /// </summary>        
         public virtual void Mutate(int threshold, int min, int max)
         {
-            if(rng.GetInt(min,max) >= threshold)
-            {
+            int result = rng.GetInt(min, max);
+
+            if (DEBUG_MUTATION)
+                Logging.Instance.Log(this.name + " chance to mutate, result must be " + threshold.ToString() + " or more between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
+
+            if(result >= threshold)            
                 DoMutation(rng.GetInt(0, Size() - 1));
-            }
         }
 
         /// <summary>
@@ -33,7 +50,12 @@ namespace ReactivePathfinding.Core
         /// </summary>        
         public virtual void Crossover(int threshold, int min, int max, Genome other)
         {
-            if(rng.GetInt(min,max) >= threshold)
+            int result = rng.GetInt(min, max);
+
+            if (DEBUG_CROSSOVER)
+                Logging.Instance.Log(this.name + " chance to cross over, result must be " + threshold.ToString() + " or more between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
+
+            if(result >= threshold)
             {
                 DoCrossover(rng.GetInt(0, Size() - 1), other);
             }
@@ -50,6 +72,7 @@ namespace ReactivePathfinding.Core
                 List<T> c = a.GetRange(0, a.Count);
                 a.Clear();
                 a.AddRange(b);
+                b.Clear();
                 b.AddRange(c);
             }
             else
@@ -72,7 +95,7 @@ namespace ReactivePathfinding.Core
         public abstract int Size();
         protected abstract void DoMutation(int position);
         protected abstract void DoCrossover(int position, Genome other);
-        public abstract Genome Clone();        
+        public abstract Genome Clone();
 
         public Genome()
         {

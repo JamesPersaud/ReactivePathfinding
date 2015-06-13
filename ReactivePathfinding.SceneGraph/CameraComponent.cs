@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenTK;
 
 
 namespace ReactivePathfinding.SceneGraph
@@ -12,6 +10,12 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class CameraComponent : SceneGraphComponent
     {
-        
+        private Vector3 rotation;
+
+        public Vector3 Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
     }
 }

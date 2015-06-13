@@ -21,13 +21,7 @@ namespace ReactivePathfinding.SceneGraph
         {
             get { return this.ParentObject.Position; }
             set { this.parentObject.Position = value;  }
-        }
-
-        public Vector3 Rotation
-        {
-            get { return this.ParentObject.Rotation; }
-            set { this.parentObject.Rotation = value; }
-        }
+        }        
 
         public Vector3 Up
         {
@@ -42,6 +36,11 @@ namespace ReactivePathfinding.SceneGraph
         }
 
         public virtual void Render()
+        {
+
+        }
+
+        public virtual void Update(float deltaTime)
         {
 
         }

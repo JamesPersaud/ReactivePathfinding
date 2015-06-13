@@ -35,6 +35,64 @@ namespace ReactivePathfinding.Core
         private List<Generation> previousGenerations = new List<Generation>();
         private Generation currentGeneration;
 
+        //parameters related to cost of movement
+        private float baseMovementCostMultiplier = 1;        
+        private float descendingbaseMovementCostMultiplier = 0;
+        private float ascendingMovementCostMultiplier = 0;
+
+        //agent parameters
+        private float agentMaxMovementSpeed = 0.5f;
+        private float agentRadius = 0.5f;
+        private float agentMaxTurnSpeed = 90;
+
+        /// <summary>
+        /// max number of degrees the agent can turn through in one second (if one motor is at 1 while the other is at 0)
+        /// </summary>
+        public float AgentMaxTurnSpeed
+        {
+            get { return agentMaxTurnSpeed; }
+            set { agentMaxTurnSpeed = value; }
+        }
+
+        /// <summary>
+        /// agent radius in units
+        /// </summary>
+        public float AgentRadius
+        {
+            get { return agentRadius; }
+            set { agentRadius = value; }
+        }        
+
+        /// <summary>
+        /// max agent units per second
+        /// </summary>
+        public float AgentMaxMovementSpeed
+        {
+            get { return agentMaxMovementSpeed; }
+            set { agentMaxMovementSpeed = value; }
+        }
+
+        /// <summary>
+        /// movements up a gradient will be multiplied
+        /// </summary>
+        public float AscendingMovementCostMultiplier
+        {
+            get { return ascendingMovementCostMultiplier; }
+            set { ascendingMovementCostMultiplier = value; }
+        }
+
+        public float DescendingbaseMovementCostMultiplier
+        {
+            get { return descendingbaseMovementCostMultiplier; }
+            set { descendingbaseMovementCostMultiplier = value; }
+        }
+
+        public float BaseMovementCostMultiplier
+        {
+            get { return baseMovementCostMultiplier; }
+            set { baseMovementCostMultiplier = value; }
+        }
+
         public float ElitismThreshold
         {
             get { return elitismThreshold; }

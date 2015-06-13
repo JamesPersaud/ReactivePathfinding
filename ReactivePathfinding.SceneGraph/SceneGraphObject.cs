@@ -14,10 +14,9 @@ namespace ReactivePathfinding.SceneGraph
     {
         private Matrix4 transform;        
 
-        private Vector3 position = Vector3.Zero;
-        private Vector3 rotation = Vector3.Zero;
-        private Vector3 forwards = Vector3.Zero;
-        private Vector3 up = Vector3.Zero;
+        private Vector3 position = Vector3.Zero;        
+        private Vector3 forwards = Vector3.UnitY;
+        private Vector3 up = Vector3.UnitZ;
 
         private SceneGraphObject parent;
         private List<SceneGraphObject> children = new List<SceneGraphObject>();
@@ -41,13 +40,7 @@ namespace ReactivePathfinding.SceneGraph
         {
             get { return up; }
             set { up = value; }
-        }
-
-        public Vector3 Rotation
-        {
-            get { return rotation; }
-            set { rotation = value; }
-        }
+        }        
 
         public Vector3 Position
         {
@@ -74,6 +67,25 @@ namespace ReactivePathfinding.SceneGraph
         {
             get { return parent; }
             set { parent = value; }
+        }
+
+        /// <summary>
+        /// rotate this object by the specified number of degrees around the z axis in local space
+        /// </summary>        
+        public void RotateLocalAroundZ(float degrees)
+        {
+            float theta = MathHelper.DegreesToRadians(degrees);
+            Matrix4 rot = Matrix4.Identity;
+            rot *= Matrix4.CreateRotationZ(theta);
+            Forwards = Vector3.Transform(Forwards, rot).Normalized();
+        }
+
+        /// <summary>
+        /// Move the object along its forward trajectory by the specified amount.
+        /// </summary>        
+        public void GoForwards(float mag)
+        {
+            Position += Forwards * mag;            
         }
 
         public void AddChild(SceneGraphObject child)
@@ -133,6 +145,18 @@ namespace ReactivePathfinding.SceneGraph
 
             foreach (SceneGraphObject child in children)
                 child.Render();
+        }
+
+        /// <summary>
+        /// Run update logic for all its children until the end of the graph
+        /// </summary>
+        public void Update(float deltaTime)
+        {
+            foreach (SceneGraphComponent comp in components)
+                comp.Update(deltaTime);
+
+            foreach (SceneGraphObject child in children)
+                child.Update(deltaTime);
         }
     }
 }

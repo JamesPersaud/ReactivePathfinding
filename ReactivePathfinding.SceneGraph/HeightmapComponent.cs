@@ -14,6 +14,9 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class HeightmapComponent : SceneGraphComponent
     {
+        //Multiplying the height values by a factor enhances the visualization making it easier to see gradients
+        public static float HEIGHT_MULTIPLIER = 7.0f;
+
         private Heightmap map;
         private PolygonMode polyMode = PolygonMode.Line;
         private MaterialFace materialFace = MaterialFace.FrontAndBack;
@@ -22,7 +25,7 @@ namespace ReactivePathfinding.SceneGraph
         private List<KeyValuePair<float, Vector4>> ColourTemplates;
 
         //render data
-        private float[] colors;        
+        private float[] colors;
         private float[] vertices;
         private uint[] triangles;
         private bool verticesCreated = false;
@@ -83,7 +86,7 @@ namespace ReactivePathfinding.SceneGraph
                     //Create the vertex buffer by reading the heights
                     vertices[index * 3 + 0] = x; //x
                     vertices[index * 3 + 1] = y; //y
-                    vertices[index * 3 + 2] = z * 7; //z * 7 - helps the visualization
+                    vertices[index * 3 + 2] = z * HEIGHT_MULTIPLIER; //z * 7 - helps the visualization
 
                     //Create the color buffer by assigning the appropriate colour to each vertex
                     for (int i = 0; i < ColourTemplates.Count; i++)
