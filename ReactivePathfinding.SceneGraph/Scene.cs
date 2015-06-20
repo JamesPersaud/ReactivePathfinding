@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace ReactivePathfinding.SceneGraph
 {
@@ -27,7 +28,31 @@ namespace ReactivePathfinding.SceneGraph
 
         public Scene()
         {
-            root = SceneGraphObject.GetRootObject();
+            root = SceneGraphObject.GetRootObject();        
+        }
+
+        /// <summary>
+        /// Get all the components of a given type that are in the current scene
+        /// </summary>        
+        public List<T> GetAllComponentsByType<T>(SceneGraphObject parent) where T: SceneGraphComponent
+        {
+            if(parent == null)
+                parent = root;
+
+            List<T> components = new List<T>();
+
+            SceneGraphComponent component = parent.Getcomponent<T>();
+            if (component != null)
+                components.Add((T)component);
+
+            foreach (SceneGraphObject obj in parent.Children)                     
+                components.AddRange(GetAllComponentsByType<T>(obj));
+
+            return components;
+        }
+        public List<T> GetAllComponentsByType<T>() where T: SceneGraphComponent
+        {
+            return GetAllComponentsByType<T>(null);
         }
 
         public SceneGraphObject AddNewObject()
@@ -35,6 +60,8 @@ namespace ReactivePathfinding.SceneGraph
             SceneGraphObject obj = new SceneGraphObject();
             objects.Add(obj);
             root.AddChild(obj);
+            obj.CurrentScene = this;
+
             return obj;
         }
 
@@ -43,8 +70,8 @@ namespace ReactivePathfinding.SceneGraph
         /// </summary>        
         public T AddNewObject<T>() where T : SceneGraphComponent, new()
         {
-            SceneGraphObject obj = AddNewObject();            
-            T component = obj.AddComponent<T>();
+            SceneGraphObject obj = AddNewObject();
+            T component = obj.AddComponent<T>();            
 
             if (component.GetType() == typeof(CameraComponent) && currentCamera == null)
                 currentCamera = component as CameraComponent;
@@ -57,17 +84,25 @@ namespace ReactivePathfinding.SceneGraph
         /// </summary>
         public void Render()
         {
-            GL.LoadIdentity();
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();            
 
             if(currentCamera != null)
-            {                
-                GL.Rotate(currentCamera.Rotation.X, new OpenTK.Vector3d(1, 0, 0));
-                GL.Rotate(currentCamera.Rotation.Y, new OpenTK.Vector3d(0, 1, 0));
-                GL.Rotate(currentCamera.Rotation.Z, new OpenTK.Vector3d(0, 0, 1));
-                GL.Translate(currentCamera.Position);
+            {                                                        
+                Matrix4 t = currentCamera.GetCopyOfTransform();
+                GL.MultMatrix(ref t);
+                GL.PushMatrix();
             }
-
+            
             root.Render();
+        }
+
+        /// <summary>
+        /// Update the entire scene
+        /// </summary>        
+        public void Update(float deltaTime)
+        {
+            root.Update(deltaTime);
         }
     }
 }

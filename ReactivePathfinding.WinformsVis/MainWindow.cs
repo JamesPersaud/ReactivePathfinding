@@ -14,9 +14,16 @@ using OpenTK.Graphics.OpenGL;
 using ReactivePathfinding.SceneGraph;
 
 namespace ReactivePathfinding.WinformsVis
-{
+{    
     public partial class MainWindow : Form
-    {
+    {        
+        //simulation debug
+        private bool debugMode = true;
+        private bool cleverAgents = false;
+        private int numAgents = 50;
+        private bool debugPause = false;
+        private float stepSize = 0.25f;
+
         //Camera controls
         private bool mouseLeftDown = false;
         private bool mouseRightDown = false;
@@ -44,7 +51,7 @@ namespace ReactivePathfinding.WinformsVis
         private double fpsperiod = 0;        
         private double targetFPS = 60;
         private double frameTimer = 0;
-        private bool paused = false;
+        private bool paused = false;        
 
         //memory related
         long totalmemory;
@@ -115,35 +122,10 @@ namespace ReactivePathfinding.WinformsVis
             Logging.Instance.Log(genome2.ToString());
 
             Logging.Instance.Log(genome3.ToString());
-            Logging.Instance.Log(genome4.ToString());
-
-            //test assigning genomes to agents
-            Agent a = new Agent();
-
-            Sensor s1 = new TargetSensor(new RadialPoint(315f, 1f)); s1.Name = "s1";
-            Sensor s2 = new TargetSensor(new RadialPoint(45f, 1f)); s2.Name = "s2";
-            Actuator a1 = new MotorActuator(MotorTypes.LEFT); a1.Name = "a1";
-            Actuator a2 = new MotorActuator(MotorTypes.RIGHT); a2.Name = "a2";
-
-            a.AddSensor(s1);
-            a.AddSensor(s1);
-
-            a.AddActuator(a1);
-            a.AddActuator(a2);
-
-            Connection c1 = new Connection(s1, a2, rng.GetFloat(), ConnectionTypes.EXCITATORY); c1.Name = "c1";
-            Connection c2 = new Connection(s2, a1, rng.GetFloat(), ConnectionTypes.EXCITATORY); c2.Name = "c2";
-            Connection c3 = new Connection(s1, a1, rng.GetFloat(), ConnectionTypes.INHIBITORY); c3.Name = "c3";
-            Connection c4 = new Connection(s2, a2, rng.GetFloat(), ConnectionTypes.INHIBITORY); c4.Name = "c4";
-
-            BoundaryFloatGenome g = new BoundaryFloatGenome(4, 0.0f, 0.1f, rng);
-
-            a.WeightGenome = g;
-
-            Logging.Instance.Log("Assigning genome " +g.ToString() + " to agent");
-            Logging.Instance.Log("Weights set to " + c1.ToString() + " " + c2.ToString() + " " + c3.ToString() + " " + c4.ToString());
+            Logging.Instance.Log(genome4.ToString());            
 
             //testing sigmoid activation function                                                                        
+            testSigmoid(-1000f);
             testSigmoid(-100f);
             testSigmoid(-10f);
             testSigmoid(-5f);            
@@ -155,6 +137,16 @@ namespace ReactivePathfinding.WinformsVis
             testSigmoid(5f);
             testSigmoid(10f);
             testSigmoid(100f);
+            testSigmoid(1000f);
+
+            //vector maths
+            SceneGraphObject o = new SceneGraphObject();
+            Logging.Instance.Log("Up " + o.Up.ToString());
+            Logging.Instance.Log("Down " + o.Down.ToString());
+            Logging.Instance.Log("Left " + o.Left.ToString());
+            Logging.Instance.Log("Right " + o.Right.ToString());
+            Logging.Instance.Log("Forwards " + o.Forwards.ToString());
+            Logging.Instance.Log("Backwards " + o.Backwards.ToString());
         }
 
         private void testSigmoid(float i)
@@ -347,6 +339,94 @@ namespace ReactivePathfinding.WinformsVis
                         -currentExperiment.CurrentHeightmap.Settings.MapWidth/2,
                         -currentExperiment.CurrentHeightmap.Settings.MapHeight/ 2
                         , -50f);
+
+                    if(debugMode)
+                    {                        
+                        //Scene testing
+                        PRNG rng = new PRNG();
+
+                        Target t = new Target(1, currentExperiment.CurrentHeightmap.Settings.MapWidth / 2, EmitterTypes.INVERSE_SQUARE);
+                        t.CurrentExperiment = currentExperiment;
+
+                        TargetComponent tcomp = scene.AddNewObject<TargetComponent>();
+                        tcomp.CurrentTarget = t;
+
+                        tcomp.Position = new Vector3(
+                            currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
+                            currentExperiment.CurrentHeightmapSettings.MapWidth / 2, 
+                            currentExperiment.CurrentHeightmap.GetSceneHeight(
+                                currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
+                                currentExperiment.CurrentHeightmapSettings.MapWidth / 2)
+                        );
+
+                        for (int agentindex = 1; agentindex < numAgents + 1; agentindex++)
+                        {
+                            Agent a = new Agent();
+                            a.Name = "Agent" + agentindex.ToString();
+                            a.CurrentExperiment = currentExperiment;
+
+                            Sensor leftsensor = new TargetSensor(new RadialPoint(90f, 1f)); leftsensor.Name = "Sleft";
+                            Sensor rightsensor = new TargetSensor(new RadialPoint(270f, 1f)); rightsensor.Name = "Sright";
+                            Sensor forwardsensor = new TargetSensor(new RadialPoint(0f, 1f)); forwardsensor.Name = "Sfront";
+                            Sensor frontleftsensor = new TargetSensor(new RadialPoint(45f, 1f)); forwardsensor.Name = "Sfrontleft";
+                            Sensor frontrightsensor = new TargetSensor(new RadialPoint(315f, 1f)); forwardsensor.Name = "Sfrontright";
+                            Sensor backleftsensor = new TargetSensor(new RadialPoint(135f, 1f)); forwardsensor.Name = "Sbackleft";
+                            Sensor backtrightsensor = new TargetSensor(new RadialPoint(225f, 1f)); forwardsensor.Name = "Sbackright";
+
+                            Actuator leftmotor = new MotorActuator(MotorTypes.LEFT); leftmotor.Name = "Mleft";
+                            Actuator rightmotor = new MotorActuator(MotorTypes.RIGHT); rightmotor.Name = "Mright";
+
+                            a.AddSensor(leftsensor);
+                            a.AddSensor(rightsensor);
+                            a.AddSensor(forwardsensor);
+                            a.AddSensor(frontleftsensor);
+                            a.AddSensor(frontrightsensor);
+                            a.AddSensor(backleftsensor);
+                            a.AddSensor(backtrightsensor);
+
+                            a.AddActuator(leftmotor);
+                            a.AddActuator(rightmotor);                            
+
+                            Connection c1 = new Connection(leftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c1.Name = "Sleft_excites_Mright";
+                            Connection c2 = new Connection(rightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c2.Name = "Sright_excites_Mleft";
+                            Connection c3 = new Connection(forwardsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c3.Name = "Sfront_excites_Mleft";
+                            Connection c4 = new Connection(forwardsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c4.Name = "Sfront_excites_Mright";
+                            Connection c5 = new Connection(frontleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c5.Name = "Sfrontleft_excites_Mright";
+                            Connection c6 = new Connection(frontrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c6.Name = "Sfrontright_excites_Mleft";
+                            Connection c7 = new Connection(backleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c7.Name = "Sbackleft_excites_Mright";
+                            Connection c8 = new Connection(backtrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c8.Name = "Sbackright_excites_Mleft";
+
+                            if(!cleverAgents)
+                            {
+                                Connection c9 = new Connection(leftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c9.Name = "Sleft_excites_Mleft";
+                                Connection c10 = new Connection(rightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c10.Name = "Sright_excites_Mright";
+                                Connection c11 = new Connection(frontleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c11.Name = "Sfrontleft_excites_Mleft";
+                                Connection c12 = new Connection(frontrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c12.Name = "Sfrontright_excites_Mright";
+                                Connection c13 = new Connection(backleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c13.Name = "Sbackleft_excites_Mleft";
+                                Connection c14 = new Connection(backtrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c14.Name = "Sbackright_excites_Mright";
+                            }
+
+                            BoundaryFloatGenome g;
+
+                            if(cleverAgents)
+                                g = new BoundaryFloatGenome(8, 1f, 1f, rng);
+                            else
+                                g = new BoundaryFloatGenome(14, -1f, 1f, rng);
+
+                            a.WeightGenome = g;
+
+                            Logging.Instance.Log(a.Name + ": Assigning genome " + g.ToString() + " to agent");
+                            Logging.Instance.Log(a.Name + ": Weights set to " + c1.ToString() + " " + c2.ToString());
+                            
+                            AgentComponent acomp = scene.AddNewObject<AgentComponent>();
+                            acomp.CurrentAgent = a;
+
+                            float agentx = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
+                            float agenty = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
+
+                            acomp.Position = new Vector3(agentx, agenty, currentExperiment.CurrentHeightmap.GetSceneHeight(agentx, agenty)); 
+                        }                                                                                                                                                
+                    }                                        
                 }
             }
         }
@@ -443,7 +523,12 @@ namespace ReactivePathfinding.WinformsVis
                     UpdateFPS(elapsed);
                     RenderOpenGL();
                     frameTimer = 1 / targetFPS;
-                }                                                                
+                }
+                
+                if(scene != null && !debugPause)
+                {
+                    scene.Update((float)elapsedSeconds);
+                }
             }
         }
 
@@ -527,9 +612,22 @@ namespace ReactivePathfinding.WinformsVis
         private void glControl_MouseEnter(object sender, EventArgs e)
         {
             resetMouseScrolling();
+        }
+
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
+        {            
+        }
+
+        private void glControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (debugPause && e.KeyCode == Keys.S && scene != null)
+            {
+                scene.Update(stepSize);
+            }
         }        
     }
 }
+
 
 
 

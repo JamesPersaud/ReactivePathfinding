@@ -41,9 +41,30 @@ namespace ReactivePathfinding.Core
         private float ascendingMovementCostMultiplier = 0;
 
         //agent parameters
-        private float agentMaxMovementSpeed = 0.5f;
+        private float agentMaxMovementSpeed = 4f;
         private float agentRadius = 0.5f;
-        private float agentMaxTurnSpeed = 90;
+        private float agentMaxTurnSpeed = 360;
+        private float agentMinTurnSpeed = 5;
+
+        //sensor parameters
+        private float sensorHorizontalFOV = 90f;
+
+        public float SensorHorizontalFOV
+        {
+            get { return sensorHorizontalFOV; }
+            set { sensorHorizontalFOV = value; }
+        }
+
+        /// <summary>
+        /// min number of degrees the agent can turn through in one second 
+        /// avoids the situation where no sensor has line of sight to the emitter and the difference between
+        /// residual readings is minute
+        /// </summary>
+        public float AgentMinTurnSpeed
+        {
+            get { return agentMinTurnSpeed; }
+            set { agentMinTurnSpeed = value; }
+        }
 
         /// <summary>
         /// max number of degrees the agent can turn through in one second (if one motor is at 1 while the other is at 0)
@@ -156,7 +177,7 @@ namespace ReactivePathfinding.Core
             {
                 currentHeightmap = value;
             }
-        }        
+        }
 
         public string Name
         {

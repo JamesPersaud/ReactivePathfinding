@@ -23,7 +23,7 @@ namespace ReactivePathfinding.Core
         public const float DEFAULT_FREQUENCY = 2f;
         public const float DEFAULT_LACUNARITY = 2f;
         public const float DEFAULT_OFFSET = 1f;
-        public const float DEFAULT_GAIN = 2f;
+        public const float DEFAULT_GAIN = 8f;
         public const float DEFAULT_SPECTRAL = 0.9f;
         public const float DEFAULT_SMOOTH = 1f;
 

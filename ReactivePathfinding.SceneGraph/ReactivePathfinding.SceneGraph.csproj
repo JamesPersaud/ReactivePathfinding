@@ -45,11 +45,13 @@
   <ItemGroup>
     <Compile Include="AgentComponent.cs" />
     <Compile Include="CameraComponent.cs" />
+    <Compile Include="MeshHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SceneGraphComponent.cs" />
     <Compile Include="SceneGraphObject.cs" />
     <Compile Include="HeightmapComponent.cs" />
+    <Compile Include="TargetComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReactivePathfinding.Core\ReactivePathfinding.Core.csproj">

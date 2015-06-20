@@ -43,6 +43,14 @@ namespace ReactivePathfinding.Core
         private float totalTime;
         private BoundaryFloatGenome weightGenome;
 
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         /// <summary>
         /// The genome of this individual agent, setting results in altering the weights of its sensors' connections.
         /// </summary>

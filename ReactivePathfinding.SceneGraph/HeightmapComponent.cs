@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ReactivePathfinding.Core;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace ReactivePathfinding.SceneGraph
 {
@@ -13,22 +12,11 @@ namespace ReactivePathfinding.SceneGraph
     /// A component to represent a heightmap
     /// </summary>
     public class HeightmapComponent : SceneGraphComponent
-    {
-        //Multiplying the height values by a factor enhances the visualization making it easier to see gradients
-        public static float HEIGHT_MULTIPLIER = 7.0f;
-
-        private Heightmap map;
-        private PolygonMode polyMode = PolygonMode.Line;
-        private MaterialFace materialFace = MaterialFace.FrontAndBack;
+    {                
+        private Heightmap map;        
 
         //colours
-        private List<KeyValuePair<float, Vector4>> ColourTemplates;
-
-        //render data
-        private float[] colors;
-        private float[] vertices;
-        private uint[] triangles;
-        private bool verticesCreated = false;
+        private List<KeyValuePair<float, Vector4>> ColourTemplates;        
 
         public Heightmap Map
         {
@@ -71,9 +59,9 @@ namespace ReactivePathfinding.SceneGraph
             int w = Map.Settings.MapWidth;
             int h = Map.Settings.MapHeight;
             
-            vertices = new float[w * h * 3];
-            colors = new float[w * h * 4];
-            triangles = new uint[(w-1) * (h-1) * 6];
+            Vertices = new float[w * h * 3];
+            Colors = new float[w * h * 4];
+            Triangles = new uint[(w-1) * (h-1) * 6];
 
             int triangle = 0;
             for (int x = 0; x < Map.Settings.MapWidth; x++)
@@ -81,12 +69,12 @@ namespace ReactivePathfinding.SceneGraph
                 for (int y = 0; y < Map.Settings.MapHeight; y++)
                 {
                     int index = y * w + x;                    
-                    float z = (Map.GetHeight(x, y) + 1f) /2f; 
+                    float z = Map.GetSceneHeight(x,  y);
 
                     //Create the vertex buffer by reading the heights
-                    vertices[index * 3 + 0] = x; //x
-                    vertices[index * 3 + 1] = y; //y
-                    vertices[index * 3 + 2] = z * HEIGHT_MULTIPLIER; //z * 7 - helps the visualization
+                    Vertices[index * 3 + 0] = x; //x
+                    Vertices[index * 3 + 1] = y; //y
+                    Vertices[index * 3 + 2] = z; //* HEIGHT_MULTIPLIER; //z * 7 - helps the visualization
 
                     //Create the color buffer by assigning the appropriate colour to each vertex
                     for (int i = 0; i < ColourTemplates.Count; i++)
@@ -94,10 +82,10 @@ namespace ReactivePathfinding.SceneGraph
                         if (z <= ColourTemplates[i].Key)
                         {
                             Vector4 color = ColourTemplates[i].Value;
-                            colors[index * 4 + 0] = color.X; //r
-                            colors[index * 4 + 1] = color.Y; //g
-                            colors[index * 4 + 2] = color.Z; //b
-                            colors[index * 4 + 3] = color.W; //a
+                            Colors[index * 4 + 0] = color.X; //r
+                            Colors[index * 4 + 1] = color.Y; //g
+                            Colors[index * 4 + 2] = color.Z; //b
+                            Colors[index * 4 + 3] = color.W; //a
                             break;
                         }
                     }
@@ -108,23 +96,23 @@ namespace ReactivePathfinding.SceneGraph
                     {
                         if (index % 2 == 0)
                         {
-                            triangles[triangle + 0] = (uint)index;
-                            triangles[triangle + 1] = (uint)(index + w);
-                            triangles[triangle + 2] = (uint)(index + w + 1);
+                            Triangles[triangle + 0] = (uint)index;
+                            Triangles[triangle + 1] = (uint)(index + w);
+                            Triangles[triangle + 2] = (uint)(index + w + 1);
 
-                            triangles[triangle + 3] = (uint)index;
-                            triangles[triangle + 4] = (uint)(index + 1);
-                            triangles[triangle + 5] = (uint)(index + w + 1);
+                            Triangles[triangle + 3] = (uint)index;
+                            Triangles[triangle + 4] = (uint)(index + 1);
+                            Triangles[triangle + 5] = (uint)(index + w + 1);
                         }
                         else // draw alternating patterns of triangles, makes for refer diagonal patterns in the render
                         {
-                            triangles[triangle + 0] = (uint)index;
-                            triangles[triangle + 1] = (uint)(index + 1);
-                            triangles[triangle + 2] = (uint)(index + w);
+                            Triangles[triangle + 0] = (uint)index;
+                            Triangles[triangle + 1] = (uint)(index + 1);
+                            Triangles[triangle + 2] = (uint)(index + w);
 
-                            triangles[triangle + 3] = (uint)(index + w);
-                            triangles[triangle + 4] = (uint)(index + 1);
-                            triangles[triangle + 5] = (uint)(index + w + 1);
+                            Triangles[triangle + 3] = (uint)(index + w);
+                            Triangles[triangle + 4] = (uint)(index + 1);
+                            Triangles[triangle + 5] = (uint)(index + w + 1);
 
                         }
 
@@ -133,22 +121,8 @@ namespace ReactivePathfinding.SceneGraph
                 }
             }
 
-            verticesCreated = true;            
-        }
-
-        /// <summary>
-        /// Render the heightmap according to the current rendering settings
-        /// </summary>
-        public override void Render()
-        {
-            if (verticesCreated)
-            {                
-                GL.PolygonMode(this.materialFace, this.polyMode);
-                GL.VertexPointer(3, VertexPointerType.Float, 0, vertices);
-                GL.ColorPointer(4, ColorPointerType.Float, 0, colors);
-                GL.DrawElements(BeginMode.Triangles, triangles.Length, DrawElementsType.UnsignedInt, triangles);
-            }
-        }
+            RenderDataCreated = true;            
+        }                
 
         public HeightmapComponent()
         {

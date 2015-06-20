@@ -10,12 +10,6 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class CameraComponent : SceneGraphComponent
     {
-        private Vector3 rotation;
-
-        public Vector3 Rotation
-        {
-            get { return rotation; }
-            set { rotation = value; }
-        }
+        
     }
 }

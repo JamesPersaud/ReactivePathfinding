@@ -26,7 +26,7 @@ namespace ReactivePathfinding.Core
         private float direction;
         private ActuatorTypes actuatorType;
         private string name = string.Empty;
-        private ActivationFunctionTypes activationFunctionType = ActivationFunctionTypes.SUMMATIVE;
+        private ActivationFunctionTypes activationFunctionType = ActivationFunctionTypes.SIGMOID;
 
         public ActivationFunctionTypes ActivationFunctionType
         {

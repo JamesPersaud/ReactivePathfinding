@@ -64,8 +64,47 @@ namespace ReactivePathfinding.Core
             set { proceduralNoise = value; }
         }
 
+        //convert height into scene graph range
+        public float GetSceneHeight(float x, float z)
+        {
+            return (GetHeight(x, z) + 1) / 2;
+        }        
+        public float GetSceneHeight(int x, int z)
+        {
+            return (GetHeight(x, z) + 1) / 2;
+        }
+
+        /// <summary>
+        /// Gets a height value, bilinearly interpolating between the nearest known values
+        /// </summary>        
+        public float GetHeight(float x, float z)
+        {
+            int floorx = (int)Math.Floor((double)x);
+            int floorz = (int)Math.Floor((double)z);
+            int ceilx = floorx+1;
+            int ceilz = floorz+1;            
+
+            //get the heights at the four surrounding points
+            float h00 = GetHeight(floorx, floorz);
+            float h01 = GetHeight(ceilx, floorz);
+            float h10 = GetHeight(floorx, ceilz);
+            float h11 = GetHeight(ceilx, ceilz);
+
+            //offset of the point
+            float dx = x - floorx;
+            float dz = z - floorz;
+
+            //billinear interpolation
+            return Maths.BLerp(dx, dz, h00, h01, h10, h11);
+        }
+
         public float GetHeight(int x, int z)
         {
+            if (x < 0) x = 0;
+            if (z < 0) z = 0;
+            if (x > heights.GetUpperBound(0)) x = heights.GetUpperBound(0);
+            if (z > heights.GetUpperBound(1)) z = heights.GetUpperBound(1);
+
             return heights[x, z];            
         }
 
@@ -169,7 +208,7 @@ namespace ReactivePathfinding.Core
                     heights[x, z] = (proceduralNoise.GetValue(x * x_separation, z * z_separation)) / settings.Smooth;
 
                     if (heights[x, z] < -1) heights[x, z] = - 1;
-                    if (heights[x, z] > 1) heights[x, z] = 1;                    
+                    if (heights[x, z] > 1) heights[x, z] = 1;              
                 }
             }
         }

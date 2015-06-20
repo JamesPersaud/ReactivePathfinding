@@ -26,6 +26,19 @@ namespace ReactivePathfinding.Core
             get { return motorType; }
             set { motorType = value; }
         }
+        
+        public float Output
+        {
+            get
+            {
+                /// For a motor actuator the output must be in the range -1 .. 1
+                /// Sigmoid returns a value 0 .. 1 where a netinput of 0 results in an output of 0.5
+                float output = base.Output;
+                //transpose this to the range -1 .. 1
+                output -= 0.5f;
+                return output * 2f;
+            }
+        }
 
         public MotorActuator(MotorTypes t)
         {
@@ -36,6 +49,11 @@ namespace ReactivePathfinding.Core
             else
                 this.Location = new RadialPoint(270, 1);
             this.ActuatorType = ActuatorTypes.MOTOR;
-        }                
+        }        
+
+        public override string ToString()
+        {
+            return "Motor: "+this.Name + " Type: "+motorType.ToString()+" Output:" + Output.ToString();
+        }
     }
 }
