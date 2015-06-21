@@ -74,7 +74,7 @@ namespace ReactivePathfinding.SceneGraph
                     //Create the vertex buffer by reading the heights
                     Vertices[index * 3 + 0] = x; //x
                     Vertices[index * 3 + 1] = y; //y
-                    Vertices[index * 3 + 2] = z; //* HEIGHT_MULTIPLIER; //z * 7 - helps the visualization
+                    Vertices[index * 3 + 2] = z * MeshHelper.HEIGHT_EXAGGERATION_FACTOR; //z 
 
                     //Create the color buffer by assigning the appropriate colour to each vertex
                     for (int i = 0; i < ColourTemplates.Count; i++)

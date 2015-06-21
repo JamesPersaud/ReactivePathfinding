@@ -137,7 +137,7 @@ namespace ReactivePathfinding.SceneGraph
 
             //adjust the height of the agent according to the height at the current location
             float newz = this.currentAgent.CurrentExperiment.CurrentHeightmap.GetSceneHeight(this.Position.X, this.Position.Y);
-            Position = new Vector3(Position.X, Position.Y, newz);
+            Position = new Vector3(Position.X, Position.Y, newz * MeshHelper.HEIGHT_EXAGGERATION_FACTOR);
 
             Debug("End Position " + Position.ToString());
         }

@@ -8,6 +8,8 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class MeshHelper
     {
+        public static float HEIGHT_EXAGGERATION_FACTOR = 8;
+
         public static void GetCube(float size, Vector4 colour, out float[] vertices, out uint[] triangles, out float[] colors)
         {
             vertices = new float[8 * 3];

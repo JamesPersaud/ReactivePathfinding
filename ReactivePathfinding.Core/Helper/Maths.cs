@@ -28,14 +28,17 @@ namespace ReactivePathfinding.Core
         /// <summary>
         /// Interpolates a value given by an offset dx,dy in the range 0..1 bounded by values at points 00, 01, 10 and 11
         /// </summary>        
-        public static float BLerp(float dx, float dy, float f00, float f01, float f10, float f11)
+        public static float BLerp(float x, float y, float x1, float x2, float y1, float y2, float q11, float q21, float q12, float q22)
         {
-            return (1 - dx) *
-                        ((1 - dy) * f00 +
-                        dy * f01) +
-                    dx *
-                        ((1 - dy) * f10 +
-                        dy * f11);   
+            float denom = (x2-x1) * (y2-y1);
+
+            float result = 0;
+            result += ( ((x2 -x) * (y2 - y)) / denom) * q11;
+            result += ( ((x - x1) * (y2 - y)) / denom) * q21;
+            result += ( ((x2 - x) * (y - y1)) / denom) * q12;
+            result += ( ((x - x1) * (y - y1)) / denom) * q22;
+
+            return result;
         }        
 
         /// <summary>

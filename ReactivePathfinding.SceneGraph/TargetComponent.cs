@@ -42,7 +42,7 @@ namespace ReactivePathfinding.SceneGraph
             if(currentTarget.CurrentExperiment != null)
             {
                 float z = currentTarget.CurrentExperiment.CurrentHeightmap.GetSceneHeight((int)Position.X,(int)Position.Y);
-                this.Position = new Vector3(Position.X, Position.Y, z);
+                this.Position = new Vector3(Position.X, Position.Y, z * MeshHelper.HEIGHT_EXAGGERATION_FACTOR);
             }
         }
     }

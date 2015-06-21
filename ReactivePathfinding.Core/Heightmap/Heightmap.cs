@@ -85,17 +85,13 @@ namespace ReactivePathfinding.Core
             int ceilz = floorz+1;            
 
             //get the heights at the four surrounding points
-            float h00 = GetHeight(floorx, floorz);
-            float h01 = GetHeight(ceilx, floorz);
-            float h10 = GetHeight(floorx, ceilz);
-            float h11 = GetHeight(ceilx, ceilz);
-
-            //offset of the point
-            float dx = x - floorx;
-            float dz = z - floorz;
+            float q11 = GetHeight(floorx, floorz);
+            float q21 = GetHeight(ceilx, floorz);
+            float q12 = GetHeight(floorx, ceilz);
+            float q22 = GetHeight(ceilx, ceilz);            
 
             //billinear interpolation
-            return Maths.BLerp(dx, dz, h00, h01, h10, h11);
+            return Maths.BLerp(x,z,floorx,ceilx,floorz,ceilz,q11,q21,q12,q22);
         }
 
         public float GetHeight(int x, int z)

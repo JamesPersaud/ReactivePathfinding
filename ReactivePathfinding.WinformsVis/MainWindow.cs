@@ -464,6 +464,7 @@ namespace ReactivePathfinding.WinformsVis
 
             //GL setup
             GL.Enable(EnableCap.DepthTest);
+            GL.DepthFunc(DepthFunction.Less);
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.ColorArray);
 
