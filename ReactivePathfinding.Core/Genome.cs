@@ -15,8 +15,8 @@ namespace ReactivePathfinding.Core
     /// </summary>
     public abstract class Genome
     {
-        public const bool DEBUG_MUTATION = true;
-        public const bool DEBUG_CROSSOVER = true;
+        public const bool DEBUG_MUTATION = false;
+        public const bool DEBUG_CROSSOVER = false;
 
         protected PRNG rng;
         protected string name;
@@ -34,31 +34,37 @@ namespace ReactivePathfinding.Core
         /// <summary>
         /// Mutate if the mutation condition is met
         /// </summary>        
-        public virtual void Mutate(int threshold, int min, int max)
+        public virtual bool Mutate(int threshold, int min, int max)
         {
             int result = rng.GetInt(min, max);
 
             if (DEBUG_MUTATION)
-                Logging.Instance.Log(this.name + " chance to mutate, result must be " + threshold.ToString() + " or more between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
+                Logging.Instance.Log(this.name + " chance to mutate, result must be " + threshold.ToString() + " or less between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
 
-            if(result >= threshold)            
+            if (result <= threshold)
+            {
                 DoMutation(rng.GetInt(0, Size() - 1));
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
         /// Single point crossover if the crossover condition is met
         /// </summary>        
-        public virtual void Crossover(int threshold, int min, int max, Genome other)
+        public virtual bool Crossover(int threshold, int min, int max, Genome other)
         {
             int result = rng.GetInt(min, max);
 
             if (DEBUG_CROSSOVER)
-                Logging.Instance.Log(this.name + " chance to cross over, result must be " + threshold.ToString() + " or more between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
+                Logging.Instance.Log(this.name + " chance to cross over, result must be " + threshold.ToString() + " or less between " + min.ToString() + " and " + max.ToString() + " result is " + result.ToString());
 
-            if(result >= threshold)
+            if(result <= threshold)
             {
                 DoCrossover(rng.GetInt(0, Size() - 1), other);
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -96,6 +102,7 @@ namespace ReactivePathfinding.Core
         protected abstract void DoMutation(int position);
         protected abstract void DoCrossover(int position, Genome other);
         public abstract Genome Clone();
+        public abstract Genome Clone(Experiment ex);
 
         public Genome()
         {

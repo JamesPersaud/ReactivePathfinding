@@ -10,6 +10,10 @@ namespace ReactivePathfinding.Core
     [Serializable]
     public class Experiment
     {
+        //time parameters
+        private int stepPeriodMilliseconds = 16;
+        private float stepPeriodSeconds = 1f / 60f;
+
         //basic attributes
         private string name = string.Empty;
 
@@ -27,27 +31,127 @@ namespace ReactivePathfinding.Core
         private bool isNew = true;
 
         //GA parameters
-        private int populationSize;
-        private float crossoverRate;
-        private float mutationRate;
-        private float elitismThreshold;        
+        private int populationSize = 20;
+        private int crossoverRate = 50;
+        private int mutationRate = 20;
+        private int elites = 0;
+        private bool mutateOnSelection = true;
+        private bool mutateDuringCrossover = true;
 
+        //generations
+        private int generationIndex = 0;
         private List<Generation> previousGenerations = new List<Generation>();
         private Generation currentGeneration;
 
         //parameters related to cost of movement
-        private float baseMovementCostMultiplier = 1;        
+        private float baseMovementCostMultiplier = 1;
         private float descendingbaseMovementCostMultiplier = 0;
         private float ascendingMovementCostMultiplier = 0;
 
         //agent parameters
         private float agentMaxMovementSpeed = 4f;
-        private float agentRadius = 0.5f;
-        private float agentMaxTurnSpeed = 360;
+        private float agentRadius = 0.5f;        
         private float agentMinTurnSpeed = 5;
+        private float maxAgentLifetimeSeconds = 30; //The number of seconds to allow an agent to exist for before declaring it dead
+        private float agentFitnessImprovementTimeoutSeconds = 15; //The number of seconds to wait for an agent to improve on its fitness score before declaring it dead
 
         //sensor parameters
         private float sensorHorizontalFOV = 90f;
+
+        //agent tolpology
+        private AgentTemplate currentTopology = null;
+
+        //start and target positions for agents
+        private Target currentTarget = null;
+        private Startpoint currentStartpoint = null;
+
+        //fitness
+        private FitnessFunction currentFitnessFunction = null;
+
+        //pathfinding
+        private AStarPath bestPath = null;
+
+        public AStarPath BestPath
+        {
+            get { return bestPath; }
+            set { bestPath = value; }
+        }
+
+        public float MaxAgentLifetimeSeconds
+        {
+            get { return maxAgentLifetimeSeconds; }
+            set { maxAgentLifetimeSeconds = value; }
+        }
+
+        public float AgentFitnessImprovementTimeoutSeconds
+        {
+            get { return agentFitnessImprovementTimeoutSeconds; }
+            set { agentFitnessImprovementTimeoutSeconds = value; }
+        }
+
+        public List<Generation> PreviousGenerations
+        {
+            get { return previousGenerations; }            
+        }
+
+        public Generation CurrentGeneration
+        {
+            get { return currentGeneration; }
+        }
+
+        public bool MutateDuringCrossover
+        {
+            get { return mutateDuringCrossover; }
+            set { mutateDuringCrossover = value; }
+        }
+
+        public bool MutateOnSelection
+        {
+            get { return mutateOnSelection; }
+            set { mutateOnSelection = value; }
+        }
+
+        public int GenerationIndex
+        {
+            get { return generationIndex; }
+            set { generationIndex = value; }
+        }
+
+        public float StepPeriodSeconds
+        {
+            get { return stepPeriodSeconds; }
+            set { stepPeriodSeconds = value; }
+        }
+
+        public int StepPeriodMilliseconds
+        {
+            get { return stepPeriodMilliseconds; }
+            set { stepPeriodMilliseconds = value; }
+        }
+
+        public FitnessFunction CurrentFitnessFunction
+        {
+            get { return currentFitnessFunction; }
+            set { currentFitnessFunction = value; }
+        }
+
+        public Startpoint CurrentStartpoint
+        {
+            get { return currentStartpoint; }
+            set { currentStartpoint = value; }
+        }
+
+        public Target CurrentTarget
+        {
+            get { return currentTarget; }
+            set { currentTarget = value; }
+        }
+
+        public AgentTemplate CurrentAgentTopology
+        {
+            get { return currentTopology; }
+            set { currentTopology = value; }
+        }
 
         public float SensorHorizontalFOV
         {
@@ -64,16 +168,7 @@ namespace ReactivePathfinding.Core
         {
             get { return agentMinTurnSpeed; }
             set { agentMinTurnSpeed = value; }
-        }
-
-        /// <summary>
-        /// max number of degrees the agent can turn through in one second (if one motor is at 1 while the other is at 0)
-        /// </summary>
-        public float AgentMaxTurnSpeed
-        {
-            get { return agentMaxTurnSpeed; }
-            set { agentMaxTurnSpeed = value; }
-        }
+        }        
 
         /// <summary>
         /// agent radius in units
@@ -114,19 +209,19 @@ namespace ReactivePathfinding.Core
             set { baseMovementCostMultiplier = value; }
         }
 
-        public float ElitismThreshold
+        public int Elites
         {
-            get { return elitismThreshold; }
-            set { elitismThreshold = value; }
+            get { return elites; }
+            set { elites = value; }
         }
 
-        public float CrossoverRate
+        public int CrossoverRate
         {
             get { return crossoverRate; }
             set { crossoverRate = value; }
         }
 
-        public float MutationRate
+        public int MutationRate
         {
             get { return mutationRate; }
             set { mutationRate = value; }
@@ -151,6 +246,72 @@ namespace ReactivePathfinding.Core
         {
             get { return heightmapFilename; }
             set { heightmapFilename = value; }
+        }
+
+        public KeyValuePair<int, float> LifetimeBestAvgFitness
+        {
+            get
+            {
+                if (previousGenerations == null || previousGenerations.Count < 1) return new KeyValuePair<int,float>(0,0);
+
+                float max = -float.MaxValue;
+                int id = 0;
+
+                foreach (Generation g in previousGenerations)
+                {
+                    if (g.FinalAvgFitness > max)
+                    {
+                        max = g.FinalAvgFitness;
+                        id = g.GenerationID;
+                    }
+                }
+
+                return new KeyValuePair<int, float>(id, max);
+            }
+        }
+
+        public KeyValuePair<int,float> LifetimeBestMinFitness
+        {
+            get
+            {
+                if (previousGenerations == null || previousGenerations.Count < 1) return new KeyValuePair<int,float>(0,0);
+
+                float max = -float.MaxValue;
+                int id = 0;
+
+                foreach (Generation g in previousGenerations)
+                {
+                    if (g.FinalMinFitness > max)
+                    {
+                        max = g.FinalMinFitness;
+                        id = g.GenerationID;
+                    }
+                }
+                
+                return new KeyValuePair<int,float>(id,max);
+            }
+        }
+
+        public KeyValuePair<int, float> LifetimeMaxFitness
+        {
+            get
+            {
+                if (previousGenerations == null || previousGenerations.Count < 1) return new KeyValuePair<int,float>(0,0);
+
+                float max = -float.MaxValue;
+                int id = 0;
+
+                foreach (Generation g in previousGenerations)
+                {
+                    if (g.FinalMaxFitness > max)
+                    {
+                        max = g.FinalMaxFitness;
+                        id = g.GenerationID;
+                    }
+                }
+
+                return new KeyValuePair<int, float>(id, max);
+            }        
         }
 
         public string Filename
@@ -191,6 +352,37 @@ namespace ReactivePathfinding.Core
         }
 
         /// <summary>
+        /// Update anything not related to the position of things in the scene or otherwise tied to a scene component
+        /// </summary>
+        public void Update()
+        {
+            if (currentGeneration != null)
+                currentGeneration.Update(stepPeriodSeconds);
+        }
+
+        /// <summary>
+        /// Advances the experiment to the next generation.
+        /// </summary>
+        public void NextGeneration()
+        {            
+            if(currentGeneration == null)
+            {
+                //first generation
+                currentGeneration = Generation.GetInitialGeneration(this);
+            }
+            else
+            {
+                if (previousGenerations == null)
+                    previousGenerations = new List<Generation>();
+
+                previousGenerations.Add(currentGeneration);
+                currentGeneration = currentGeneration.EvolveNextGeneration();
+            }
+            
+            currentGeneration.GenerationID = ++GenerationIndex;
+        }
+
+        /// <summary>
         /// Reset the current random terrain to a new random terrain
         /// </summary>
         public void NewRandomTerrain()
@@ -202,18 +394,31 @@ namespace ReactivePathfinding.Core
             
         }
 
-        public Experiment(string n)
-        {
+        private void Init(string n, int seed)
+        {            
             random = new PRNG();
+            if (seed >= 0)
+                random.Seed(seed);
+
             name = n;
 
             Logging.Instance.Log("Created new Experiment called " + name);
-            currentHeightmapSettings = new HeightmapSettings();            
+            currentHeightmapSettings = new HeightmapSettings();                  
         }
+
+        public Experiment(string n)
+        {
+            Init(n, -1);
+        }        
 
         public Experiment()
         {
+            Init("Unnamed Experiment", -1);
+        }
 
+        public Experiment(string n, int seed)
+        {
+            Init(n, seed);
         }
     }
 }

@@ -25,8 +25,8 @@ namespace ReactivePathfinding.Core
         {
             get { return motorType; }
             set { motorType = value; }
-        }
-        
+        }        
+
         public float Output
         {
             get
@@ -39,6 +39,13 @@ namespace ReactivePathfinding.Core
                 return output * 2f;
             }
         }
+
+        public override Actuator Clone()
+        {
+            MotorActuator new_actuator = new MotorActuator(this.motorType);
+            CopyTo(new_actuator);
+            return new_actuator;
+        }        
 
         public MotorActuator(MotorTypes t)
         {

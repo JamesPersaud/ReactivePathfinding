@@ -17,10 +17,18 @@ namespace ReactivePathfinding.Core
     /// </summary>
     public class Target
     {
-        private float baseIntensity;
-        private EmitterTypes emitterType;
-        private float radius;
+        private float baseIntensity = 1;
+        private EmitterTypes emitterType = EmitterTypes.INVERSE_SQUARE;
+        private float radius = 0;
+        private float physicalRadius = 1;     
         private Experiment currentExperiment;
+        private IPosition3F position;
+
+        public IPosition3F Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
 
         public Experiment CurrentExperiment
         {
@@ -35,7 +43,16 @@ namespace ReactivePathfinding.Core
         {
             get { return radius; }
             set { radius = value; }
-        }        
+        }
+
+        /// <summary>
+        /// The actual radius of the target area 
+        /// </summary>
+        public float PhysicalRadius
+        {
+            get { return physicalRadius; }
+            set { physicalRadius = value; }
+        }
 
         public EmitterTypes EmitterType
         {

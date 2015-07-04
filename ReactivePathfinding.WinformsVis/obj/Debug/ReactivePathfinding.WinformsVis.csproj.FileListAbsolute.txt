@@ -22,3 +22,8 @@ E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.Winforms
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.csproj.GenerateResource.Cache
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.exe
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.pdb
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\bin\Debug\OpenTK.Compatibility.dll
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.StartForm.resources
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.TargetForm.resources
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.AgentForm.resources
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.WinformsVis\obj\Debug\ReactivePathfinding.WinformsVis.BestPathForm.resources

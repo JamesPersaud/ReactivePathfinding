@@ -27,6 +27,13 @@ namespace ReactivePathfinding.Core
         private ActuatorTypes actuatorType;
         private string name = string.Empty;
         private ActivationFunctionTypes activationFunctionType = ActivationFunctionTypes.SIGMOID;
+        private int index;
+
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
 
         public ActivationFunctionTypes ActivationFunctionType
         {
@@ -62,6 +69,22 @@ namespace ReactivePathfinding.Core
         {
             get { return connections; }
             set { connections = value; }
+        }
+
+        public virtual Actuator Clone()
+        {
+            Actuator new_actuator = new Actuator();
+            CopyTo(new_actuator);
+            return new_actuator;
+        }
+
+        public virtual void CopyTo(Actuator other)
+        {
+            other.ActivationFunctionType = this.ActivationFunctionType;
+            other.ActuatorType = this.ActuatorType;
+            other.Direction = this.Direction;
+            other.Location = this.Location;
+            other.Name = this.Name;
         }
 
         /// <summary>

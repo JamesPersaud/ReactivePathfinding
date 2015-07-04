@@ -70,7 +70,14 @@ namespace ReactivePathfinding.Core
         /// </summary>        
         public override Genome Clone()
         {
-            BoundaryFloatGenome other = new BoundaryFloatGenome(this);            
+            BoundaryFloatGenome other = new BoundaryFloatGenome(this);     
+            return other;
+        }
+
+        public override Genome Clone(Experiment ex)
+        {
+            BoundaryFloatGenome other = new BoundaryFloatGenome(this);
+            other.rng = ex.Random;
             return other;
         }
 
@@ -106,8 +113,19 @@ namespace ReactivePathfinding.Core
 
             for (int i = 0; i < size; i++)
             {
-                values.Add(rng.GetFloat(lowerBoundary, upperBoundary));
+                if (rng != null)
+                    values.Add(rng.GetFloat(lowerBoundary, upperBoundary));
+                else
+                    values.Add(lowerbound);
             }
+        }
+
+        /// <summary>
+        /// returns a new genome of the same size and bounds as this one
+        /// </summary>        
+        public BoundaryFloatGenome GetNewGenomeLikeThis()
+        {
+            return new BoundaryFloatGenome(this.Size(), this.lowerBoundary, this.upperBoundary, this.rng);
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace ReactivePathfinding.Core
         private string name = string.Empty;
         private ConnectionTypes connectionType;
         private bool excitatory;
-        private bool inverse;
+        private bool inverse;        
 
         public bool Excitatory
         {
@@ -107,16 +107,29 @@ namespace ReactivePathfinding.Core
 
         public override string ToString()
         {
-            string s = "{ " + string.Copy(name) + ": [";
-            if (connectedSensor != null)
-                s += connectedSensor.Name + " <= ";
+            string s = "{ " + name.Substring(0, Math.Min(name.Length, 15)).PadRight(15) + ": [ ";            
 
-            s += weight.ToString();
+            if (connectedSensor != null && ConnectedActuator != null)
+            {
+                s += connectedSensor.Name.Substring(0, Math.Min(connectedSensor.Name.Length,15)).PadRight(15) + " ";
 
-            if (ConnectedActuator != null)
-                s += " => " + connectedActuator.Name;
+                switch(this.connectionType)
+                {
+                    case ConnectionTypes.EXCITATORY: s += "EXC ("; break;
+                    case ConnectionTypes.INHIBITORY: s += "INH ("; break;
+                    case ConnectionTypes.INVERSE_EXCITATORY: s += "1/E ("; break;
+                    case ConnectionTypes.INVERSE_INHIBITORY: s += "1/I ("; break;
+                }
 
-            s += "] }";
+                s += weight.ToString() + ") ";                
+                s += " " + connectedActuator.Name;
+            }
+            else
+            {
+                s += "unconnected";
+            }
+
+            s += " ] }";
 
             return s;
         }        

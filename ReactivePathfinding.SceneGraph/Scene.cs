@@ -32,6 +32,28 @@ namespace ReactivePathfinding.SceneGraph
         }
 
         /// <summary>
+        /// Removes all objects with components of the specified type from the graph
+        /// </summary>        
+        public void RemoveAllComponentsByType<T>(SceneGraphObject parent) where T: SceneGraphComponent
+        {
+            if (parent == null)
+                parent = root;
+
+            List<T> components = GetAllComponentsByType<T>(parent);
+            foreach(SceneGraphComponent comp in components)
+            {
+                if (comp.ParentObject != null)
+                    comp.ParentObject.Parent.Children.Remove(comp.ParentObject);
+                if (objects.Contains(comp.ParentObject))
+                    objects.Remove(comp.ParentObject);
+            }
+        }       
+        public void RemoveAllComponentsByType<T>() where T: SceneGraphComponent
+        {
+            RemoveAllComponentsByType<T>(null);
+        }
+
+        /// <summary>
         /// Get all the components of a given type that are in the current scene
         /// </summary>        
         public List<T> GetAllComponentsByType<T>(SceneGraphObject parent) where T: SceneGraphComponent
@@ -52,7 +74,7 @@ namespace ReactivePathfinding.SceneGraph
         }
         public List<T> GetAllComponentsByType<T>() where T: SceneGraphComponent
         {
-            return GetAllComponentsByType<T>(null);
+            return GetAllComponentsByType<T>(root);
         }
 
         public SceneGraphObject AddNewObject()

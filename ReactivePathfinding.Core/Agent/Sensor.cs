@@ -22,6 +22,13 @@ namespace ReactivePathfinding.Core
         private SensorTypes sensorType;
         private string name = string.Empty;
         private float input;
+        private int index;
+
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
 
         /// <summary>
         /// The overall input to this sensor
@@ -91,6 +98,11 @@ namespace ReactivePathfinding.Core
         {
             if (!connections.Contains(c))
                 this.connections.Add(c);
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }

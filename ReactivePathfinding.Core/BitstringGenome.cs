@@ -31,5 +31,10 @@ namespace ReactivePathfinding.Core
         {
             throw new NotImplementedException();
         }
+
+        public override Genome Clone(Experiment ex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

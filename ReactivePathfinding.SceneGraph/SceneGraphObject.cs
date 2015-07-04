@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenTK;
 using ReactivePathfinding.Core;
+using OpenTK.Graphics.OpenGL;
 
 namespace ReactivePathfinding.SceneGraph
 {
@@ -61,7 +62,7 @@ namespace ReactivePathfinding.SceneGraph
                     Matrix4 roll = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation.X));
                     Matrix4 pitch = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation.Y));
                     Matrix4 yaw = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation.Z));                    
-                    Matrix4 translate = Matrix4.CreateTranslation(position);
+                    Matrix4 translate = Matrix4.CreateTranslation(new Vector3(position.X,position.Y,position.Z * MeshHelper.HEIGHT_EXAGGERATION_FACTOR));
 
                     transform = yaw * pitch * roll * translate;
                 }
@@ -178,6 +179,15 @@ namespace ReactivePathfinding.SceneGraph
 
             this.rotation = new Vector3(this.rotation.X, this.rotation.Y, newrotation);
         }
+        public void RotateLocalAroundY(float degrees)
+        {            
+            float newrotation = this.rotation.Y + degrees;
+
+            while (newrotation < 0) newrotation += 360;
+            while (newrotation > 360) newrotation -= 360;
+
+            this.rotation = new Vector3(this.rotation.X, newrotation, this.rotation.Z);
+        }
 
         /// <summary>
         /// Move the object along its forward trajectory by the specified amount.
@@ -217,6 +227,20 @@ namespace ReactivePathfinding.SceneGraph
             return component;                
         }
 
+        /// <summary>
+        /// Add a new child object by component
+        /// </summary>        
+        public T AddChild<T>() where T : SceneGraphComponent, new()
+        {
+            T component = new T();
+            SceneGraphObject o = new SceneGraphObject();
+            o.AddComponent(component);            
+            component.ParentObject = o;
+            AddChild(o);
+
+            return component;
+        }
+
         public void AddComponent(SceneGraphComponent component)
         {
             components.Add(component);            
@@ -239,11 +263,16 @@ namespace ReactivePathfinding.SceneGraph
         /// </summary>
         public void Render()
         {
-            foreach (SceneGraphComponent comp in components)
-                comp.Render();
+            //transform of a child object should be relative to the transform of the parent
+
+            GL.PushMatrix();
+            foreach (SceneGraphComponent comp in components)                            
+                comp.Render();                        
 
             foreach (SceneGraphObject child in children)
                 child.Render();
+
+            GL.PopMatrix();
         }
 
         /// <summary>

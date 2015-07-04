@@ -36,6 +36,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\OpenTK.GLControl.dll</HintPath>
@@ -52,6 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgentForm.Designer.cs">
+      <DependentUpon>AgentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BestPathForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BestPathForm.Designer.cs">
+      <DependentUpon>BestPathForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateExperimentWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +100,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TargetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TargetForm.Designer.cs">
+      <DependentUpon>TargetForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AgentForm.resx">
+      <DependentUpon>AgentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BestPathForm.resx">
+      <DependentUpon>BestPathForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateExperimentWindow.resx">
       <DependentUpon>CreateExperimentWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,7 +141,14 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TargetForm.resx">
+      <DependentUpon>TargetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -130,6 +171,66 @@
       <Project>{2ab3d3c4-584e-418e-8fa5-f4e9299b5977}</Project>
       <Name>ReactivePathfinding.SceneGraph</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlayImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\business54.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cpu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\earth22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eject15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\elements.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\faster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\line19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\media24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\signal24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slower.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

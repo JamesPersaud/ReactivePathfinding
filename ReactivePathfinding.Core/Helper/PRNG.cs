@@ -12,10 +12,17 @@ namespace ReactivePathfinding.Core
     [Serializable]
     public class PRNG
     {
+        private int savedSeed = 0;
         private Random random = new Random();
         
+        public int GetSeed()
+        {
+            return savedSeed;
+        }
+
         public void Seed(int seed)
         {
+            savedSeed = seed;
             random = new Random(seed);
         }
 

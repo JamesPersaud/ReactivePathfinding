@@ -1,5 +1,7 @@
 ﻿using System;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics;
 using ReactivePathfinding.Core;
 
 namespace ReactivePathfinding.SceneGraph
@@ -7,6 +9,7 @@ namespace ReactivePathfinding.SceneGraph
     public class TargetComponent : SceneGraphComponent
     {        
         private Target currentTarget;
+        private float lifetime = 0;
 
         public Target CurrentTarget
         {
@@ -14,6 +17,7 @@ namespace ReactivePathfinding.SceneGraph
             set
             {
                 currentTarget = value;
+                currentTarget.Position = this;
                 CreateRenderData();
             }
         }        
@@ -42,8 +46,11 @@ namespace ReactivePathfinding.SceneGraph
             if(currentTarget.CurrentExperiment != null)
             {
                 float z = currentTarget.CurrentExperiment.CurrentHeightmap.GetSceneHeight((int)Position.X,(int)Position.Y);
-                this.Position = new Vector3(Position.X, Position.Y, z * MeshHelper.HEIGHT_EXAGGERATION_FACTOR);
+                this.Position = new Vector3(Position.X, Position.Y, z);
+                this.ParentObject.RotateLocalAroundZ(180 * deltaTime);
             }
+
+            lifetime += deltaTime;
         }
     }
 }

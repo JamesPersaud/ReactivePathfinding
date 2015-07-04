@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using ReactivePathfinding.Core;
 
 namespace ReactivePathfinding.SceneGraph
 {
-    public abstract class SceneGraphComponent
+    public abstract class SceneGraphComponent : IPosition3F
     {
         private SceneGraphObject parentObject;
 
@@ -21,6 +22,27 @@ namespace ReactivePathfinding.SceneGraph
         //render settings
         private PolygonMode polyMode = PolygonMode.Line;
         private MaterialFace materialFace = MaterialFace.FrontAndBack;
+
+        public float X
+        {
+            get { return Position.X; }
+        }
+
+        public float Y
+        {
+            get { return Position.Y; }
+        }
+
+        public float Z
+        {
+            get { return Position.Z; }
+        }
+
+        public float Distance(IPosition3F other)
+        {
+            Vector3 v = new Vector3(other.X,other.Y,other.Z);            
+            return Vector3.Subtract(Position, v).Length;
+        }
 
         public PolygonMode PolyMode
         {
@@ -124,17 +146,14 @@ namespace ReactivePathfinding.SceneGraph
         public void Render()
         {
             if (RenderDataCreated)
-            {
-                GL.PushMatrix();
+            {                
                 Matrix4 translate = this.GetCopyOfTransform();
                 GL.MultMatrix(ref translate);
 
                 GL.PolygonMode(this.materialFace, this.polyMode);
                 GL.VertexPointer(3, VertexPointerType.Float, 0, Vertices);
                 GL.ColorPointer(4, ColorPointerType.Float, 0, Colors);
-                GL.DrawElements(BeginMode.Triangles, Triangles.Length, DrawElementsType.UnsignedInt, Triangles);
-
-                GL.PopMatrix();
+                GL.DrawElements(BeginMode.Triangles, Triangles.Length, DrawElementsType.UnsignedInt, Triangles);                
             }
         }
 

@@ -13,6 +13,7 @@ namespace ReactivePathfinding.WinformsVis
     public partial class CreateExperimentWindow : Form
     {
         public string Name;
+        public int Seed;
 
         public CreateExperimentWindow()
         {
@@ -29,6 +30,7 @@ namespace ReactivePathfinding.WinformsVis
             if (txtName.Text.Length > 0)
             {
                 Name = txtName.Text;
+                Seed = (int)numSeed.Value;
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
             else
@@ -40,6 +42,7 @@ namespace ReactivePathfinding.WinformsVis
         private void CreateExperiment_Load(object sender, EventArgs e)
         {
             btnCreate.Select();
+            numSeed.Value = new Random().Next();
         }        
 
         private void txtName_KeyUp(object sender, KeyEventArgs e)

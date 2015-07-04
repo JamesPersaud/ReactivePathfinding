@@ -14,14 +14,14 @@ namespace ReactivePathfinding.WinformsVis
     public partial class NewHeightmapWindow : Form
     {
         public HeightmapSettings Settings;
-        public Heightmap Map;
-        public static PRNG random = new PRNG();
+        public Heightmap Map;        
+        public Experiment Experiment;
 
         private static PreviewWindow preview = null;
 
         public NewHeightmapWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
 
             this.FormClosing += NewTerrainWindow_FormClosing;
 
@@ -50,9 +50,10 @@ namespace ReactivePathfinding.WinformsVis
         /// <summary>
         /// Set up the form 
         /// </summary>        
-        public void initialise(HeightmapSettings settings, HeightMapType type)
+        public void initialise(Experiment e ,HeightmapSettings settings, HeightMapType type)
         {
-            ddlType.SelectedItem = type;
+            Experiment = e;
+            ddlType.SelectedItem = type;            
 
             numFrequency.Value = (Decimal)settings.Frequency;
             numGain.Value = (Decimal)settings.Gain;
@@ -88,7 +89,7 @@ namespace ReactivePathfinding.WinformsVis
 
         private void btnRandomSeed_Click(object sender, EventArgs e)
         {
-            numSeed.Value = random.GetInt(0, int.MaxValue -1);
+            numSeed.Value = Experiment.Random.GetInt(0, int.MaxValue -1);
         }
 
         /// <summary>

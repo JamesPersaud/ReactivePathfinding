@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,7 +55,9 @@
     <Compile Include="SceneGraphComponent.cs" />
     <Compile Include="SceneGraphObject.cs" />
     <Compile Include="HeightmapComponent.cs" />
+    <Compile Include="StartComponent.cs" />
     <Compile Include="TargetComponent.cs" />
+    <Compile Include="WheelComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReactivePathfinding.Core\ReactivePathfinding.Core.csproj">

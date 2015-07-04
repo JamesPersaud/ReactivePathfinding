@@ -10,3 +10,6 @@ E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGra
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\obj\Debug\ReactivePathfinding.SceneGraph.csprojResolveAssemblyReference.cache
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\obj\Debug\ReactivePathfinding.SceneGraph.dll
 E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\obj\Debug\ReactivePathfinding.SceneGraph.pdb
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\bin\Debug\OpenTK.Compatibility.dll
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\bin\Debug\OpenTK.GLControl.dll
+E:\OU\TM470\reactivepathfinding\ReactivePathfinding\ReactivePathfinding.SceneGraph\bin\Debug\OpenTK.GLControl.xml
