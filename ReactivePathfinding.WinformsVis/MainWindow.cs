@@ -12,6 +12,7 @@ using System.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using ReactivePathfinding.SceneGraph;
+using System.IO;
 
 namespace ReactivePathfinding.WinformsVis
 {    
@@ -35,6 +36,7 @@ namespace ReactivePathfinding.WinformsVis
         private Label lblWarnNoStart = new Label();
         private Label lblWarnNoTarget = new Label();
         private Label lblWarnNoFitness = new Label();
+        private Label lblWarnNoPath = new Label();
 
         //warning label properties
         private const int LABEL_GAP = 8;
@@ -103,6 +105,7 @@ namespace ReactivePathfinding.WinformsVis
             lblWarnNoHeightmap.Height = LABEL_HEIGHT;
             lblWarnNoStart.Height = LABEL_HEIGHT;
             lblWarnNoTarget.Height = LABEL_HEIGHT;
+            lblWarnNoPath.Height = LABEL_HEIGHT;
 
             lblWarnNoAgent.Text = "Agent topology and genome undefined";
             lblWarnNoExperiment.Text = "No current experiment";
@@ -110,6 +113,7 @@ namespace ReactivePathfinding.WinformsVis
             lblWarnNoHeightmap.Text = "Heightmap undefined";
             lblWarnNoStart.Text = "Start location undefined";
             lblWarnNoTarget.Text = "Target undefined";
+            lblWarnNoPath.Text = "Best path undefined";
 
             lblWarnNoAgent.BackColor = Color.Black;
             lblWarnNoExperiment.BackColor = Color.Black;
@@ -117,6 +121,7 @@ namespace ReactivePathfinding.WinformsVis
             lblWarnNoHeightmap.BackColor = Color.Black;
             lblWarnNoStart.BackColor = Color.Black;
             lblWarnNoTarget.BackColor = Color.Black;
+            lblWarnNoPath.BackColor = Color.Black;
 
             lblWarnNoAgent.ForeColor = Color.White;
             lblWarnNoExperiment.ForeColor = Color.White;
@@ -124,6 +129,7 @@ namespace ReactivePathfinding.WinformsVis
             lblWarnNoHeightmap.ForeColor = Color.White;
             lblWarnNoStart.ForeColor = Color.White;
             lblWarnNoTarget.ForeColor = Color.White;
+            lblWarnNoPath.ForeColor = Color.White;
 
             lblWarnNoAgent.AutoSize = true;
             lblWarnNoExperiment.AutoSize = true;
@@ -131,6 +137,7 @@ namespace ReactivePathfinding.WinformsVis
             lblWarnNoHeightmap.AutoSize = true;
             lblWarnNoStart.AutoSize = true;
             lblWarnNoTarget.AutoSize = true;
+            lblWarnNoPath.AutoSize = true;
         }
 
         /// <summary>
@@ -222,10 +229,29 @@ namespace ReactivePathfinding.WinformsVis
                     if (glControl.Controls.Contains(lblWarnNoFitness))
                         glControl.Controls.Remove(lblWarnNoFitness);
                 }
+
+                //no best path
+                if (currentExperiment.BestPath == null)
+                {
+                    if (!glControl.Controls.Contains(lblWarnNoPath))
+                        glControl.Controls.Add(lblWarnNoPath);
+
+                    lblWarnNoPath.Top = getNextLabelPosition(ref labelcount);
+                }
+                else
+                {
+                    if (glControl.Controls.Contains(lblWarnNoPath))
+                        glControl.Controls.Remove(lblWarnNoPath);
+                }
             }
 
             if (labelcount == 0 && SimState != SimulationControlStates.PLAY && SimState != SimulationControlStates.PAUSE)
                 SimState = SimulationControlStates.READY;
+
+            if (currentExperiment != null && currentExperiment.CurrentTarget != null && currentExperiment.CurrentStartpoint != null)            
+                calculateBestPathToolStripMenuItem.Enabled = true;            
+            else            
+                calculateBestPathToolStripMenuItem.Enabled = false;            
         }
 
         /// <summary>
@@ -308,7 +334,9 @@ namespace ReactivePathfinding.WinformsVis
 
         void icnStop_Click(object sender, EventArgs e)
         {
-            SimState = SimulationControlStates.STOP;
+            SimState = SimulationControlStates.STOP;            
+            currentExperiment.EndExperiment();
+            ExportExperimentDataToFiles();
         }
 
         void icnSlower_Click(object sender, EventArgs e)
@@ -771,6 +799,7 @@ namespace ReactivePathfinding.WinformsVis
 
             //GL setup
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.LineStipple);
             GL.DepthFunc(DepthFunction.Less);
             GL.EnableClientState(EnableCap.VertexArray);
             GL.EnableClientState(EnableCap.ColorArray);
@@ -863,7 +892,7 @@ namespace ReactivePathfinding.WinformsVis
                         while (updates > 0)
                         {
                             // update the scene - also updates the agents
-                            scene.Update(currentExperiment.StepPeriodSeconds);  
+                            scene.Update(currentExperiment.StepPeriodSeconds);
                             //update the experiment
                             currentExperiment.Update();
 
@@ -881,7 +910,7 @@ namespace ReactivePathfinding.WinformsVis
                         {
                             if(currentExperiment.CurrentGeneration.HasEnded)
                             {
-                                if (currentExperiment.GenerationIndex <= numGenerations.Value)
+                                if (currentExperiment.GenerationIndex < numGenerations.Value)
                                 {
                                     MoveToNextGeneration();          
                                 }
@@ -889,8 +918,10 @@ namespace ReactivePathfinding.WinformsVis
                                 {
                                     //experiment over
                                     SimState = SimulationControlStates.STOP;
+                                    currentExperiment.EndExperiment();
+                                    ExportExperimentDataToFiles();
                                 }
-                            }                            
+                            }    
                         }
                     
                         //update any UI
@@ -1178,12 +1209,56 @@ namespace ReactivePathfinding.WinformsVis
 
                 pair = currentExperiment.LifetimeBestAvgFitness;
                 lblBestAvg.Text = pair.Key.ToString() + " : " + pair.Value.ToString();
+
+                //best path
+                lblBestPathCost.Text = currentExperiment.BestPath.PathCost.ToString();
             }
         }
 
         private void calculateBestPathToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (BestPathForm pathDialog = new BestPathForm())
+            {
+                pathDialog.CurrentExperiment = currentExperiment;
 
+                if (pathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    UpdateControlPanel();
+                    setWarningLabels();  
+                  
+                    if(currentExperiment.BestPath.PathFound)
+                    {
+                        this.heightmapComponent.BestPath = currentExperiment.BestPath;
+                    }
+                }
+            }
+        }
+
+        private void ExportExperimentDataToFiles()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            Logging.Instance.Log("Going to export to: " + path);
+
+            string fitnessFile = path + currentExperiment.Name + "_fitness.txt";
+            string agentsFile = path + currentExperiment.Name + "_agents.txt";
+            string paramsFile = path + currentExperiment.Name + "_params.txt";
+
+            int count = 0;
+            while (File.Exists(fitnessFile))
+            {
+                count++;
+                fitnessFile = path + currentExperiment.Name + count.ToString() + "_fitness.txt";
+            }
+            count = 0;
+            while (File.Exists(agentsFile))
+            {
+                count++;
+                agentsFile = path + currentExperiment.Name + count.ToString() + "_agents.txt";
+            }                            
+
+            File.WriteAllText(fitnessFile, currentExperiment.GetFitnessReport());
+            File.WriteAllText(agentsFile, currentExperiment.GetAgentReport());
+            File.WriteAllText(paramsFile, currentExperiment.GetSettingsReport());
         }
     }
 }

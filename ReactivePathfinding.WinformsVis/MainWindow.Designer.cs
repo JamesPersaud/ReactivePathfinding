@@ -55,6 +55,8 @@
             this.setTargetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setStartPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newAgentTopologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.calculateBestPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainViewContainer = new System.Windows.Forms.SplitContainer();
@@ -67,6 +69,8 @@
             this.lblFPS = new System.Windows.Forms.Label();
             this.glControl = new OpenTK.GLControl();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.lblBestPathCost = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.txtFitnessExplanation = new System.Windows.Forms.TextBox();
             this.lblBestAvg = new System.Windows.Forms.Label();
             this.lblBestMax = new System.Windows.Forms.Label();
@@ -114,10 +118,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblExperimentFilename = new System.Windows.Forms.Label();
             this.lblExperimentName = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.lblBestPathCost = new System.Windows.Forms.Label();
-            this.calculateBestPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
             this.MainViewContainer.Panel1.SuspendLayout();
@@ -348,6 +348,18 @@
             this.newAgentTopologyToolStripMenuItem.Text = "Set Agent Topology";
             this.newAgentTopologyToolStripMenuItem.Click += new System.EventHandler(this.newAgentTopologyToolStripMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(265, 6);
+            // 
+            // calculateBestPathToolStripMenuItem
+            // 
+            this.calculateBestPathToolStripMenuItem.Name = "calculateBestPathToolStripMenuItem";
+            this.calculateBestPathToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.calculateBestPathToolStripMenuItem.Text = "Calculate Best Path";
+            this.calculateBestPathToolStripMenuItem.Click += new System.EventHandler(this.calculateBestPathToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -541,6 +553,27 @@
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(204, 706);
             this.pnlControls.TabIndex = 0;
+            // 
+            // lblBestPathCost
+            // 
+            this.lblBestPathCost.AutoSize = true;
+            this.lblBestPathCost.ForeColor = System.Drawing.Color.White;
+            this.lblBestPathCost.Location = new System.Drawing.Point(131, 463);
+            this.lblBestPathCost.Name = "lblBestPathCost";
+            this.lblBestPathCost.Size = new System.Drawing.Size(53, 13);
+            this.lblBestPathCost.TabIndex = 54;
+            this.lblBestPathCost.Text = "Unknown";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(3, 462);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(98, 14);
+            this.label22.TabIndex = 53;
+            this.label22.Text = "Best path cost";
             // 
             // txtFitnessExplanation
             // 
@@ -921,7 +954,7 @@
             this.numGenerations.Size = new System.Drawing.Size(58, 20);
             this.numGenerations.TabIndex = 19;
             this.numGenerations.Value = new decimal(new int[] {
-            20,
+            25,
             0,
             0,
             0});
@@ -1065,39 +1098,6 @@
             this.lblExperimentName.Size = new System.Drawing.Size(115, 16);
             this.lblExperimentName.TabIndex = 0;
             this.lblExperimentName.Text = "No Experiment";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(3, 462);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(98, 14);
-            this.label22.TabIndex = 53;
-            this.label22.Text = "Best path cost";
-            // 
-            // lblBestPathCost
-            // 
-            this.lblBestPathCost.AutoSize = true;
-            this.lblBestPathCost.ForeColor = System.Drawing.Color.White;
-            this.lblBestPathCost.Location = new System.Drawing.Point(131, 463);
-            this.lblBestPathCost.Name = "lblBestPathCost";
-            this.lblBestPathCost.Size = new System.Drawing.Size(53, 13);
-            this.lblBestPathCost.TabIndex = 54;
-            this.lblBestPathCost.Text = "Unknown";
-            // 
-            // calculateBestPathToolStripMenuItem
-            // 
-            this.calculateBestPathToolStripMenuItem.Name = "calculateBestPathToolStripMenuItem";
-            this.calculateBestPathToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
-            this.calculateBestPathToolStripMenuItem.Text = "Calculate Best Path";
-            this.calculateBestPathToolStripMenuItem.Click += new System.EventHandler(this.calculateBestPathToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(265, 6);
             // 
             // MainWindow
             // 

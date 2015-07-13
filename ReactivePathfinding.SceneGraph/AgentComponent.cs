@@ -7,7 +7,8 @@ namespace ReactivePathfinding.SceneGraph
 {
     public class AgentComponent : SceneGraphComponent
     {
-        public static bool DEBUG_AGENT_UPDATE = false;
+        public static bool DEBUG_AGENT_UPDATE = false;        
+
         private Agent currentAgent;
 
         private WheelComponent leftWheel;
@@ -50,7 +51,7 @@ namespace ReactivePathfinding.SceneGraph
             float y = agentStartPosition.Y + rotatedSensorLocation.Y * currentAgent.CurrentExperiment.AgentRadius;
             float z = agentStartPosition.Z;
             if(!horizontal)
-                z = CurrentAgent.CurrentExperiment.CurrentHeightmap.GetHeight(x, y);
+                z = CurrentAgent.CurrentExperiment.CurrentHeightmap.GetSceneHeight(x, y);
 
             return new Vector3(x,y,z);
         }
@@ -102,7 +103,7 @@ namespace ReactivePathfinding.SceneGraph
                             Debug("Target" + targetindex.ToString() + ": intensity: " + i.ToString());
 
                             //do a line of sight test
-                            //sensors have a 90 degree horizontal field of view and 180 degree vertical field of view
+                            //target sensors have a 90 degree horizontal field of view and 180 degree vertical field of view
 
                             //get the angle between the sensor and the target
                             float target_theta = MathHelper.RadiansToDegrees((float)Math.Atan2(t.Position.Y - sensorPosition.Y, t.Position.X - sensorPosition.X));
@@ -128,9 +129,12 @@ namespace ReactivePathfinding.SceneGraph
                     else if(sensor.SensorType == SensorTypes.HEIGHTMAP_GRADIENT)
                     {                        
                         Vector3 sensorPosition = GetGlobalSensorPosition(startPosition, sensor,false);
-                        sensor.Input = sensorPosition.Z = startPosition.Z;
+                        sensor.Input = sensorPosition.Z - startPosition.Z;
+                        if (sensor.Input > 0) sensor.Input *= currentAgent.CurrentExperiment.SearchCostFunction.AscendingMultiplier;
+                        if (sensor.Input < 0) sensor.Input *= currentAgent.CurrentExperiment.SearchCostFunction.DescendingMultiplier;
+                        Debug(sensor.Name + ": input: " + sensor.Input.ToString());
                     }
-                }                                
+                }
 
                 //calculate the contribution to movement of the motors
                 float motors = 0;

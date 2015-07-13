@@ -13,10 +13,21 @@ namespace ReactivePathfinding.SceneGraph
     /// </summary>
     public class HeightmapComponent : SceneGraphComponent
     {                
-        private Heightmap map;        
+        private Heightmap map;
+        private AStarPath bestPath;
 
         //colours
-        private List<KeyValuePair<float, Vector4>> ColourTemplates;        
+        private List<KeyValuePair<float, Vector4>> ColourTemplates;
+
+        public AStarPath BestPath
+        {
+            get { return bestPath; }
+            set
+            { 
+                bestPath = value;
+                CreatePathRenderData();
+            }
+        }        
 
         public Heightmap Map
         {
@@ -25,6 +36,32 @@ namespace ReactivePathfinding.SceneGraph
             {
                 map = value;
                 CreateRenderData();
+            }
+        }
+
+        /// <summary>
+        /// Creates the necessary buffers to draw the best path
+        /// </summary>
+        private void CreatePathRenderData()
+        {
+            LineVertices = new float[bestPath.PathSize * 3];
+            LineColors = new float[bestPath.PathSize * 4];
+            LineIndices = new uint[bestPath.PathSize];
+
+            for(int i =0; i < bestPath.PathSize; i ++)
+            {
+                AStarNode n = bestPath.FinalPath[i];
+
+                LineVertices[3 * i + 0] = n.Position.X;
+                LineVertices[3 * i + 1] = n.Position.Y;
+                LineVertices[3 * i + 2] = n.Position.Z * MeshHelper.HEIGHT_EXAGGERATION_FACTOR;
+
+                //black lines
+                LineColors[3 * i + 0] = 0;
+                LineColors[3 * i + 1] = 0;
+                LineColors[3 * i + 2] = 0;
+
+                LineIndices[i] = (uint)i;
             }
         }
 
@@ -121,7 +158,7 @@ namespace ReactivePathfinding.SceneGraph
                 }
             }
 
-            RenderDataCreated = true;            
+            RenderDataCreated = true;
         }                
 
         public HeightmapComponent()

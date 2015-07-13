@@ -28,10 +28,10 @@ namespace ReactivePathfinding.Core
         public float Distance(AStarVector3 other)
         {
             float dx = other.X - this.X;
-            float dy = other.X - this.Y;
-            float dz = other.X - this.Z;
+            float dy = other.Y - this.Y;
+            float dz = other.Z - this.Z;
 
-            return (float)Math.Sqrt(dx * dx + dy * dy + dy * dz);
+            return (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
         }
     }
 }

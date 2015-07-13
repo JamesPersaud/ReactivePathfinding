@@ -42,6 +42,11 @@ namespace ReactivePathfinding.Core
             return values[i];
         }
 
+        public void SetGene(int i, float v)
+        {
+            values[i] = v;
+        }
+
         /// <summary>
         /// Replace the value at the specified position with a random float between 
         /// the lower and upper boundaries

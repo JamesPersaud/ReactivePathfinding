@@ -45,6 +45,9 @@ namespace ReactivePathfinding.Core
         /// </summary>
         public float GetPathCost(AStarCostFunction function)
         {
+            if (parent == null)
+                return 0;
+
             return function.GetCost(this, parent) + parent.GetPathCost(function);
         }
 

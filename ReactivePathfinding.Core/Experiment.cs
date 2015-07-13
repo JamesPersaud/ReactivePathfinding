@@ -70,6 +70,13 @@ namespace ReactivePathfinding.Core
 
         //pathfinding
         private AStarPath bestPath = null;
+        private AStarCostFunction searchCostFunction = null;
+
+        public AStarCostFunction SearchCostFunction
+        {
+            get { return searchCostFunction; }
+            set { searchCostFunction = value; }
+        }
 
         public AStarPath BestPath
         {
@@ -336,7 +343,7 @@ namespace ReactivePathfinding.Core
             get { return currentHeightmap; }
             set
             {
-                currentHeightmap = value;
+                currentHeightmap = value;                
             }
         }
 
@@ -358,6 +365,17 @@ namespace ReactivePathfinding.Core
         {
             if (currentGeneration != null)
                 currentGeneration.Update(stepPeriodSeconds);
+        }
+
+        /// <summary>
+        /// Ends the experiment
+        /// </summary>
+        public void EndExperiment()
+        {
+            if(currentGeneration != null)
+            {
+                previousGenerations.Add(currentGeneration);
+            }
         }
 
         /// <summary>
@@ -419,6 +437,154 @@ namespace ReactivePathfinding.Core
         public Experiment(string n, int seed)
         {
             Init(n, seed);
+        }
+
+        /// <summary>
+        /// Outputs a comma separated list of experimental parameters
+        /// </summary>
+        public string GetSettingsReport()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            //which settings are important?
+
+            //seed
+            //map seed
+            //map size
+            //map sample size
+            //octaves
+            //frequency
+            //lacunarity
+            //spectral exponent
+            //smoothness
+            //offset
+            //gain
+            //agent topology
+            //path cost multiplier
+            //path ascending multiplier
+            //path descending multiplier
+            //pop size
+            //generations
+            //elites
+            //crossover rate
+            //mutation rate
+            //mutation on selection
+            //mutation on crossover
+            //fitness function
+            //agent lifespan
+            //agent timeout
+            //start node
+            //end node
+            //best path cost            
+
+            sb.Append("seed,map seed,map size,map sample size,octaves,frequency,lacunarity,spectral exponent,smoothness,offset,gain," +
+                "agent topology,path cost multiplier,path ascending multiplier,path descending multiplier,pop size,generations,elites,crossover rate," +
+                "mutation rate,mutation on selection,mutation on crossover,fitness function,agent lifespan,agent timeout,best path cost,start node," +
+                "end node" + Environment.NewLine);
+
+            sb.Append(this.random.GetSeed().ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Seed.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.MapWidth.ToString() + ":" + currentHeightmap.Settings.MapHeight.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.SampleWidth.ToString() + ":" + currentHeightmap.Settings.SampleHeight.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Octaves.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Frequency.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Lacunarity.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Spectral.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Smooth.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Offset.ToString()); sb.Append(",");
+            sb.Append(this.currentHeightmap.Settings.Gain.ToString()); sb.Append(",");
+            sb.Append(this.CurrentAgentTopology.Name); sb.Append(",");
+            sb.Append(this.searchCostFunction.DistanceMultiplier.ToString()); sb.Append(",");
+            sb.Append(this.searchCostFunction.AscendingMultiplier.ToString()); sb.Append(",");
+            sb.Append(this.searchCostFunction.DescendingMultiplier.ToString()); sb.Append(",");
+            sb.Append(this.populationSize.ToString()); sb.Append(",");
+            sb.Append(this.previousGenerations.Count.ToString()); sb.Append(",");
+            sb.Append(this.elites.ToString()); sb.Append(",");
+            sb.Append(this.crossoverRate.ToString()); sb.Append(",");
+            sb.Append(this.mutationRate.ToString()); sb.Append(",");
+            sb.Append(this.mutateOnSelection.ToString()); sb.Append(",");
+            sb.Append(this.mutateDuringCrossover.ToString()); sb.Append(",");
+            sb.Append(this.currentFitnessFunction.Name.ToString()); sb.Append(",");
+            sb.Append(this.maxAgentLifetimeSeconds.ToString()); sb.Append(",");
+            sb.Append(this.agentFitnessImprovementTimeoutSeconds.ToString()); sb.Append(",");
+            sb.Append(this.currentStartpoint.Position.ToString()); sb.Append(",");
+            sb.Append(this.currentTarget.Position.ToString()); sb.Append(",");
+            sb.Append(this.bestPath.PathCost.ToString()); sb.Append(",");
+
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Outputs a comma separated list of fitness statistics from the experiment
+        /// </summary>
+        public string GetFitnessReport()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Generation,MaxFitness,MinFitness,AveFitness,SuccessfulAgents" + Environment.NewLine);
+
+            for(int i = 0 ; i < previousGenerations.Count; i++)
+            {
+                if (i > 0)
+                    sb.Append(Environment.NewLine);
+
+                Generation g = previousGenerations[i];
+
+                sb.Append(g.GenerationID.ToString());
+                sb.Append(",");
+                sb.Append(g.MaxFitness.ToString());
+                sb.Append(",");
+                sb.Append(g.MinFitness.ToString());
+                sb.Append(",");
+                sb.Append(g.AverageFitness.ToString());
+                sb.Append(",");
+                sb.Append(g.NumReachedTarget.ToString());                
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Outputs a comma separated list of agents from each generation
+        /// </summary>
+        public string GetAgentReport()
+        {
+            StringBuilder sb = new StringBuilder();
+            int genecount = CurrentAgentTopology.TemplateAgent.GenomeSize;
+
+            sb.Append("Generation,Name,");
+            for (int i = 0; i < genecount; i++)
+            {
+                if (i > 0)
+                    sb.Append(",");
+
+                sb.Append("Gene"+i.ToString());
+            }            
+
+            foreach(Generation g in previousGenerations)
+            {
+                for (int i = 0; i < g.Population.Count; i++ )
+                {                    
+                    sb.Append(Environment.NewLine);
+
+                    Agent a = g.Population[i];
+                    sb.Append(g.GenerationID.ToString());
+                    sb.Append(",");
+                    sb.Append(a.Name);
+                    sb.Append(",");
+
+                    for(int j = 0; j < a.WeightGenome.Size(); j++)
+                    {
+                        if (j > 0)
+                            sb.Append(",");
+
+                        sb.Append(a.WeightGenome.GetGene(j).ToString());
+                    }
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

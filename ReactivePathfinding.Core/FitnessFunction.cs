@@ -81,45 +81,20 @@ namespace ReactivePathfinding.Core
             {
                 return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent);
             };
-            functions.Add(f);
+            functions.Add(f);            
 
             f = new FitnessFunction();
             f.FunctionType = FitnessFunctionType.STANDARD;
-            f.name = "Target - path(0,0)";
-            f.explanation = "Fitness depends on closest approach to target + success factor + average speed - base cost of path";
+            f.name = "Target - Path";
+            f.explanation = "Fitness depends on (initial dist / closest approach) + success factor of (initial dist * 2) - (path cost/bestPath cost * initial dist.)";
             f.resolver = (agent) =>
             {
-                return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent) - CostOfPath(agent,0,0);
-            };
-            functions.Add(f);
+                float fitness = DistanceToTarget(agent) + ReachedTarget(agent);
 
-            f = new FitnessFunction();
-            f.FunctionType = FitnessFunctionType.STANDARD;
-            f.name = "Target - path(1,0)";
-            f.explanation = "Fitness depends on closest approach to target + success factor + average speed - (base cost of path + cost of ascending movement * 1)";
-            f.resolver = (agent) =>
-            {
-                return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent) - CostOfPath(agent, 1, 0);
-            };
-            functions.Add(f);
+                if (agent.ReachedTarget)
+                    fitness -= CostOfPath(agent, agent.CurrentExperiment.SearchCostFunction.AscendingMultiplier, agent.CurrentExperiment.SearchCostFunction.DescendingMultiplier);
 
-            f = new FitnessFunction();
-            f.FunctionType = FitnessFunctionType.STANDARD;
-            f.name = "Target - path(0,1)";
-            f.explanation = "Fitness depends on closest approach to target + success factor + average speed - (base cost of path + cost of descending movement * 1)";
-            f.resolver = (agent) =>
-            {
-                return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent) - CostOfPath(agent, 0, 1);
-            };
-            functions.Add(f);
-
-            f = new FitnessFunction();
-            f.FunctionType = FitnessFunctionType.STANDARD;
-            f.name = "Target - path(1,1)";
-            f.explanation = "Fitness depends on closest approach to target + success factor + average speed - (base cost of path + cost of descending movement * 1 + cost of ascending movement * 1)";
-            f.resolver = (agent) =>
-            {
-                return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent) - CostOfPath(agent, 1, 1);
+                return fitness;
             };
             functions.Add(f);     
 
@@ -165,14 +140,19 @@ namespace ReactivePathfinding.Core
 
         /// <summary>
         /// The total cost of the path including adjustment to penalize height changes
+        /// 
+        /// The value is returned as a proportion of the best path cost, multiplied by the initial target distance
+        /// 
         /// </summary>
         public static float CostOfPath(Agent a, int penalizeAscending, int penalizeDescending)
         {
             float cost = a.TotalDistance;
-            cost += penalizeDescending * a.TotalDescending;            
+            cost += penalizeDescending * a.TotalDescending;
             cost += penalizeAscending * a.TotalAscending;
 
-            return cost;
+            cost = cost / a.CurrentExperiment.BestPath.PathCost;
+
+            return cost * a.InitialTargetDistance;
         }
     }    
 

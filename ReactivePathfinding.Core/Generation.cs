@@ -12,6 +12,7 @@ namespace ReactivePathfinding.Core
     public class Generation
     {
         public static bool DEBUG_EVOLUTION = false;
+        public static bool DEBUG_CHEAT_HEIGHT_SENSORS = false;
 
         private Experiment currentExperiment;        
         private List<Agent> population;        
@@ -283,7 +284,7 @@ namespace ReactivePathfinding.Core
         private void Evolve()
         {            
             previousGeneration.population.Sort();
-            List<Genome> genepool = new List<Genome>();            
+            List<Genome> genepool = new List<Genome>();       
             List<Genome> nextGenerationGenomes = new List<Genome>();            
             int popcount = previousGeneration.population.Count;
             float totalFitness =0;
@@ -419,11 +420,38 @@ namespace ReactivePathfinding.Core
             {
                 Agent a = currentExperiment.CurrentAgentTopology.GetAgentFromTemplate();
                 a.Name = "Agent " + i.ToString();
-                a.CurrentExperiment = currentExperiment;                
+                a.CurrentExperiment = currentExperiment;
+
+                if (DEBUG_CHEAT_HEIGHT_SENSORS && nextGenerationGenomes[i].Size() > 16)
+                {
+                    //to debug the height sensors of an agent where the last 8 genes correspond to height sensor connection weights
+
+                    //frontleft to left - turn more if high                    
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(16, 1);
+                    //frontleft to right - turn less if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(17, 0);
+
+                    //frontright to left - turn less if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(18, 0);
+                    //frontright to right - turn more if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(19, 1);
+
+                    //rearleft to left - turn more if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(20, 1);
+                    //rearleft to right - turn less if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(21, 0);
+
+                    //rearright to left - turn less if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(22, 0);
+                    //rearright to right - turn more if high
+                    ((BoundaryFloatGenome)nextGenerationGenomes[i]).SetGene(23,1);
+
+                }
                 a.WeightGenome = (BoundaryFloatGenome)nextGenerationGenomes[i];
+
                 population.Add(a);
             }
-        }
+        }        
 
         /// <summary>
         /// Evolve a sibsequent generation from this generation

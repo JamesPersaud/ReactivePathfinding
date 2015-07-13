@@ -15,8 +15,8 @@ namespace ReactivePathfinding.Core
         private static int[] adjacency_x = new int[] {-1,  0,  1, -1, 1, -1, 0, 1};
         private static int[] adjacency_y = new int[] {-1, -1, -1,  0, 0,  1, 1, 1};
 
-        private AStarNode[,] nodes;        
-        private Heightmap currentHeightmap = new Heightmap();
+        private AStarNode[,] nodes;
+        private Heightmap currentHeightmap = null;
 
         public Heightmap CurrentHeightmap
         {
@@ -35,6 +35,7 @@ namespace ReactivePathfinding.Core
         /// </summary>        
         public AStarGraph(Heightmap map)
         {
+            currentHeightmap = map;
             int width = map.Settings.MapWidth;
             int height = map.Settings.MapHeight;
 
@@ -54,7 +55,7 @@ namespace ReactivePathfinding.Core
                     for(int i = 0; i < adjacency_x.Length ; i++)
                     {
                         int ax = x + adjacency_x[i];
-                        int ay = x + adjacency_y[i];
+                        int ay = y + adjacency_y[i];
 
                         if(ax >= 0 && ay >=0 && ax < width && ay < height)
                         {

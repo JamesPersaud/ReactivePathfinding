@@ -64,7 +64,7 @@
             // btnOk
             // 
             this.btnOk.Enabled = false;
-            this.btnOk.Location = new System.Drawing.Point(407, 581);
+            this.btnOk.Location = new System.Drawing.Point(406, 822);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -74,7 +74,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(326, 581);
+            this.btnCancel.Location = new System.Drawing.Point(325, 822);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -293,21 +293,21 @@
             this.lstSensors.FormattingEnabled = true;
             this.lstSensors.Location = new System.Drawing.Point(15, 267);
             this.lstSensors.Name = "lstSensors";
-            this.lstSensors.Size = new System.Drawing.Size(467, 121);
+            this.lstSensors.Size = new System.Drawing.Size(467, 212);
             this.lstSensors.TabIndex = 8;
             // 
             // lstConnections
             // 
             this.lstConnections.FormattingEnabled = true;
-            this.lstConnections.Location = new System.Drawing.Point(15, 407);
+            this.lstConnections.Location = new System.Drawing.Point(14, 499);
             this.lstConnections.Name = "lstConnections";
-            this.lstConnections.Size = new System.Drawing.Size(467, 160);
+            this.lstConnections.Size = new System.Drawing.Size(467, 316);
             this.lstConnections.TabIndex = 9;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 391);
+            this.label3.Location = new System.Drawing.Point(23, 483);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 10;
@@ -324,7 +324,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(15, 581);
+            this.button1.Location = new System.Drawing.Point(14, 822);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
@@ -334,7 +334,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(96, 581);
+            this.btnReset.Location = new System.Drawing.Point(95, 822);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 13;
@@ -346,7 +346,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 616);
+            this.ClientSize = new System.Drawing.Size(494, 857);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label4);

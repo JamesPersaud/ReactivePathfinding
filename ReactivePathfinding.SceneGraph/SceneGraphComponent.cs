@@ -18,10 +18,59 @@ namespace ReactivePathfinding.SceneGraph
         protected float[] vertices;
         protected uint[] triangles;
         private bool renderDataCreated = false;
+        private float[] lineVertices = null;
+        private float[] lineColors = null;
+        private uint[] lineIndices = null;
+        private float lineThickness = 10;
+        private ushort lineStipple = 43690; // (Creates the line pattern corresponding to binary 1010101010101010)
+        private int lineStippleFactor = 1;
+        private bool lineDrawing = false;        
 
         //render settings
         private PolygonMode polyMode = PolygonMode.Line;
         private MaterialFace materialFace = MaterialFace.FrontAndBack;
+
+        public bool LineDrawing
+        {
+            get { return lineDrawing; }
+            set { lineDrawing = value; }
+        }
+
+        public int LineStippleFactor
+        {
+            get { return lineStippleFactor; }
+            set { lineStippleFactor = value; }
+        }
+
+        public ushort LineStipple
+        {
+            get { return lineStipple; }
+            set { lineStipple = value; }
+        }
+
+        public float LineThickness
+        {
+            get { return lineThickness; }
+            set { lineThickness = value; }
+        }
+
+        public uint[] LineIndices
+        {
+            get { return lineIndices; }
+            set { lineIndices = value; }
+        }
+
+        public float[] LineColors
+        {
+            get { return lineColors; }
+            set { lineColors = value; }
+        }
+
+        public float[] LineVertices
+        {
+            get { return lineVertices; }
+            set { lineVertices = value; }
+        }
 
         public float X
         {
@@ -150,10 +199,27 @@ namespace ReactivePathfinding.SceneGraph
                 Matrix4 translate = this.GetCopyOfTransform();
                 GL.MultMatrix(ref translate);
 
+                if (lineDrawing)
+                {
+                    lineDrawing = false;
+                    GL.LineWidth(1);
+                    GL.LineStipple(ushort.MaxValue, 1);
+                }
+
                 GL.PolygonMode(this.materialFace, this.polyMode);
                 GL.VertexPointer(3, VertexPointerType.Float, 0, Vertices);
                 GL.ColorPointer(4, ColorPointerType.Float, 0, Colors);
-                GL.DrawElements(BeginMode.Triangles, Triangles.Length, DrawElementsType.UnsignedInt, Triangles);                
+                GL.DrawElements(BeginMode.Triangles, Triangles.Length, DrawElementsType.UnsignedInt, Triangles);
+
+                if(lineVertices != null)
+                {
+                    lineDrawing = true;
+                    GL.LineWidth(lineThickness);
+                    GL.LineStipple(lineStippleFactor, LineStipple);
+                    GL.VertexPointer(3, VertexPointerType.Float, 0, lineVertices);
+                    GL.ColorPointer(4, ColorPointerType.Float, 0, lineColors);
+                    GL.DrawElements(BeginMode.LineStrip, lineIndices.Length, DrawElementsType.UnsignedInt, lineIndices);                    
+                }
             }
         }
 
