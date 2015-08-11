@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    public enum CrossoverTypes
+    {
+        SINGLE_POINT,
+        ARITHMETICAL
+    }
+
     /// <summary>
     /// Base class for genomes - contains common code, specifies required methods and contains helper methods
     /// 
@@ -52,7 +58,7 @@ namespace ReactivePathfinding.Core
         /// <summary>
         /// Single point crossover if the crossover condition is met
         /// </summary>        
-        public virtual bool Crossover(int threshold, int min, int max, Genome other)
+        public virtual bool Crossover(int threshold, int min, int max, Genome other, CrossoverTypes type)
         {
             int result = rng.GetInt(min, max);
 
@@ -61,7 +67,11 @@ namespace ReactivePathfinding.Core
 
             if(result <= threshold)
             {
-                DoCrossover(rng.GetInt(0, Size() - 1), other);
+                if (type == CrossoverTypes.SINGLE_POINT)
+                    DoCrossover(rng.GetInt(0, Size() - 1), other);
+                else
+                    DoArithmeticalCrossover(other);
+
                 return true;
             }
             return false;
@@ -101,6 +111,7 @@ namespace ReactivePathfinding.Core
         public abstract int Size();
         protected abstract void DoMutation(int position);
         protected abstract void DoCrossover(int position, Genome other);
+        protected abstract void DoArithmeticalCrossover(Genome other);
         public abstract Genome Clone();
         public abstract Genome Clone(Experiment ex);
 

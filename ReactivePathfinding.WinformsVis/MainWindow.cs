@@ -401,7 +401,7 @@ namespace ReactivePathfinding.WinformsVis
 
             Logging.Instance.Log("crossing over");            
 
-            genome3.Crossover(0, 0, 1, genome4);
+            genome3.Crossover(0, 0, 1, genome4, CrossoverTypes.SINGLE_POINT);
 
             Logging.Instance.Log(genome1.ToString());
             Logging.Instance.Log(genome2.ToString());
@@ -535,6 +535,7 @@ namespace ReactivePathfinding.WinformsVis
 
                 chkMutCross.Checked = currentExperiment.MutateDuringCrossover;
                 chkMutSelect.Checked = currentExperiment.MutateOnSelection;
+                chkArithCross.Checked = currentExperiment.CrossoverType == CrossoverTypes.ARITHMETICAL;
 
                 ddlFitness.SelectedItem = currentExperiment.CurrentFitnessFunction;
 
@@ -1161,6 +1162,14 @@ namespace ReactivePathfinding.WinformsVis
             currentExperiment.MutationRate = (int)numMutation.Value;
         }
 
+        private void chkArithCross_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkArithCross.Checked)
+                currentExperiment.CrossoverType = CrossoverTypes.ARITHMETICAL;
+            else
+                currentExperiment.CrossoverType = CrossoverTypes.SINGLE_POINT;
+        }
+
         private void chkMutSelect_CheckedChanged(object sender, EventArgs e)
         {
             currentExperiment.MutateOnSelection = chkMutSelect.Checked;
@@ -1259,7 +1268,7 @@ namespace ReactivePathfinding.WinformsVis
             File.WriteAllText(fitnessFile, currentExperiment.GetFitnessReport());
             File.WriteAllText(agentsFile, currentExperiment.GetAgentReport());
             File.WriteAllText(paramsFile, currentExperiment.GetSettingsReport());
-        }
+        }        
     }
 }
 

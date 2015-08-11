@@ -118,6 +118,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblExperimentFilename = new System.Windows.Forms.Label();
             this.lblExperimentName = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.chkArithCross = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
             this.MainViewContainer.Panel1.SuspendLayout();
@@ -499,6 +501,8 @@
             // pnlControls
             // 
             this.pnlControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.pnlControls.Controls.Add(this.chkArithCross);
+            this.pnlControls.Controls.Add(this.label23);
             this.pnlControls.Controls.Add(this.lblBestPathCost);
             this.pnlControls.Controls.Add(this.label22);
             this.pnlControls.Controls.Add(this.txtFitnessExplanation);
@@ -558,7 +562,7 @@
             // 
             this.lblBestPathCost.AutoSize = true;
             this.lblBestPathCost.ForeColor = System.Drawing.Color.White;
-            this.lblBestPathCost.Location = new System.Drawing.Point(131, 463);
+            this.lblBestPathCost.Location = new System.Drawing.Point(131, 480);
             this.lblBestPathCost.Name = "lblBestPathCost";
             this.lblBestPathCost.Size = new System.Drawing.Size(53, 13);
             this.lblBestPathCost.TabIndex = 54;
@@ -569,7 +573,7 @@
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(3, 462);
+            this.label22.Location = new System.Drawing.Point(3, 479);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(98, 14);
             this.label22.TabIndex = 53;
@@ -579,18 +583,18 @@
             // 
             this.txtFitnessExplanation.BackColor = System.Drawing.Color.Black;
             this.txtFitnessExplanation.ForeColor = System.Drawing.Color.White;
-            this.txtFitnessExplanation.Location = new System.Drawing.Point(6, 317);
+            this.txtFitnessExplanation.Location = new System.Drawing.Point(6, 336);
             this.txtFitnessExplanation.Multiline = true;
             this.txtFitnessExplanation.Name = "txtFitnessExplanation";
             this.txtFitnessExplanation.ReadOnly = true;
-            this.txtFitnessExplanation.Size = new System.Drawing.Size(186, 83);
+            this.txtFitnessExplanation.Size = new System.Drawing.Size(186, 81);
             this.txtFitnessExplanation.TabIndex = 52;
             // 
             // lblBestAvg
             // 
             this.lblBestAvg.AutoSize = true;
             this.lblBestAvg.ForeColor = System.Drawing.Color.White;
-            this.lblBestAvg.Location = new System.Drawing.Point(132, 665);
+            this.lblBestAvg.Location = new System.Drawing.Point(132, 682);
             this.lblBestAvg.Name = "lblBestAvg";
             this.lblBestAvg.Size = new System.Drawing.Size(13, 13);
             this.lblBestAvg.TabIndex = 51;
@@ -600,7 +604,7 @@
             // 
             this.lblBestMax.AutoSize = true;
             this.lblBestMax.ForeColor = System.Drawing.Color.White;
-            this.lblBestMax.Location = new System.Drawing.Point(132, 651);
+            this.lblBestMax.Location = new System.Drawing.Point(132, 668);
             this.lblBestMax.Name = "lblBestMax";
             this.lblBestMax.Size = new System.Drawing.Size(13, 13);
             this.lblBestMax.TabIndex = 50;
@@ -610,7 +614,7 @@
             // 
             this.lblBestMin.AutoSize = true;
             this.lblBestMin.ForeColor = System.Drawing.Color.White;
-            this.lblBestMin.Location = new System.Drawing.Point(132, 637);
+            this.lblBestMin.Location = new System.Drawing.Point(132, 654);
             this.lblBestMin.Name = "lblBestMin";
             this.lblBestMin.Size = new System.Drawing.Size(13, 13);
             this.lblBestMin.TabIndex = 49;
@@ -620,7 +624,7 @@
             // 
             this.lblGenAvg.AutoSize = true;
             this.lblGenAvg.ForeColor = System.Drawing.Color.White;
-            this.lblGenAvg.Location = new System.Drawing.Point(132, 614);
+            this.lblGenAvg.Location = new System.Drawing.Point(132, 631);
             this.lblGenAvg.Name = "lblGenAvg";
             this.lblGenAvg.Size = new System.Drawing.Size(13, 13);
             this.lblGenAvg.TabIndex = 48;
@@ -630,7 +634,7 @@
             // 
             this.lblGenMax.AutoSize = true;
             this.lblGenMax.ForeColor = System.Drawing.Color.White;
-            this.lblGenMax.Location = new System.Drawing.Point(132, 600);
+            this.lblGenMax.Location = new System.Drawing.Point(132, 617);
             this.lblGenMax.Name = "lblGenMax";
             this.lblGenMax.Size = new System.Drawing.Size(13, 13);
             this.lblGenMax.TabIndex = 47;
@@ -640,7 +644,7 @@
             // 
             this.lblGenMin.AutoSize = true;
             this.lblGenMin.ForeColor = System.Drawing.Color.White;
-            this.lblGenMin.Location = new System.Drawing.Point(132, 586);
+            this.lblGenMin.Location = new System.Drawing.Point(132, 603);
             this.lblGenMin.Name = "lblGenMin";
             this.lblGenMin.Size = new System.Drawing.Size(13, 13);
             this.lblGenMin.TabIndex = 46;
@@ -650,7 +654,7 @@
             // 
             this.lblGenWon.AutoSize = true;
             this.lblGenWon.ForeColor = System.Drawing.Color.White;
-            this.lblGenWon.Location = new System.Drawing.Point(132, 561);
+            this.lblGenWon.Location = new System.Drawing.Point(132, 578);
             this.lblGenWon.Name = "lblGenWon";
             this.lblGenWon.Size = new System.Drawing.Size(13, 13);
             this.lblGenWon.TabIndex = 45;
@@ -660,7 +664,7 @@
             // 
             this.lblGenExp.AutoSize = true;
             this.lblGenExp.ForeColor = System.Drawing.Color.White;
-            this.lblGenExp.Location = new System.Drawing.Point(132, 547);
+            this.lblGenExp.Location = new System.Drawing.Point(132, 564);
             this.lblGenExp.Name = "lblGenExp";
             this.lblGenExp.Size = new System.Drawing.Size(13, 13);
             this.lblGenExp.TabIndex = 44;
@@ -670,7 +674,7 @@
             // 
             this.lblGenAct.AutoSize = true;
             this.lblGenAct.ForeColor = System.Drawing.Color.White;
-            this.lblGenAct.Location = new System.Drawing.Point(132, 533);
+            this.lblGenAct.Location = new System.Drawing.Point(132, 550);
             this.lblGenAct.Name = "lblGenAct";
             this.lblGenAct.Size = new System.Drawing.Size(13, 13);
             this.lblGenAct.TabIndex = 43;
@@ -680,7 +684,7 @@
             // 
             this.lblGenAge.AutoSize = true;
             this.lblGenAge.ForeColor = System.Drawing.Color.White;
-            this.lblGenAge.Location = new System.Drawing.Point(132, 509);
+            this.lblGenAge.Location = new System.Drawing.Point(132, 526);
             this.lblGenAge.Name = "lblGenAge";
             this.lblGenAge.Size = new System.Drawing.Size(13, 13);
             this.lblGenAge.TabIndex = 42;
@@ -691,7 +695,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(3, 664);
+            this.label21.Location = new System.Drawing.Point(3, 681);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(66, 14);
             this.label21.TabIndex = 41;
@@ -702,7 +706,7 @@
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(3, 650);
+            this.label20.Location = new System.Drawing.Point(3, 667);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(69, 14);
             this.label20.TabIndex = 40;
@@ -713,7 +717,7 @@
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(3, 636);
+            this.label19.Location = new System.Drawing.Point(3, 653);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(65, 14);
             this.label19.TabIndex = 39;
@@ -724,7 +728,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(3, 613);
+            this.label18.Location = new System.Drawing.Point(3, 630);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(80, 14);
             this.label18.TabIndex = 38;
@@ -735,7 +739,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(3, 599);
+            this.label17.Location = new System.Drawing.Point(3, 616);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(82, 14);
             this.label17.TabIndex = 37;
@@ -743,7 +747,7 @@
             // 
             // numtimeout
             // 
-            this.numtimeout.Location = new System.Drawing.Point(134, 431);
+            this.numtimeout.Location = new System.Drawing.Point(134, 448);
             this.numtimeout.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -768,7 +772,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(3, 585);
+            this.label16.Location = new System.Drawing.Point(3, 602);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(78, 14);
             this.label16.TabIndex = 36;
@@ -776,7 +780,7 @@
             // 
             // numLifetime
             // 
-            this.numLifetime.Location = new System.Drawing.Point(134, 406);
+            this.numLifetime.Location = new System.Drawing.Point(134, 423);
             this.numLifetime.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -802,7 +806,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(3, 560);
+            this.label15.Location = new System.Drawing.Point(3, 577);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(104, 14);
             this.label15.TabIndex = 35;
@@ -813,7 +817,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(3, 432);
+            this.label12.Location = new System.Drawing.Point(3, 449);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(98, 14);
             this.label12.TabIndex = 29;
@@ -824,7 +828,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(3, 546);
+            this.label14.Location = new System.Drawing.Point(3, 563);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(54, 14);
             this.label14.TabIndex = 34;
@@ -835,7 +839,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(3, 407);
+            this.label7.Location = new System.Drawing.Point(3, 424);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(101, 14);
             this.label7.TabIndex = 28;
@@ -846,7 +850,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(3, 532);
+            this.label13.Location = new System.Drawing.Point(3, 549);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(44, 14);
             this.label13.TabIndex = 33;
@@ -856,7 +860,7 @@
             // 
             this.lblGeneration.AutoSize = true;
             this.lblGeneration.ForeColor = System.Drawing.Color.White;
-            this.lblGeneration.Location = new System.Drawing.Point(132, 496);
+            this.lblGeneration.Location = new System.Drawing.Point(132, 513);
             this.lblGeneration.Name = "lblGeneration";
             this.lblGeneration.Size = new System.Drawing.Size(13, 13);
             this.lblGeneration.TabIndex = 27;
@@ -867,7 +871,7 @@
             this.lblGenerationAgelbl.AutoSize = true;
             this.lblGenerationAgelbl.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGenerationAgelbl.ForeColor = System.Drawing.Color.White;
-            this.lblGenerationAgelbl.Location = new System.Drawing.Point(3, 509);
+            this.lblGenerationAgelbl.Location = new System.Drawing.Point(3, 526);
             this.lblGenerationAgelbl.Name = "lblGenerationAgelbl";
             this.lblGenerationAgelbl.Size = new System.Drawing.Size(31, 14);
             this.lblGenerationAgelbl.TabIndex = 32;
@@ -878,7 +882,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(3, 495);
+            this.label11.Location = new System.Drawing.Point(3, 512);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(77, 14);
             this.label11.TabIndex = 26;
@@ -963,7 +967,7 @@
             // 
             this.ddlFitness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlFitness.FormattingEnabled = true;
-            this.ddlFitness.Location = new System.Drawing.Point(6, 290);
+            this.ddlFitness.Location = new System.Drawing.Point(6, 309);
             this.ddlFitness.Name = "ddlFitness";
             this.ddlFitness.Size = new System.Drawing.Size(187, 21);
             this.ddlFitness.TabIndex = 17;
@@ -1016,7 +1020,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(3, 273);
+            this.label6.Location = new System.Drawing.Point(3, 292);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 14);
             this.label6.TabIndex = 9;
@@ -1098,6 +1102,27 @@
             this.lblExperimentName.Size = new System.Drawing.Size(115, 16);
             this.lblExperimentName.TabIndex = 0;
             this.lblExperimentName.Text = "No Experiment";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(3, 270);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(121, 14);
+            this.label23.TabIndex = 55;
+            this.label23.Text = "Arithmetical cross.";
+            // 
+            // chkArithCross
+            // 
+            this.chkArithCross.AutoSize = true;
+            this.chkArithCross.Location = new System.Drawing.Point(135, 271);
+            this.chkArithCross.Name = "chkArithCross";
+            this.chkArithCross.Size = new System.Drawing.Size(15, 14);
+            this.chkArithCross.TabIndex = 56;
+            this.chkArithCross.UseVisualStyleBackColor = true;
+            this.chkArithCross.CheckedChanged += new System.EventHandler(this.chkArithCross_CheckedChanged);
             // 
             // MainWindow
             // 
@@ -1232,6 +1257,8 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem calculateBestPathToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkArithCross;
+        private System.Windows.Forms.Label label23;
     }
 }
 

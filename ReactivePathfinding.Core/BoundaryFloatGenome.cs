@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
-{
+{    
     /// <summary>
     /// Represents a genome where the genes are floating point numbers with a commmon boundary
     /// </summary>
@@ -13,7 +13,7 @@ namespace ReactivePathfinding.Core
     {        
         private List<float> values;        
         private float upperBoundary;
-        private float lowerBoundary;
+        private float lowerBoundary;        
 
         public float LowerBoundary
         {
@@ -65,10 +65,49 @@ namespace ReactivePathfinding.Core
         protected override void DoCrossover(int position, Genome other)
         {
             if (DEBUG_CROSSOVER)
-                Logging.Instance.Log(this.name + " crossing over with "+other.Name+" at point " + position.ToString());
+                Logging.Instance.Log(this.name + " crossing over with "+other.Name+" at point " + position.ToString());            
 
-            Genome.CrossLists<float>(this.values, ((BoundaryFloatGenome)other).values,position);
-        }        
+            Genome.CrossLists<float>(this.values, ((BoundaryFloatGenome)other).values, position);                                  
+        }
+
+        /// <summary>
+        /// Arithmetical crossover - results in two identical children
+        /// </summary>        
+        protected override void DoArithmeticalCrossover(Genome other)
+        {
+            if (DEBUG_CROSSOVER)
+                Logging.Instance.Log(this.name + " crossing over with " + other.Name + " Arithmetically");
+
+            BoundaryFloatGenome b = (BoundaryFloatGenome)other.Clone();
+            float beta = rng.GetFloat();
+            this.ScalarMultiply(beta);
+            b.ScalarMultiply(1 - beta);
+            this.Add(b);
+
+            other = this.Clone();
+        }
+
+        /// <summary>
+        /// Multiplies each gene by the same given value - analogous to scalar multiplication of a vector
+        /// </summary>        
+        public void ScalarMultiply(float f)
+        {
+            for (int i = 0; i < values.Count; i++)
+            {
+                values[i] = values[i] * f;
+            }
+        }
+
+        /// <summary>
+        /// Adds the value of each element in another genome other to each corresponding element in this genome - analogous to vector addition
+        /// </summary>        
+        public void Add(BoundaryFloatGenome other)
+        {
+            for (int i = 0; i < values.Count; i++)
+            {
+                this.values[i] = this.values[i] + other.values[i];
+            }
+        }
 
         /// <summary>
         /// Copy this genome - for use as a child or in the gene pool
@@ -122,7 +161,7 @@ namespace ReactivePathfinding.Core
                     values.Add(rng.GetFloat(lowerBoundary, upperBoundary));
                 else
                     values.Add(lowerbound);
-            }
+            }            
         }
 
         /// <summary>
@@ -141,7 +180,7 @@ namespace ReactivePathfinding.Core
             this.rng = other.rng;
 
             lowerBoundary = other.lowerBoundary;
-            upperBoundary = other.upperBoundary;
+            upperBoundary = other.upperBoundary;            
 
             values = new List<float>();
 

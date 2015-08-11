@@ -37,6 +37,7 @@ namespace ReactivePathfinding.Core
         private int elites = 0;
         private bool mutateOnSelection = true;
         private bool mutateDuringCrossover = true;
+        private CrossoverTypes crossoverType = CrossoverTypes.SINGLE_POINT;
 
         //generations
         private int generationIndex = 0;
@@ -71,6 +72,12 @@ namespace ReactivePathfinding.Core
         //pathfinding
         private AStarPath bestPath = null;
         private AStarCostFunction searchCostFunction = null;
+
+        public CrossoverTypes CrossoverType
+        {
+            get { return crossoverType; }
+            set { crossoverType = value; }
+        }
 
         public AStarCostFunction SearchCostFunction
         {

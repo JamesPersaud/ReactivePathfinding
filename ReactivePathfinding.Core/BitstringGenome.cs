@@ -27,6 +27,11 @@ namespace ReactivePathfinding.Core
             throw new NotImplementedException();
         }
 
+        protected override void DoArithmeticalCrossover(Genome other)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Genome Clone()
         {
             throw new NotImplementedException();

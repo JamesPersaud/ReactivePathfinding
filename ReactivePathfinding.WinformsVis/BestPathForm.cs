@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReactivePathfinding.Core;
+using System.Diagnostics;
 
 namespace ReactivePathfinding.WinformsVis
 {
@@ -48,9 +49,15 @@ namespace ReactivePathfinding.WinformsVis
                 cost.DescendingMultiplier = (int)this.numDown.Value;
 
                 AStarGraph graph = new AStarGraph(CurrentExperiment.CurrentHeightmap);
+
+                //debug time to create astar path
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 AStarPath path = new AStarPath(graph,
                     new AStarVector3(start.Position.X, start.Position.Y, start.Position.Z),
                     new AStarVector3(end.Position.X, end.Position.Y, end.Position.Z), cost);
+                watch.Stop();
+                Logging.Instance.Log("AStar computied in " + watch.ElapsedMilliseconds.ToString() + " ms");
 
                 CurrentExperiment.SearchCostFunction = cost;
                 CurrentExperiment.BestPath = path;

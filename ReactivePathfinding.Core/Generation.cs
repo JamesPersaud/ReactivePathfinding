@@ -384,7 +384,7 @@ namespace ReactivePathfinding.Core
 
                 Debug("Pair " + i.ToString() + " : " + c1.ToString() + " ; " +(i+1).ToString() + " : " + c2.ToString());
 
-                bool crossed = c1.Crossover(currentExperiment.CrossoverRate, 0, 100, c2);
+                bool crossed = c1.Crossover(currentExperiment.CrossoverRate, 0, 100, c2, currentExperiment.CrossoverType);
 
                 if (crossed)
                     Debug("Crossed to " + i.ToString() + " : " + c1.ToString() + " ; " + (i + 1).ToString() + " : " + c2.ToString());

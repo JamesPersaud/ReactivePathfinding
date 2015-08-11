@@ -12,11 +12,24 @@ namespace ReactivePathfinding.Core
         private List<AStarNode> edges = new List<AStarNode>();        
         private float heuristic;
         private AStarNode parent;
+        private float cachedPathCost;
+        private bool pathCached = false;
+
+        public bool PathCached
+        {
+            get { return pathCached; }
+            set { pathCached = value; }
+        }
 
         public AStarNode Parent
         {
             get { return parent; }
-            set { parent = value; }
+            
+            set
+            {
+                parent = value;
+                ResetPathCost();
+            }
         }
 
         /// <summary>
@@ -40,6 +53,12 @@ namespace ReactivePathfinding.Core
             set { edges = value; }
         }
 
+        public void ResetPathCost()
+        {
+            cachedPathCost = 0;
+            pathCached = false;
+        }
+
         /// <summary>
         /// Get the total cost of moving to this node through the entire path
         /// </summary>
@@ -47,8 +66,14 @@ namespace ReactivePathfinding.Core
         {
             if (parent == null)
                 return 0;
+            
+            if (!PathCached)
+            {
+                cachedPathCost = function.GetCost(this, parent) + parent.GetPathCost(function);
+                pathCached = true;
+            }
 
-            return function.GetCost(this, parent) + parent.GetPathCost(function);
+            return cachedPathCost;
         }
 
         /// <summary>

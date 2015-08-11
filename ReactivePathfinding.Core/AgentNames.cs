@@ -13,8 +13,8 @@ namespace ReactivePathfinding.Core
     /// </summary>
     public class AgentNames
     {
-        public static string[] firstnames = new string[] { "Gregor","Charles","Edsger","Isaac", "Jean-Baptiste", "Ken", "Joseph","Valentino","Marvin", "Frank", "Patrick", "John"};
-        public static string[] lastnames = new string[] { "Mendel", "Darwin", "Dijkstra", "Asimov","Lamarck", "Perlin", "Kruskal","Braitenberg", "Minsky", "Rosenblatt", "Hayes", "Searle"};
+        public static string[] firstnames = new string[] { "Gregor","Charles","Edsger","Isaac", "Jean-Baptiste", "Ken", "Joseph","Valentino","Marvin", "Frank", "Patrick", "John","Hugo","James","Francis","Maurice","Rosalind","Alan"};
+        public static string[] lastnames = new string[] { "Mendel", "Darwin", "Dijkstra", "Asimov","Lamarck", "Perlin", "Kruskal","Braitenberg", "Minsky", "Rosenblatt", "Hayes", "Searle","de Vries","Watson","Crick","Wilkins","Franklin","Turing"};
         public static string[] ordinals = new string[] { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX" };
 
         /// <summary>

@@ -88,7 +88,7 @@ namespace ReactivePathfinding.Core
         /// construct a new path from one node to another in a given graph using a given cost function
         /// </summary>        
         public AStarPath(AStarGraph gr, AStarVector3 start, AStarVector3 end, AStarCostFunction func)
-        {
+        {            
             //the heuristic should be the actual cost of moving square by square in a manhattan way to the target?
 
             graph = gr;
@@ -164,9 +164,9 @@ namespace ReactivePathfinding.Core
                     }
                     else if (openList.Contains(n))
                     {
-                        AStarNode currentParent = n.Parent;
+                        AStarNode currentParent = n.Parent;                        
                         float currentScore = n.GetPathCost(costFunction);
-                        n.Parent = best;
+                        n.Parent = best;                        
                         if (n.GetPathCost(costFunction) >= currentScore)
                         {
                             n.Parent = currentParent;
