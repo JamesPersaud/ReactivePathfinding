@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
-{    
+{
+    [Serializable]
     public enum MotorTypes
     {
         LEFT,RIGHT
@@ -17,6 +18,7 @@ namespace ReactivePathfinding.Core
     /// An equal force acts to propel the agent in the opposite direction from which the motor faces.
     /// 
     /// </summary>
+    [Serializable]
     public class MotorActuator : Actuator
     {
         private MotorTypes motorType;

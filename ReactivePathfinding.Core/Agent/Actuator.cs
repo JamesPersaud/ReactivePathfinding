@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum ActivationFunctionTypes
     {
         SUMMATIVE,
@@ -14,11 +15,13 @@ namespace ReactivePathfinding.Core
         SUMMATIVE_CLAMPED
     }
 
+    [Serializable]
     public enum ActuatorTypes
     {
         MOTOR
     }
 
+    [Serializable]
     public class Actuator
     {
         private List<Connection> connections = new List<Connection>();

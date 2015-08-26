@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// The graph should be populated with heightmap values
     /// </summary>
+    [Serializable]
     public class AStarGraph
     {
         //8 way adjacency matrix to ensure nodes have all the appropriate edges

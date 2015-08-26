@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     class HeightSensor : Sensor
     {
     }

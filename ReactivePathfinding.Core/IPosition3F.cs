@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
-{
+{    
     public interface IPosition3F
     {
         float X { get; }

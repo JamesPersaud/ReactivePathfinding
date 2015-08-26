@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// A vector to use internally by the AStar classes - needs converting to an OpenGL Vector3 for use with an OpenGL visualization
     /// </summary>
+    [Serializable]
     public struct AStarVector3
     {
         public float X;

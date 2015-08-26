@@ -12,6 +12,7 @@ namespace ReactivePathfinding.Core
     /// Also contains static methods to return standard fitness functions
     /// 
     /// </summary>
+    [Serializable]
     public class FitnessFunction
     {
         private string name;
@@ -154,10 +155,12 @@ namespace ReactivePathfinding.Core
 
             return cost * a.InitialTargetDistance;
         }
-    }    
+    }
 
+    [Serializable]
     public delegate float StandardFitnessResolver(Agent a);
 
+    [Serializable]
     public enum FitnessFunctionType
     {
         STANDARD, CUSTOM

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum SensorTypes
     {
         TARGET,
         HEIGHT,
         HEIGHTMAP_GRADIENT
     }
-    
+
+    [Serializable]
     public class Sensor
     {
         private List<Connection> connections = new List<Connection>();

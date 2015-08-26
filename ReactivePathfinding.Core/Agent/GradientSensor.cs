@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// This type of sensor detects the difference in height between the centre of the agent and the position of the sensor        
     /// </summary>
+    [Serializable]
     public class GradientSensor : Sensor
     {
         public GradientSensor(RadialPoint loc)

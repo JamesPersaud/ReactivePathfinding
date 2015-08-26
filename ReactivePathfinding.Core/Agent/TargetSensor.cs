@@ -13,6 +13,7 @@ namespace ReactivePathfinding.Core
     /// Target emissions obay the inverse square law.
     /// 
     /// </summary>
+    [Serializable]
     public class TargetSensor : Sensor
     {
         public TargetSensor(RadialPoint loc)

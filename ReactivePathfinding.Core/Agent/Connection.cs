@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum ConnectionTypes
     {
         EXCITATORY, 
@@ -23,6 +24,7 @@ namespace ReactivePathfinding.Core
     /// Inverse connections feed forward the same as above except the magnitude is inverted i.e. connection.output = 1 / (sensor.output OR -sensor.output)
     /// 
     /// </summary>
+    [Serializable]
     public class Connection
     {        
         private float weight;

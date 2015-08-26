@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ReactivePathfinding.Core
 {
     /// <summary>
-    /// This class is intended to add some richness to the front end of an application it is not strictly part of 
+    /// This class is intended to add some richness to the front end of the application, it is not strictly part of 
     /// the core behaviour of the application but it is helpful to assign distinguishable monikers to agents based
     /// on their genomes.
     /// </summary>

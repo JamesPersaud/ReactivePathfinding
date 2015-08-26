@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// Represents a unique generation of agents belonging to an experiment
     /// </summary>
+    [Serializable]
     public class Generation
     {
         public static bool DEBUG_EVOLUTION = false;

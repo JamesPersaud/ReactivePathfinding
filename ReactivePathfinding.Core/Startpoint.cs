@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public class Startpoint
     {
         private IPosition3F position;

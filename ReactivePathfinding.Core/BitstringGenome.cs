@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// Represents a genome where the genes are single bits (encoded as an array of ints that may be 1 or 0)
     /// </summary>
+    [Serializable]
     public class BitstringGenome : Genome
     {
 

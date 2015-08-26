@@ -9,6 +9,7 @@ namespace ReactivePathfinding.Core
     /// <summary>
     /// Represents a genome where the genes are floating point numbers with a commmon boundary
     /// </summary>
+    [Serializable]
     public class BoundaryFloatGenome : Genome
     {        
         private List<float> values;        

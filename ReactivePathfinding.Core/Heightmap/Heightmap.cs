@@ -7,6 +7,8 @@ using Graphics.Tools.Noise;
 using Graphics.Tools.Noise.Primitive;
 using Graphics.Tools.Noise.Builder;
 using Graphics.Tools.Noise.Filter;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ReactivePathfinding.Core
 {
@@ -17,7 +19,7 @@ namespace ReactivePathfinding.Core
         private NoiseMap proceduralNoise;
         private NoiseMapBuilderPlane proceduralNoiseBuilder;
         private SumFractal filter;
-
+        
         private HeightmapSettings settings;
         private HeightMapType type;
 
@@ -62,6 +64,76 @@ namespace ReactivePathfinding.Core
         {
             get { return proceduralNoise; }
             set { proceduralNoise = value; }
+        }        
+
+        /// <summary>
+        /// Load a previously saved heightmap by filename
+        /// </summary>        
+        public static Heightmap LoadFromFile(string fullpath)
+        {
+            Heightmap map = null;
+            FileStream stream = null;            
+
+            if(File.Exists(fullpath))
+            {                
+                try
+                {
+                    Logging.Instance.Log("Loading Heightmap from " + fullpath);
+                    stream = File.OpenRead(fullpath);
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    map = (Heightmap)formatter.Deserialize(stream);
+                }
+                catch(Exception ex)
+                {
+                    Logging.Instance.Log("Failed to read file " + fullpath + " because: " + ex.Message);
+                }
+                finally
+                {
+                    if (stream != null)
+                        stream.Close();
+                }
+            }            
+            else
+            {
+                Logging.Instance.Log("File not found " + fullpath);
+            }
+
+            return map;
+        }                
+
+        /// <summary>
+        /// Serialize the heightmap to file
+        /// </summary>
+        public void Save(string fullpath)
+        {            
+            if(File.Exists(fullpath))
+            {
+                File.Delete(fullpath);
+                Logging.Instance.Log("Deleting old file " + fullpath);
+            }
+
+            Logging.Instance.Log("Saving Heightmap to " + fullpath);
+            FileStream stream = null;
+            try
+            {
+                stream = File.Create(fullpath);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, this);                
+            }
+            catch(Exception ex)
+            {
+                Logging.Instance.Log("Failed to write file " + fullpath + " because: " + ex.Message);
+            }
+            finally
+            {
+                if(stream != null)
+                    stream.Close();
+            }
+        }
+        public void SaveAs(string newname, string fullpath)
+        {
+            filename = newname;
+            Save(fullpath);
         }
 
         //convert height into scene graph range

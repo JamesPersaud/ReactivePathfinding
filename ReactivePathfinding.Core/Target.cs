@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum EmitterTypes
     {        
         INVERSE_SQUARE
@@ -15,6 +16,7 @@ namespace ReactivePathfinding.Core
     /// Represents the target for an agent based on a point that radiates a signal of
     /// intensity proportional to the distance between the agent and the target
     /// </summary>
+    [Serializable]
     public class Target
     {
         private float baseIntensity = 1;

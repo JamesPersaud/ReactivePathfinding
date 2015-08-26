@@ -30,6 +30,7 @@ namespace ReactivePathfinding.Core
     /// 
     /// 
     /// </summary>
+    [Serializable]
     public class Agent : IComparable<Agent>
     {
         private List<Sensor> sensors = new List<Sensor>();

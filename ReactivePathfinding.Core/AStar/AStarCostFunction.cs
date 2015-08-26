@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum AStarHeuristicTypes
     {
         MANHATTAN_HORIZONTAL,
         VECTOR_DISTANCE
     }
 
+    [Serializable]
     public class AStarCostFunction
     {
         private int distanceMultiplier = 1;

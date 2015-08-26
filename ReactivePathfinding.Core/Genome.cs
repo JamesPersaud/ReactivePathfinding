@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactivePathfinding.Core
 {
+    [Serializable]
     public enum CrossoverTypes
     {
         SINGLE_POINT,
@@ -19,6 +20,7 @@ namespace ReactivePathfinding.Core
     /// therefore fitness functions do not apply directly to genomes
     /// 
     /// </summary>
+    [Serializable]
     public abstract class Genome
     {
         public const bool DEBUG_MUTATION = false;
