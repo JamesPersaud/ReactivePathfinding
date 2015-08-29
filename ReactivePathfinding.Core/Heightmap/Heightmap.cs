@@ -38,11 +38,8 @@ namespace ReactivePathfinding.Core
         public string Filename
         {
             get
-            {
-                if (isNew)
-                    return "{New Heightmap}";
-                else
-                    return filename; 
+            {                
+                return filename; 
             }
             set { filename = value; }
         }
@@ -98,6 +95,7 @@ namespace ReactivePathfinding.Core
                 Logging.Instance.Log("File not found " + fullpath);
             }
 
+            map.IsNew = false;
             return map;
         }                
 

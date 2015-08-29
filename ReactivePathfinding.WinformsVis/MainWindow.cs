@@ -20,8 +20,8 @@ namespace ReactivePathfinding.WinformsVis
     {
         READY,
         PLAY,
-        PAUSE,        
-        STOP,        
+        PAUSE,
+        STOP,
     }
 
     public partial class MainWindow : Form
@@ -447,6 +447,15 @@ namespace ReactivePathfinding.WinformsVis
             Logging.Instance.Log("Moving to next generation");
             e.NextGeneration();
 
+            //test loading and saving
+            Logging.Instance.Log("Test creating heightmap");
+            HeightmapSettings hms = new HeightmapSettings();
+            Heightmap testMap = Heightmap.CreateProceduralHeightmap(hms);
+            testMap.Filename = "testmap";
+            Logging.Instance.Log("Test saving heightmap");
+            testMap.Save(FilesystemSettings.GetFullPath(testMap));
+            Logging.Instance.Log("Test loading heightmap");
+            Heightmap loadedMap = Heightmap.LoadFromFile(FilesystemSettings.GetFullPath(testMap));
         }
 
         private void testSigmoid(float i)

@@ -11,6 +11,13 @@ namespace ReactivePathfinding.Core
     {
         private Agent templateAgent;
         private string name;
+        private string filename;
+
+        public string Filename
+        {
+            get { return filename; }
+            set { filename = value; }
+        }
 
         public string Name
         {
