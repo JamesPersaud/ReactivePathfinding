@@ -19,6 +19,7 @@ namespace ReactivePathfinding.Core
         private string explanation;        
         private FitnessFunctionType functionType;
         private StandardFitnessResolver resolver;
+        private MaxFitnessEstimator estimator;
 
         /// <summary>
         /// Specifies the function to resolve the fitness of an agent
@@ -27,6 +28,15 @@ namespace ReactivePathfinding.Core
         {
             get { return resolver; }
             set { resolver = value; }
+        }
+
+        /// <summary>
+        /// Specifies the function to estimat the maximum fitness value for agents using this function in the current experiment
+        /// </summary>
+        public MaxFitnessEstimator Estimator
+        {
+            get { return estimator; }
+            set { estimator = value; }
         }
 
         public string Explanation
@@ -47,6 +57,19 @@ namespace ReactivePathfinding.Core
             set { name = value; }
         }        
 
+        public float EstimateMaxFitness(Experiment e)
+        {
+            if (functionType == FitnessFunctionType.STANDARD)
+            {
+                return estimator(e);
+            }
+            else
+            {
+                //run user specified function
+                return 0;
+            }
+        }
+
         public float CalculateFitness(Agent a)
         {            
             if(functionType == FitnessFunctionType.STANDARD)
@@ -58,7 +81,7 @@ namespace ReactivePathfinding.Core
                 //run user specified function
                 return 0;
             }            
-        }
+        }        
 
         public static List<FitnessFunction> GetStandardFunctions()
         {
@@ -72,6 +95,10 @@ namespace ReactivePathfinding.Core
             {
                 return agent.TotalDistance;
             };
+            f.estimator = (experiment) =>
+            {
+                return experiment.AgentMaxMovementSpeed * 2 * experiment.MaxAgentLifetimeSeconds;
+            };
             functions.Add(f);
 
             f = new FitnessFunction();
@@ -81,6 +108,10 @@ namespace ReactivePathfinding.Core
             f.resolver = (agent) =>
             {
                 return DistanceToTarget(agent) + ReachedTarget(agent) + AverageSpeed(agent);
+            };
+            f.estimator = (experiment) =>
+            {
+                return (experiment.CurrentTarget.Position.Distance(experiment.CurrentStartpoint.Position)) * 3;
             };
             functions.Add(f);            
 
@@ -97,6 +128,10 @@ namespace ReactivePathfinding.Core
 
                 return fitness;
             };
+            f.estimator = (experiment) =>
+            {
+                return (experiment.CurrentTarget.Position.Distance(experiment.CurrentStartpoint.Position)) * 2;
+            };
             functions.Add(f);     
 
             return functions;
@@ -110,16 +145,16 @@ namespace ReactivePathfinding.Core
         /// <summary>
         /// Standard fitness function helper function returns a value between 0 and InitialTargetDistance
         /// gets the average speed of the agent as a fraction of its max speed and multiplies by InitialTargetDistance
-        /// </summary>        
+        /// </summary>
         public static float AverageSpeed(Agent a)
         {
-            return ((a.TotalDistance / a.TotalTime) / a.CurrentExperiment.AgentMaxMovementSpeed) * a.InitialTargetDistance;
+            return ((a.TotalDistance / a.TotalTime) / (a.CurrentExperiment.AgentMaxMovementSpeed *2)) * a.InitialTargetDistance;
         }
 
         /// <summary>
-        /// Standard fitness function helper function returns a value between 1 and InitialTargetDistance 
+        /// Standard fitness function helper function returns a value between 1 and InitialTargetDistance
         /// depending on how cose to the target the agent came.
-        /// </summary>        
+        /// </summary>
         public static float DistanceToTarget(Agent a)
         {
             if (a.ReachedTarget)
@@ -144,6 +179,11 @@ namespace ReactivePathfinding.Core
         /// 
         /// The value is returned as a proportion of the best path cost, multiplied by the initial target distance
         /// 
+        /// So the perfect path returns 1 * InitialTargetDistance
+        /// And more expensive paths return higher numbers
+        /// 
+        /// Use this value as a penalty in the fitness function.
+        /// 
         /// </summary>
         public static float CostOfPath(Agent a, int penalizeAscending, int penalizeDescending)
         {
@@ -159,6 +199,8 @@ namespace ReactivePathfinding.Core
 
     [Serializable]
     public delegate float StandardFitnessResolver(Agent a);
+    [Serializable]
+    public delegate float MaxFitnessEstimator(Experiment e);
 
     [Serializable]
     public enum FitnessFunctionType

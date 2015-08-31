@@ -29,14 +29,17 @@ namespace ReactivePathfinding.WinformsVis
         //simulation control
         public SimulationControlStates SimState = SimulationControlStates.STOP;        
 
-        //warning/help labels        
+        //warning/help labels                
         private Label lblWarnNoExperiment = new Label();
         private Label lblWarnNoHeightmap = new Label();
-        private Label lblWarnNoAgent = new Label();
+        private Label lblWarnNoAgent = new Label();        
         private Label lblWarnNoStart = new Label();
         private Label lblWarnNoTarget = new Label();
         private Label lblWarnNoFitness = new Label();
         private Label lblWarnNoPath = new Label();
+
+        //Specific template warnings
+        private string warningNoAgent = "Agent topology and genome undefined";        
 
         //warning label properties
         private const int LABEL_GAP = 8;
@@ -174,14 +177,19 @@ namespace ReactivePathfinding.WinformsVis
                         glControl.Controls.Remove(lblWarnNoHeightmap);
                 }
 
-                //no agent
-                if (currentExperiment.CurrentAgentTopology == null)
-                {
+                //no agent                
+                string agentwarning = warningNoAgent;
+                if (currentExperiment.CurrentAgentTopology == null ||
+                    !currentExperiment.CurrentAgentTopology.IsValid(out agentwarning))
+                {                
                     if (!glControl.Controls.Contains(lblWarnNoAgent))
-                        glControl.Controls.Add(lblWarnNoAgent);
+                    {
+                        glControl.Controls.Add(lblWarnNoAgent);                        
+                    }
 
+                    lblWarnNoAgent.Text = agentwarning;
                     lblWarnNoAgent.Top = getNextLabelPosition(ref labelcount);
-                }
+                }                
                 else
                 {
                     if (glControl.Controls.Contains(lblWarnNoAgent))
@@ -248,10 +256,41 @@ namespace ReactivePathfinding.WinformsVis
             if (labelcount == 0 && SimState != SimulationControlStates.PLAY && SimState != SimulationControlStates.PAUSE)
                 SimState = SimulationControlStates.READY;
 
-            if (currentExperiment != null && currentExperiment.CurrentTarget != null && currentExperiment.CurrentStartpoint != null)            
-                calculateBestPathToolStripMenuItem.Enabled = true;            
-            else            
-                calculateBestPathToolStripMenuItem.Enabled = false;            
+            UpdateMenuItems();
+        }
+
+        /// <summary>
+        /// Update available menu items according to the current state of the experiment.
+        /// </summary>
+        private void UpdateMenuItems()
+        {
+            if (currentExperiment != null && currentExperiment.CurrentTarget != null && currentExperiment.CurrentStartpoint != null)
+                calculateBestPathToolStripMenuItem.Enabled = true;
+            else
+                calculateBestPathToolStripMenuItem.Enabled = false;
+
+            if (currentExperiment != null)
+            {
+                experimentToolStripMenuItem.Enabled = true;
+                setTargetToolStripMenuItem.Enabled = currentExperiment.CurrentHeightmap != null;
+                setStartPositionToolStripMenuItem.Enabled = currentExperiment.CurrentHeightmap != null;
+
+                if(currentExperiment.CurrentHeightmap != null)             
+                    saveTerrainToolStripMenuItem.Enabled = true;
+                else
+                    saveTerrainToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                experimentToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void UpdateUI()
+        {
+            UpdateControlPanel();
+            setWarningLabels();
+            UpdateMenuItems();
         }
 
         /// <summary>
@@ -366,7 +405,7 @@ namespace ReactivePathfinding.WinformsVis
         }        
 
         /// <summary>
-        /// Use this method to run any tests of new classes 
+        /// Use this method to run any tests of new classes
         /// 
         /// TODO - proper unit tests
         /// 
@@ -436,6 +475,7 @@ namespace ReactivePathfinding.WinformsVis
             //population/generation tests
             Logging.Instance.Log("Creating Test Experiment");
             Experiment e = new Experiment("Test experiment", 10);
+            e.CurrentFitnessFunction = FitnessFunction.GetStandardFunctions()[0];
             e.PopulationSize = 4;
             e.Elites = 0;
             Logging.Instance.Log("Setting test ex topology");
@@ -448,6 +488,7 @@ namespace ReactivePathfinding.WinformsVis
             e.NextGeneration();
 
             //test loading and saving
+            //heightmap
             Logging.Instance.Log("Test creating heightmap");
             HeightmapSettings hms = new HeightmapSettings();
             Heightmap testMap = Heightmap.CreateProceduralHeightmap(hms);
@@ -456,6 +497,14 @@ namespace ReactivePathfinding.WinformsVis
             testMap.Save(FilesystemSettings.GetFullPath(testMap));
             Logging.Instance.Log("Test loading heightmap");
             Heightmap loadedMap = Heightmap.LoadFromFile(FilesystemSettings.GetFullPath(testMap));
+            //agent template
+            Logging.Instance.Log("Test creating template");
+            AgentTemplate temp = AgentTemplate.EightTargetSensors();            
+            temp.Filename = "testtemp";
+            Logging.Instance.Log("Test saving template");
+            temp.Save(FilesystemSettings.GetFullPath(temp));
+            Logging.Instance.Log("Test loading template");
+            AgentTemplate loadedTemp = AgentTemplate.LoadFromFile(FilesystemSettings.GetFullPath(temp));            
         }
 
         private void testSigmoid(float i)
@@ -467,7 +516,7 @@ namespace ReactivePathfinding.WinformsVis
             }
             catch(Exception ex)
             {
-                Logging.Instance.Log(" Can't do sigmoid of " + i.ToString() + " " + ex.Message);
+                Logging.Instance.Log(" Can't compute sigmoid of " + i.ToString() + " because: " + ex.Message);
             }
         }
 
@@ -560,14 +609,7 @@ namespace ReactivePathfinding.WinformsVis
                 lblExperimentName.Text = "No Experiment";
                 lblExperimentFilename.Text = "";
             }
-        }
-
-        private void EnableExperimentMenu()
-        {
-            experimentToolStripMenuItem.Enabled = true;
-            setTargetToolStripMenuItem.Enabled = currentExperiment.CurrentHeightmap != null && scene != null;
-            setStartPositionToolStripMenuItem.Enabled = currentExperiment.CurrentHeightmap != null && scene != null;
-        }
+        }        
 
         private void CreateOutputWindow()
         {
@@ -649,15 +691,124 @@ namespace ReactivePathfinding.WinformsVis
             {
                 if(createDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    currentExperiment = new Experiment(createDialog.Name,createDialog.Seed);
-                    EnableExperimentMenu();
+                    currentExperiment = new Experiment(createDialog.Name,createDialog.Seed);                    
                     ShowExperiment();
-                    UpdateControlPanel();
-                    setWarningLabels();
+                    UpdateUI();
                 }
             }
         }
+        
+        /// <summary>
+        /// Scene testing
+        /// </summary>
+        private void SetupDebugScene()
+        {            
+            PRNG rng = new PRNG();
 
+            Target t = new Target(1, currentExperiment.CurrentHeightmap.Settings.MapWidth / 2, EmitterTypes.INVERSE_SQUARE);
+            t.CurrentExperiment = currentExperiment;
+
+            TargetComponent tcomp = scene.AddNewObject<TargetComponent>();
+            tcomp.CurrentTarget = t;
+
+            tcomp.Position = new Vector3(
+                currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
+                currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
+                currentExperiment.CurrentHeightmap.GetSceneHeight(
+                    currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
+                    currentExperiment.CurrentHeightmapSettings.MapWidth / 2)
+            );
+
+            for (int agentindex = 1; agentindex < numAgents + 1; agentindex++)
+            {
+                Agent a = new Agent();
+                a.Name = "Agent" + agentindex.ToString();
+                a.CurrentExperiment = currentExperiment;
+
+                Sensor leftsensor = new TargetSensor(new RadialPoint(90f, 1f)); leftsensor.Name = "Sleft";
+                Sensor rightsensor = new TargetSensor(new RadialPoint(270f, 1f)); rightsensor.Name = "Sright";
+                Sensor forwardsensor = new TargetSensor(new RadialPoint(0f, 1f)); forwardsensor.Name = "Sfront";
+                Sensor frontleftsensor = new TargetSensor(new RadialPoint(45f, 1f)); forwardsensor.Name = "Sfrontleft";
+                Sensor frontrightsensor = new TargetSensor(new RadialPoint(315f, 1f)); forwardsensor.Name = "Sfrontright";
+                Sensor backleftsensor = new TargetSensor(new RadialPoint(135f, 1f)); forwardsensor.Name = "Sbackleft";
+                Sensor backtrightsensor = new TargetSensor(new RadialPoint(225f, 1f)); forwardsensor.Name = "Sbackright";
+
+                Actuator leftmotor = new MotorActuator(MotorTypes.LEFT); leftmotor.Name = "Mleft";
+                Actuator rightmotor = new MotorActuator(MotorTypes.RIGHT); rightmotor.Name = "Mright";
+
+                a.AddSensor(leftsensor);
+                a.AddSensor(rightsensor);
+                a.AddSensor(forwardsensor);
+                a.AddSensor(frontleftsensor);
+                a.AddSensor(frontrightsensor);
+                a.AddSensor(backleftsensor);
+                a.AddSensor(backtrightsensor);
+
+                a.AddActuator(leftmotor);
+                a.AddActuator(rightmotor);
+
+                Connection c1 = new Connection(leftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c1.Name = "Sleft_excites_Mright";
+                Connection c2 = new Connection(rightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c2.Name = "Sright_excites_Mleft";
+                Connection c3 = new Connection(forwardsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c3.Name = "Sfront_excites_Mleft";
+                Connection c4 = new Connection(forwardsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c4.Name = "Sfront_excites_Mright";
+                Connection c5 = new Connection(frontleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c5.Name = "Sfrontleft_excites_Mright";
+                Connection c6 = new Connection(frontrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c6.Name = "Sfrontright_excites_Mleft";
+                Connection c7 = new Connection(backleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c7.Name = "Sbackleft_excites_Mright";
+                Connection c8 = new Connection(backtrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c8.Name = "Sbackright_excites_Mleft";
+
+                if (!cleverAgents)
+                {
+                    Connection c9 = new Connection(leftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c9.Name = "Sleft_excites_Mleft";
+                    Connection c10 = new Connection(rightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c10.Name = "Sright_excites_Mright";
+                    Connection c11 = new Connection(frontleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c11.Name = "Sfrontleft_excites_Mleft";
+                    Connection c12 = new Connection(frontrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c12.Name = "Sfrontright_excites_Mright";
+                    Connection c13 = new Connection(backleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c13.Name = "Sbackleft_excites_Mleft";
+                    Connection c14 = new Connection(backtrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c14.Name = "Sbackright_excites_Mright";
+                }
+
+                BoundaryFloatGenome g;
+
+                if (cleverAgents)
+                    g = new BoundaryFloatGenome(8, 1f, 1f, rng);
+                else
+                    g = new BoundaryFloatGenome(14, -1f, 1f, rng);
+
+                a.WeightGenome = g;
+
+                Logging.Instance.Log(a.Name + ": Assigning genome " + g.ToString() + " to agent");
+                Logging.Instance.Log(a.Name + ": Weights set to " + c1.ToString() + " " + c2.ToString());
+
+                AgentComponent acomp = scene.AddNewObject<AgentComponent>();
+                acomp.CurrentAgent = a;
+
+                float agentx = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
+                float agenty = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
+
+                acomp.Position = new Vector3(agentx, agenty, currentExperiment.CurrentHeightmap.GetSceneHeight(agentx, agenty));
+            }
+
+            SimState = SimulationControlStates.READY;       
+        }
+
+        /// <summary>
+        /// (re)initialize the 3d scene (after setting a new heightmap either from new or load)
+        /// </summary>
+        private void InitScene()
+        {            
+            scene = new Scene();
+            camera = scene.AddNewObject<CameraComponent>();
+            heightmapComponent = scene.AddNewObject<HeightmapComponent>();
+            heightmapComponent.Map = currentExperiment.CurrentHeightmap;
+
+            camera.Position = new Vector3(
+                -currentExperiment.CurrentHeightmap.Settings.MapWidth / 2,
+                -currentExperiment.CurrentHeightmap.Settings.MapHeight / 2
+                , -50f / MeshHelper.HEIGHT_EXAGGERATION_FACTOR);
+        }
+
+        /// <summary>
+        /// Create a new heightmap from the menu
+        /// </summary>        
         private void NewTerrain(HeightMapType type)
         {
             using (NewHeightmapWindow terrainDialog = new NewHeightmapWindow())
@@ -667,111 +818,14 @@ namespace ReactivePathfinding.WinformsVis
                 {
                     Logging.Instance.Log("Created New Terrain");
                     currentExperiment.CurrentHeightmap = terrainDialog.Map;
-                    UpdateControlPanel();
-
-                    //init the scene
-                    scene = new Scene();
-                    camera = scene.AddNewObject<CameraComponent>();
-                    heightmapComponent = scene.AddNewObject<HeightmapComponent>();
-                    heightmapComponent.Map = currentExperiment.CurrentHeightmap;                    
-
-                    camera.Position = new Vector3(
-                        -currentExperiment.CurrentHeightmap.Settings.MapWidth/2,
-                        -currentExperiment.CurrentHeightmap.Settings.MapHeight/ 2
-                        , -50f / MeshHelper.HEIGHT_EXAGGERATION_FACTOR);
+                    InitScene();                    
 
                     if(debugMode)
-                    {                        
-                        //Scene testing
-                        PRNG rng = new PRNG();
-
-                        Target t = new Target(1, currentExperiment.CurrentHeightmap.Settings.MapWidth / 2, EmitterTypes.INVERSE_SQUARE);
-                        t.CurrentExperiment = currentExperiment;
-
-                        TargetComponent tcomp = scene.AddNewObject<TargetComponent>();
-                        tcomp.CurrentTarget = t;
-
-                        tcomp.Position = new Vector3(
-                            currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
-                            currentExperiment.CurrentHeightmapSettings.MapWidth / 2, 
-                            currentExperiment.CurrentHeightmap.GetSceneHeight(
-                                currentExperiment.CurrentHeightmapSettings.MapWidth / 2,
-                                currentExperiment.CurrentHeightmapSettings.MapWidth / 2)
-                        );
-
-                        for (int agentindex = 1; agentindex < numAgents + 1; agentindex++)
-                        {
-                            Agent a = new Agent();
-                            a.Name = "Agent" + agentindex.ToString();
-                            a.CurrentExperiment = currentExperiment;
-
-                            Sensor leftsensor = new TargetSensor(new RadialPoint(90f, 1f)); leftsensor.Name = "Sleft";
-                            Sensor rightsensor = new TargetSensor(new RadialPoint(270f, 1f)); rightsensor.Name = "Sright";
-                            Sensor forwardsensor = new TargetSensor(new RadialPoint(0f, 1f)); forwardsensor.Name = "Sfront";
-                            Sensor frontleftsensor = new TargetSensor(new RadialPoint(45f, 1f)); forwardsensor.Name = "Sfrontleft";
-                            Sensor frontrightsensor = new TargetSensor(new RadialPoint(315f, 1f)); forwardsensor.Name = "Sfrontright";
-                            Sensor backleftsensor = new TargetSensor(new RadialPoint(135f, 1f)); forwardsensor.Name = "Sbackleft";
-                            Sensor backtrightsensor = new TargetSensor(new RadialPoint(225f, 1f)); forwardsensor.Name = "Sbackright";
-
-                            Actuator leftmotor = new MotorActuator(MotorTypes.LEFT); leftmotor.Name = "Mleft";
-                            Actuator rightmotor = new MotorActuator(MotorTypes.RIGHT); rightmotor.Name = "Mright";
-
-                            a.AddSensor(leftsensor);
-                            a.AddSensor(rightsensor);
-                            a.AddSensor(forwardsensor);
-                            a.AddSensor(frontleftsensor);
-                            a.AddSensor(frontrightsensor);
-                            a.AddSensor(backleftsensor);
-                            a.AddSensor(backtrightsensor);
-
-                            a.AddActuator(leftmotor);
-                            a.AddActuator(rightmotor);                            
-
-                            Connection c1 = new Connection(leftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c1.Name = "Sleft_excites_Mright";
-                            Connection c2 = new Connection(rightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c2.Name = "Sright_excites_Mleft";
-                            Connection c3 = new Connection(forwardsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c3.Name = "Sfront_excites_Mleft";
-                            Connection c4 = new Connection(forwardsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c4.Name = "Sfront_excites_Mright";
-                            Connection c5 = new Connection(frontleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c5.Name = "Sfrontleft_excites_Mright";
-                            Connection c6 = new Connection(frontrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c6.Name = "Sfrontright_excites_Mleft";
-                            Connection c7 = new Connection(backleftsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c7.Name = "Sbackleft_excites_Mright";
-                            Connection c8 = new Connection(backtrightsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c8.Name = "Sbackright_excites_Mleft";
-
-                            if(!cleverAgents)
-                            {
-                                Connection c9 = new Connection(leftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c9.Name = "Sleft_excites_Mleft";
-                                Connection c10 = new Connection(rightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c10.Name = "Sright_excites_Mright";
-                                Connection c11 = new Connection(frontleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c11.Name = "Sfrontleft_excites_Mleft";
-                                Connection c12 = new Connection(frontrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c12.Name = "Sfrontright_excites_Mright";
-                                Connection c13 = new Connection(backleftsensor, leftmotor, 1, ConnectionTypes.EXCITATORY); c13.Name = "Sbackleft_excites_Mleft";
-                                Connection c14 = new Connection(backtrightsensor, rightmotor, 1, ConnectionTypes.EXCITATORY); c14.Name = "Sbackright_excites_Mright";
-                            }
-
-                            BoundaryFloatGenome g;
-
-                            if(cleverAgents)
-                                g = new BoundaryFloatGenome(8, 1f, 1f, rng);
-                            else
-                                g = new BoundaryFloatGenome(14, -1f, 1f, rng);
-
-                            a.WeightGenome = g;
-
-                            Logging.Instance.Log(a.Name + ": Assigning genome " + g.ToString() + " to agent");
-                            Logging.Instance.Log(a.Name + ": Weights set to " + c1.ToString() + " " + c2.ToString());
-                            
-                            AgentComponent acomp = scene.AddNewObject<AgentComponent>();
-                            acomp.CurrentAgent = a;
-
-                            float agentx = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
-                            float agenty = rng.GetFloat(0, currentExperiment.CurrentHeightmap.Settings.MapWidth);
-
-                            acomp.Position = new Vector3(agentx, agenty, currentExperiment.CurrentHeightmap.GetSceneHeight(agentx, agenty));                            
-                        }
-
-                        SimState = SimulationControlStates.READY;                  
+                    {
+                        SetupDebugScene();
                     }
 
-                    setWarningLabels();
-                    EnableExperimentMenu();
+                    UpdateUI();
                 }
             }
         }
@@ -1090,9 +1144,7 @@ namespace ReactivePathfinding.WinformsVis
 
                 if (targetDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    UpdateControlPanel();
-                    setWarningLabels();
-                    EnableExperimentMenu();
+                    UpdateUI();
                 }
             }
         }
@@ -1105,25 +1157,22 @@ namespace ReactivePathfinding.WinformsVis
                 startDialog.CurrentScene = scene;
 
                 if (startDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {          
-                    UpdateControlPanel();
-                    setWarningLabels();
-                    EnableExperimentMenu();
+                {
+                    UpdateUI();
                 }                
             }
         }
 
         private void newAgentTopologyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (AgentForm agentDialog = new AgentForm())
+            using (AgentTemplateForm agentDialog = new AgentTemplateForm())
             {
-                agentDialog.CurrentExperiment = currentExperiment;                
+                agentDialog.CurrentExperiment = currentExperiment;
 
                 if (agentDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    UpdateControlPanel();
-                    setWarningLabels();
-                    EnableExperimentMenu();
+                    currentExperiment.CurrentAgentTopology = agentDialog.Template;
+                    UpdateUI();
                 }
             }
         }
@@ -1207,11 +1256,12 @@ namespace ReactivePathfinding.WinformsVis
             if(currentExperiment != null && currentExperiment.CurrentGeneration != null)
             {
                 //age
-                lblGenAge.Text = currentExperiment.CurrentGeneration.Age.ToString();
+                lblGenAge.Text = currentExperiment.CurrentGeneration.Age.ToString();                
                 //fitness
+                lblMaxFitness.Text = currentExperiment.CurrentFitnessFunction.EstimateMaxFitness(currentExperiment).ToString();
                 lblGenMax.Text = currentExperiment.CurrentGeneration.MaxFitness.ToString();
                 lblGenMin.Text = currentExperiment.CurrentGeneration.MinFitness.ToString();
-                lblGenAvg.Text = currentExperiment.CurrentGeneration.AverageFitness.ToString();
+                lblGenAvg.Text = currentExperiment.CurrentGeneration.AverageFitness.ToString();                
                 //agent state
                 lblGenAct.Text = currentExperiment.CurrentGeneration.NumActive.ToString();
                 lblGenExp.Text = currentExperiment.CurrentGeneration.NumExpired.ToString();
@@ -1241,8 +1291,7 @@ namespace ReactivePathfinding.WinformsVis
 
                 if (pathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    UpdateControlPanel();
-                    setWarningLabels();  
+                    UpdateUI();
                   
                     if(currentExperiment.BestPath.PathFound)
                     {
@@ -1278,6 +1327,101 @@ namespace ReactivePathfinding.WinformsVis
             File.WriteAllText(agentsFile, currentExperiment.GetAgentReport());
             File.WriteAllText(paramsFile, currentExperiment.GetSettingsReport());
         }        
+
+        /// <summary>
+        /// Save the heightmap separately from the rest of the experiment
+        /// </summary>        
+        private void saveTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentExperiment.CurrentHeightmap != null)
+            {
+                LoadSaveInterface.SaveHeightmap(currentExperiment.CurrentHeightmap);
+                currentExperiment.HeightmapFilename = currentExperiment.CurrentHeightmap.Filename;                
+                UpdateUI();                
+            }
+        }
+
+        /// <summary>
+        /// load a heightmap (may replace the current one)
+        /// </summary>        
+        private void loadTerrainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentExperiment.CurrentHeightmap != null && currentExperiment.CurrentHeightmap.IsNew)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Current heightmap is unsaved. Are you sure you want to replace it?", "Load Heightmap",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                if (result == System.Windows.Forms.DialogResult.Cancel)
+                    return;
+            }
+
+            Heightmap map = LoadSaveInterface.LoadHeightmap();
+            if(map != null)
+            {
+                currentExperiment.HeightmapFilename = map.Filename;
+                currentExperiment.CurrentHeightmap = map;
+
+                InitScene();
+                UpdateUI();
+            }                                    
+        }
+
+        private void lblBestPathCost_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void eightTargetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentExperiment.CurrentAgentTopology = AgentTemplate.EightTargetSensors();
+            UpdateUI();
+        }
+
+        private void eightTargetFourGradientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentExperiment.CurrentAgentTopology = AgentTemplate.EightTargetSensorsAndFourGradient();
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handle the menu load topology option
+        /// </summary>        
+        private void loadAgentTopologyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentExperiment.CurrentAgentTopology != null && currentExperiment.CurrentAgentTopology.IsNew)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Current topology is unsaved. Are you sure you want to replace it?", "Load Topology",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                if (result == System.Windows.Forms.DialogResult.Cancel)
+                    return;
+            }
+
+            AgentTemplate temp = LoadSaveInterface.LoadAgentTemplate();
+            if (temp != null)
+            {
+                currentExperiment.CurrentAgentTopology = temp;                
+                UpdateUI();
+            }                                    
+        }
+
+        /// <summary>
+        /// Handle the menu save topology option
+        /// </summary>        
+        private void saveTopologyAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentExperiment.CurrentAgentTopology != null)
+            {
+                LoadSaveInterface.SaveAgentTemplate(currentExperiment.CurrentAgentTopology);
+                UpdateUI();
+            }
+        }     
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace ReactivePathfinding.WinformsVis
 {
-    partial class AgentForm
+    partial class AgentTemplateForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,6 @@
         {
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.ddlAgentTemplate = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -56,8 +55,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.btnRevert = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSensorRadius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSensorAngle)).BeginInit();
@@ -66,8 +66,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Enabled = false;
-            this.btnOk.Location = new System.Drawing.Point(407, 619);
+            this.btnOk.Location = new System.Drawing.Point(407, 570);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -77,24 +76,13 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(245, 619);
+            this.btnCancel.Location = new System.Drawing.Point(245, 570);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // ddlAgentTemplate
-            // 
-            this.ddlAgentTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlAgentTemplate.FormattingEnabled = true;
-            this.ddlAgentTemplate.Location = new System.Drawing.Point(120, 111);
-            this.ddlAgentTemplate.Name = "ddlAgentTemplate";
-            this.ddlAgentTemplate.Size = new System.Drawing.Size(362, 21);
-            this.ddlAgentTemplate.TabIndex = 2;
-            this.ddlAgentTemplate.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            this.ddlAgentTemplate.SelectionChangeCommitted += new System.EventHandler(this.ddlAgentTemplate_SelectionChangeCommitted);
             // 
             // label1
             // 
@@ -108,11 +96,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 114);
+            this.label2.Location = new System.Drawing.Point(21, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 13);
+            this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Standard Templates";
+            this.label2.Text = "Name";
             // 
             // groupBox1
             // 
@@ -123,7 +111,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.btnAddSensor);
-            this.groupBox1.Location = new System.Drawing.Point(15, 138);
+            this.groupBox1.Location = new System.Drawing.Point(15, 89);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(467, 79);
             this.groupBox1.TabIndex = 6;
@@ -220,7 +208,7 @@
             this.groupBox2.Controls.Add(this.ddlConnectionType);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.btnAddConnection);
-            this.groupBox2.Location = new System.Drawing.Point(15, 223);
+            this.groupBox2.Location = new System.Drawing.Point(15, 174);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(467, 84);
             this.groupBox2.TabIndex = 7;
@@ -234,7 +222,6 @@
             this.ddlConnectionActuator.Name = "ddlConnectionActuator";
             this.ddlConnectionActuator.Size = new System.Drawing.Size(120, 21);
             this.ddlConnectionActuator.TabIndex = 20;
-            this.ddlConnectionActuator.SelectedIndexChanged += new System.EventHandler(this.ddlConnectionActuator_SelectedIndexChanged);
             // 
             // ddlConnectionSensor
             // 
@@ -243,7 +230,6 @@
             this.ddlConnectionSensor.Name = "ddlConnectionSensor";
             this.ddlConnectionSensor.Size = new System.Drawing.Size(120, 21);
             this.ddlConnectionSensor.TabIndex = 19;
-            this.ddlConnectionSensor.SelectedIndexChanged += new System.EventHandler(this.ddlConnectionSensor_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -270,7 +256,6 @@
             this.ddlConnectionType.Name = "ddlConnectionType";
             this.ddlConnectionType.Size = new System.Drawing.Size(292, 21);
             this.ddlConnectionType.TabIndex = 17;
-            this.ddlConnectionType.SelectedIndexChanged += new System.EventHandler(this.ddlConnectionType_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -294,25 +279,29 @@
             // lstSensors
             // 
             this.lstSensors.FormattingEnabled = true;
-            this.lstSensors.Location = new System.Drawing.Point(15, 326);
+            this.lstSensors.Location = new System.Drawing.Point(15, 277);
             this.lstSensors.Name = "lstSensors";
             this.lstSensors.ScrollAlwaysVisible = true;
+            this.lstSensors.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lstSensors.Size = new System.Drawing.Size(467, 121);
             this.lstSensors.TabIndex = 8;
+            this.lstSensors.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstSensors_KeyUp);
             // 
             // lstConnections
             // 
             this.lstConnections.FormattingEnabled = true;
-            this.lstConnections.Location = new System.Drawing.Point(15, 468);
+            this.lstConnections.Location = new System.Drawing.Point(15, 419);
             this.lstConnections.Name = "lstConnections";
             this.lstConnections.ScrollAlwaysVisible = true;
+            this.lstConnections.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lstConnections.Size = new System.Drawing.Size(467, 134);
             this.lstConnections.TabIndex = 9;
+            this.lstConnections.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstConnections_KeyUp);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 452);
+            this.label3.Location = new System.Drawing.Point(21, 403);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 10;
@@ -321,7 +310,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 310);
+            this.label4.Location = new System.Drawing.Point(21, 261);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 11;
@@ -329,7 +318,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(15, 619);
+            this.button1.Location = new System.Drawing.Point(15, 570);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
@@ -339,7 +328,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(326, 619);
+            this.btnSave.Location = new System.Drawing.Point(326, 570);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 14;
@@ -349,7 +338,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(383, 70);
+            this.btnLoad.Location = new System.Drawing.Point(377, 36);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(99, 23);
             this.btnLoad.TabIndex = 15;
@@ -357,29 +346,42 @@
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
-            // label11
+            // txtName
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 75);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 13);
-            this.label11.TabIndex = 16;
-            this.label11.Text = "Template Name";
+            this.txtName.Location = new System.Drawing.Point(68, 65);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(408, 20);
+            this.txtName.TabIndex = 16;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
-            // textBox1
+            // btnNew
             // 
-            this.textBox1.Location = new System.Drawing.Point(108, 72);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 17;
+            this.btnNew.Location = new System.Drawing.Point(272, 36);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(99, 23);
+            this.btnNew.TabIndex = 17;
+            this.btnNew.Text = "New";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
-            // AgentForm
+            // btnRevert
+            // 
+            this.btnRevert.Location = new System.Drawing.Point(96, 570);
+            this.btnRevert.Name = "btnRevert";
+            this.btnRevert.Size = new System.Drawing.Size(75, 23);
+            this.btnRevert.TabIndex = 18;
+            this.btnRevert.Text = "Revert";
+            this.btnRevert.UseVisualStyleBackColor = true;
+            this.btnRevert.Click += new System.EventHandler(this.btnRevert_Click);
+            // 
+            // AgentTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 695);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label11);
+            this.ClientSize = new System.Drawing.Size(494, 601);
+            this.Controls.Add(this.btnRevert);
+            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.txtName);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.button1);
@@ -391,10 +393,9 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.ddlAgentTemplate);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Name = "AgentForm";
+            this.Name = "AgentTemplateForm";
             this.Text = "Agent Topology";
             this.Load += new System.EventHandler(this.AgentForm_Load);
             this.groupBox1.ResumeLayout(false);
@@ -412,7 +413,6 @@
 
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.ComboBox ddlAgentTemplate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -438,7 +438,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.Button btnRevert;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ReactivePathfinding.Core
 {
@@ -10,8 +12,15 @@ namespace ReactivePathfinding.Core
     public class AgentTemplate
     {
         private Agent templateAgent;
-        private string name;
-        private string filename;
+        private string name = "{New template}";
+        private string filename = "{Unsaved}";
+        private bool isNew = true;
+
+        public bool IsNew
+        {
+            get { return isNew; }
+            set { isNew = value; }
+        }
 
         public string Filename
         {
@@ -31,12 +40,116 @@ namespace ReactivePathfinding.Core
             set { templateAgent = value; }
         }
 
+        public bool IsValid(out string error)
+        {
+            if(templateAgent == null)
+            {
+                error = "Template agent undefined";
+                return false;
+            }
+            else if (templateAgent.Sensors.Count < 1)
+            {                                
+                error = "Template has too few sensors";
+                return false;
+            }
+            else if (templateAgent.Connections.Length <1)
+            {
+                error = "Template has too few connections";
+                return false;
+            }
+
+            error = "none";
+            return true;
+        }
+
         public static List<AgentTemplate> AllTemplates()
         {
             List<AgentTemplate> templates = new List<AgentTemplate>();
             templates.Add(EightTargetSensors());
             templates.Add(EightTargetSensorsAndFourGradient());
             return templates;
+        }
+
+        /// <summary>
+        /// Load a previously saved template by filename
+        /// </summary>        
+        public static AgentTemplate LoadFromFile(string fullpath)
+        {
+            AgentTemplate temp = null;
+            FileStream stream = null;
+
+            if (File.Exists(fullpath))
+            {
+                try
+                {
+                    Logging.Instance.Log("Loading Template from " + fullpath);
+                    stream = File.OpenRead(fullpath);
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    temp = (AgentTemplate)formatter.Deserialize(stream);
+                    temp.isNew = false;
+                }
+                catch (Exception ex)
+                {
+                    Logging.Instance.Log("Failed to read file " + fullpath + " because: " + ex.Message);
+                }
+                finally
+                {
+                    if (stream != null)
+                        stream.Close();
+                }
+            }
+            else
+            {
+                Logging.Instance.Log("File not found " + fullpath);
+            }
+
+            return temp;
+        }
+
+        /// <summary>
+        /// Serialize the template to file
+        /// </summary>
+        public bool Save(string fullpath)
+        {
+            bool success = false;
+
+            if (File.Exists(fullpath))
+            {
+                File.Delete(fullpath);
+                Logging.Instance.Log("Deleting old file " + fullpath);
+            }
+
+            Logging.Instance.Log("Saving Template to " + fullpath);
+            FileStream stream = null;
+            try
+            {
+                stream = File.Create(fullpath);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, this);
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                Logging.Instance.Log("Failed to write file " + fullpath + " because: " + ex.Message);
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+
+            return success;
+        }
+        public bool SaveAs(string newname, string fullpath)
+        {
+            string oldname = filename;
+            filename = newname;
+            bool success = Save(fullpath);
+
+            if (!success)
+                filename = oldname;
+
+            return success;
         }
 
         /// <summary>
@@ -48,8 +161,7 @@ namespace ReactivePathfinding.Core
         {
             AgentTemplate t = new AgentTemplate();
 
-            Agent a = new Agent();
-            a.Name = "8T2";            
+            Agent a = new Agent();                     
 
             Sensor leftsensor = new TargetSensor(new RadialPoint(90f, 1f)); leftsensor.Name = "target_90_1";
             Sensor rightsensor = new TargetSensor(new RadialPoint(270f, 1f)); rightsensor.Name = "target_270_1";
@@ -101,6 +213,7 @@ namespace ReactivePathfinding.Core
             
             t.TemplateAgent = a;
             t.Name = "8 Target sensor dual connections";
+            t.filename = "{Unsaved}";
 
             //create appropriate genome - one bounded float for the weight of each connection.
             BoundaryFloatGenome g = new BoundaryFloatGenome(16, -1, 1, null);
@@ -118,8 +231,7 @@ namespace ReactivePathfinding.Core
         {
             AgentTemplate t = new AgentTemplate();
 
-            Agent a = new Agent();
-            a.Name = "8T2,4G2";
+            Agent a = new Agent();            
 
             Sensor leftsensor = new TargetSensor(new RadialPoint(90f, 1f)); leftsensor.Name = "target_90_1";
             Sensor rightsensor = new TargetSensor(new RadialPoint(270f, 1f)); rightsensor.Name = "target_270_1";
@@ -195,6 +307,7 @@ namespace ReactivePathfinding.Core
 
             t.TemplateAgent = a;
             t.Name = "8 Target & 4 gradient all dual conn.";
+            t.filename = "{Unsaved}";
 
             //create appropriate genome - one bounded float for the weight of each connection.
             BoundaryFloatGenome g = new BoundaryFloatGenome(24, -1, 1, null);
@@ -203,14 +316,46 @@ namespace ReactivePathfinding.Core
             return t;
         }
 
+        /// <summary>
+        /// Get a new agent template with no sensors or connections
+        /// </summary>        
+        public static AgentTemplate Empty()
+        {
+            AgentTemplate t = new AgentTemplate();
+
+            Agent a = new Agent();                        
+
+            Actuator leftmotor = new MotorActuator(MotorTypes.LEFT); leftmotor.Name = "Mleft";
+            Actuator rightmotor = new MotorActuator(MotorTypes.RIGHT); rightmotor.Name = "Mright";            
+
+            a.AddActuator(leftmotor);
+            a.AddActuator(rightmotor);            
+
+            t.TemplateAgent = a;
+            t.Name = "New Unsaved Agent";
+            t.filename = "{Unsaved}";            
+
+            return t;
+        }
+
         public Agent GetAgentFromTemplate()
         {
             return new Agent(TemplateAgent);
-        }
+        }        
 
         public override string ToString()
         {
             return name;
+        }
+
+        public AgentTemplate Clone()
+        {
+            AgentTemplate clone = new AgentTemplate();
+            clone.Filename = "{New Clone}";
+            clone.name = this.name;
+            clone.isNew = false;
+            clone.templateAgent = new Agent(this.templateAgent);
+            return clone;
         }
     }
 }

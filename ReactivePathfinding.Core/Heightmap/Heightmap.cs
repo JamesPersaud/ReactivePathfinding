@@ -15,9 +15,13 @@ namespace ReactivePathfinding.Core
     [Serializable]
     public class Heightmap
     {
+        [NonSerialized]
         private ImprovedPerlin noiseModule;
+        [NonSerialized]
         private NoiseMap proceduralNoise;
+        [NonSerialized]
         private NoiseMapBuilderPlane proceduralNoiseBuilder;
+        [NonSerialized]
         private SumFractal filter;
         
         private HeightmapSettings settings;
@@ -25,6 +29,7 @@ namespace ReactivePathfinding.Core
 
         private string filename;
 
+        [NonSerialized]
         private float[,] heights;
 
         private bool isNew = true;
@@ -79,6 +84,8 @@ namespace ReactivePathfinding.Core
                     stream = File.OpenRead(fullpath);
                     BinaryFormatter formatter = new BinaryFormatter();
                     map = (Heightmap)formatter.Deserialize(stream);
+                    map = Heightmap.CreateHeightmap(map.Settings,map.MapType);
+                    map.IsNew = false;
                 }
                 catch(Exception ex)
                 {
@@ -89,21 +96,22 @@ namespace ReactivePathfinding.Core
                     if (stream != null)
                         stream.Close();
                 }
-            }            
+            }
             else
             {
                 Logging.Instance.Log("File not found " + fullpath);
             }
-
-            map.IsNew = false;
+            
             return map;
         }                
 
         /// <summary>
         /// Serialize the heightmap to file
         /// </summary>
-        public void Save(string fullpath)
-        {            
+        public bool Save(string fullpath)
+        {
+            bool success = false;
+
             if(File.Exists(fullpath))
             {
                 File.Delete(fullpath);
@@ -116,22 +124,31 @@ namespace ReactivePathfinding.Core
             {
                 stream = File.Create(fullpath);
                 BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, this);                
+                formatter.Serialize(stream, this);
+                success = true;
             }
             catch(Exception ex)
             {
-                Logging.Instance.Log("Failed to write file " + fullpath + " because: " + ex.Message);
+                Logging.Instance.Log("Failed to write file " + fullpath + " because: " + ex.Message);                
             }
             finally
             {
                 if(stream != null)
                     stream.Close();
             }
+
+            return success;
         }
-        public void SaveAs(string newname, string fullpath)
+        public bool SaveAs(string newname, string fullpath)
         {
+            string oldname = filename;
             filename = newname;
-            Save(fullpath);
+            bool success = Save(fullpath);
+
+            if(!success)          
+                filename = oldname;            
+
+            return success;
         }
 
         //convert height into scene graph range

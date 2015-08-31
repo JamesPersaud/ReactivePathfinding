@@ -24,11 +24,20 @@ namespace ReactivePathfinding.Core
         private float finalMinFitness;
         private float finalMaxFitness;
         private float finalAvgFitness;
+        private float targetFitness;
 
         private int finalExpired;
         private int finalReachedTarget;
 
         private float age;
+
+        /// <summary>
+        /// The max possible fitness
+        /// </summary>
+        public float TargetFitness
+        {
+            get { return targetFitness; }
+        }
 
         public float Age
         {
@@ -100,7 +109,8 @@ namespace ReactivePathfinding.Core
 
         public Generation(Experiment ex)
         {
-            currentExperiment = ex;            
+            currentExperiment = ex;
+            targetFitness = ex.CurrentFitnessFunction.EstimateMaxFitness(ex);
         }
 
         public bool HasEnded

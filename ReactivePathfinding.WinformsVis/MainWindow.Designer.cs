@@ -61,14 +61,11 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainViewContainer = new System.Windows.Forms.SplitContainer();
             this.pnlSimControls = new System.Windows.Forms.Panel();
-            this.icnStop = new System.Windows.Forms.PictureBox();
-            this.icnFaster = new System.Windows.Forms.PictureBox();
-            this.icnSlower = new System.Windows.Forms.PictureBox();
-            this.icnPause = new System.Windows.Forms.PictureBox();
-            this.icnPlay = new System.Windows.Forms.PictureBox();
             this.lblFPS = new System.Windows.Forms.Label();
             this.glControl = new OpenTK.GLControl();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.chkArithCross = new System.Windows.Forms.CheckBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.lblBestPathCost = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.txtFitnessExplanation = new System.Windows.Forms.TextBox();
@@ -118,19 +115,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblExperimentFilename = new System.Windows.Forms.Label();
             this.lblExperimentName = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.chkArithCross = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.lblMaxFitness = new System.Windows.Forms.Label();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.icnStop = new System.Windows.Forms.PictureBox();
+            this.icnFaster = new System.Windows.Forms.PictureBox();
+            this.icnSlower = new System.Windows.Forms.PictureBox();
+            this.icnPause = new System.Windows.Forms.PictureBox();
+            this.icnPlay = new System.Windows.Forms.PictureBox();
+            this.chooseAgentTopologyTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eightTargetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eightTargetFourGradientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadAgentTopologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveTopologyAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).BeginInit();
             this.MainViewContainer.Panel1.SuspendLayout();
             this.MainViewContainer.Panel2.SuspendLayout();
             this.MainViewContainer.SuspendLayout();
             this.pnlSimControls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.icnStop)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnFaster)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnSlower)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnPause)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnPlay)).BeginInit();
             this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numtimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLifetime)).BeginInit();
@@ -139,6 +143,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numMutation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCrossover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPopSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnStop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnFaster)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnSlower)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnPause)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnPlay)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -269,8 +278,13 @@
             this.toolStripMenuItem3,
             this.setTargetToolStripMenuItem,
             this.setStartPositionToolStripMenuItem,
-            this.newAgentTopologyToolStripMenuItem,
             this.toolStripSeparator3,
+            this.newAgentTopologyToolStripMenuItem,
+            this.chooseAgentTopologyTemplateToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.loadAgentTopologyToolStripMenuItem,
+            this.saveTopologyAsToolStripMenuItem,
+            this.toolStripSeparator5,
             this.calculateBestPathToolStripMenuItem});
             this.experimentToolStripMenuItem.Enabled = false;
             this.experimentToolStripMenuItem.Name = "experimentToolStripMenuItem";
@@ -280,7 +294,7 @@
             // newRandomTerrainToolStripMenuItem
             // 
             this.newRandomTerrainToolStripMenuItem.Name = "newRandomTerrainToolStripMenuItem";
-            this.newRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.newRandomTerrainToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.newRandomTerrainToolStripMenuItem.Text = "New Procedural Heightmap";
             this.newRandomTerrainToolStripMenuItem.Click += new System.EventHandler(this.newRandomTerrainToolStripMenuItem_Click);
             // 
@@ -290,75 +304,77 @@
             this.flatPlaneToolStripMenuItem,
             this.conicalHillToolStripMenuItem});
             this.newTerrainTemplateToolStripMenuItem.Name = "newTerrainTemplateToolStripMenuItem";
-            this.newTerrainTemplateToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.newTerrainTemplateToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.newTerrainTemplateToolStripMenuItem.Text = "New Heightmap from Template";
             // 
             // flatPlaneToolStripMenuItem
             // 
             this.flatPlaneToolStripMenuItem.Name = "flatPlaneToolStripMenuItem";
-            this.flatPlaneToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.flatPlaneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.flatPlaneToolStripMenuItem.Text = "Flat Plane";
             this.flatPlaneToolStripMenuItem.Click += new System.EventHandler(this.flatPlaneToolStripMenuItem_Click);
             // 
             // conicalHillToolStripMenuItem
             // 
             this.conicalHillToolStripMenuItem.Name = "conicalHillToolStripMenuItem";
-            this.conicalHillToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.conicalHillToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.conicalHillToolStripMenuItem.Text = "Conical Hill";
             this.conicalHillToolStripMenuItem.Click += new System.EventHandler(this.conicalHillToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(265, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(264, 6);
             // 
             // loadTerrainToolStripMenuItem
             // 
             this.loadTerrainToolStripMenuItem.Name = "loadTerrainToolStripMenuItem";
-            this.loadTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.loadTerrainToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.loadTerrainToolStripMenuItem.Text = "Load Heightmap";
+            this.loadTerrainToolStripMenuItem.Click += new System.EventHandler(this.loadTerrainToolStripMenuItem_Click);
             // 
             // saveTerrainToolStripMenuItem
             // 
             this.saveTerrainToolStripMenuItem.Name = "saveTerrainToolStripMenuItem";
-            this.saveTerrainToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.saveTerrainToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.saveTerrainToolStripMenuItem.Text = "Save Heightmap As";
+            this.saveTerrainToolStripMenuItem.Click += new System.EventHandler(this.saveTerrainToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(265, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(264, 6);
             // 
             // setTargetToolStripMenuItem
             // 
             this.setTargetToolStripMenuItem.Name = "setTargetToolStripMenuItem";
-            this.setTargetToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.setTargetToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.setTargetToolStripMenuItem.Text = "Set Target";
             this.setTargetToolStripMenuItem.Click += new System.EventHandler(this.setTargetToolStripMenuItem_Click);
             // 
             // setStartPositionToolStripMenuItem
             // 
             this.setStartPositionToolStripMenuItem.Name = "setStartPositionToolStripMenuItem";
-            this.setStartPositionToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.setStartPositionToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.setStartPositionToolStripMenuItem.Text = "Set Start Position";
             this.setStartPositionToolStripMenuItem.Click += new System.EventHandler(this.setStartPositionToolStripMenuItem_Click);
             // 
             // newAgentTopologyToolStripMenuItem
             // 
             this.newAgentTopologyToolStripMenuItem.Name = "newAgentTopologyToolStripMenuItem";
-            this.newAgentTopologyToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
-            this.newAgentTopologyToolStripMenuItem.Text = "Set Agent Topology";
+            this.newAgentTopologyToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.newAgentTopologyToolStripMenuItem.Text = "Create/Edit Agent Topology";
             this.newAgentTopologyToolStripMenuItem.Click += new System.EventHandler(this.newAgentTopologyToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(265, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(264, 6);
             // 
             // calculateBestPathToolStripMenuItem
             // 
             this.calculateBestPathToolStripMenuItem.Name = "calculateBestPathToolStripMenuItem";
-            this.calculateBestPathToolStripMenuItem.Size = new System.Drawing.Size(268, 22);
+            this.calculateBestPathToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.calculateBestPathToolStripMenuItem.Text = "Calculate Best Path";
             this.calculateBestPathToolStripMenuItem.Click += new System.EventHandler(this.calculateBestPathToolStripMenuItem_Click);
             // 
@@ -373,7 +389,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -411,65 +427,6 @@
             this.pnlSimControls.Size = new System.Drawing.Size(193, 39);
             this.pnlSimControls.TabIndex = 2;
             // 
-            // icnStop
-            // 
-            this.icnStop.BackColor = System.Drawing.Color.White;
-            this.icnStop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.icnStop.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.stop;
-            this.icnStop.Location = new System.Drawing.Point(155, 3);
-            this.icnStop.Name = "icnStop";
-            this.icnStop.Size = new System.Drawing.Size(32, 32);
-            this.icnStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.icnStop.TabIndex = 4;
-            this.icnStop.TabStop = false;
-            // 
-            // icnFaster
-            // 
-            this.icnFaster.BackColor = System.Drawing.Color.White;
-            this.icnFaster.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.icnFaster.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.faster;
-            this.icnFaster.Location = new System.Drawing.Point(117, 3);
-            this.icnFaster.Name = "icnFaster";
-            this.icnFaster.Size = new System.Drawing.Size(32, 32);
-            this.icnFaster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.icnFaster.TabIndex = 3;
-            this.icnFaster.TabStop = false;
-            // 
-            // icnSlower
-            // 
-            this.icnSlower.BackColor = System.Drawing.Color.White;
-            this.icnSlower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.icnSlower.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.slower;
-            this.icnSlower.Location = new System.Drawing.Point(79, 3);
-            this.icnSlower.Name = "icnSlower";
-            this.icnSlower.Size = new System.Drawing.Size(32, 32);
-            this.icnSlower.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.icnSlower.TabIndex = 2;
-            this.icnSlower.TabStop = false;
-            // 
-            // icnPause
-            // 
-            this.icnPause.BackColor = System.Drawing.Color.White;
-            this.icnPause.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.icnPause.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.pause;
-            this.icnPause.Location = new System.Drawing.Point(41, 3);
-            this.icnPause.Name = "icnPause";
-            this.icnPause.Size = new System.Drawing.Size(32, 32);
-            this.icnPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.icnPause.TabIndex = 1;
-            this.icnPause.TabStop = false;
-            // 
-            // icnPlay
-            // 
-            this.icnPlay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.icnPlay.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.play;
-            this.icnPlay.Location = new System.Drawing.Point(3, 3);
-            this.icnPlay.Name = "icnPlay";
-            this.icnPlay.Size = new System.Drawing.Size(32, 32);
-            this.icnPlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.icnPlay.TabIndex = 0;
-            this.icnPlay.TabStop = false;
-            // 
             // lblFPS
             // 
             this.lblFPS.AutoSize = true;
@@ -501,6 +458,8 @@
             // pnlControls
             // 
             this.pnlControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.pnlControls.Controls.Add(this.lblMaxFitness);
+            this.pnlControls.Controls.Add(this.label24);
             this.pnlControls.Controls.Add(this.chkArithCross);
             this.pnlControls.Controls.Add(this.label23);
             this.pnlControls.Controls.Add(this.lblBestPathCost);
@@ -558,6 +517,27 @@
             this.pnlControls.Size = new System.Drawing.Size(204, 706);
             this.pnlControls.TabIndex = 0;
             // 
+            // chkArithCross
+            // 
+            this.chkArithCross.AutoSize = true;
+            this.chkArithCross.Location = new System.Drawing.Point(135, 271);
+            this.chkArithCross.Name = "chkArithCross";
+            this.chkArithCross.Size = new System.Drawing.Size(15, 14);
+            this.chkArithCross.TabIndex = 56;
+            this.chkArithCross.UseVisualStyleBackColor = true;
+            this.chkArithCross.CheckedChanged += new System.EventHandler(this.chkArithCross_CheckedChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(3, 270);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(121, 14);
+            this.label23.TabIndex = 55;
+            this.label23.Text = "Arithmetical cross.";
+            // 
             // lblBestPathCost
             // 
             this.lblBestPathCost.AutoSize = true;
@@ -567,6 +547,7 @@
             this.lblBestPathCost.Size = new System.Drawing.Size(53, 13);
             this.lblBestPathCost.TabIndex = 54;
             this.lblBestPathCost.Text = "Unknown";
+            this.lblBestPathCost.Click += new System.EventHandler(this.lblBestPathCost_Click);
             // 
             // label22
             // 
@@ -1103,26 +1084,132 @@
             this.lblExperimentName.TabIndex = 0;
             this.lblExperimentName.Text = "No Experiment";
             // 
-            // label23
+            // label24
             // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.White;
-            this.label23.Location = new System.Drawing.Point(3, 270);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(121, 14);
-            this.label23.TabIndex = 55;
-            this.label23.Text = "Arithmetical cross.";
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(3, 493);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(131, 14);
+            this.label24.TabIndex = 57;
+            this.label24.Text = "Approx. max fitness";
             // 
-            // chkArithCross
+            // lblMaxFitness
             // 
-            this.chkArithCross.AutoSize = true;
-            this.chkArithCross.Location = new System.Drawing.Point(135, 271);
-            this.chkArithCross.Name = "chkArithCross";
-            this.chkArithCross.Size = new System.Drawing.Size(15, 14);
-            this.chkArithCross.TabIndex = 56;
-            this.chkArithCross.UseVisualStyleBackColor = true;
-            this.chkArithCross.CheckedChanged += new System.EventHandler(this.chkArithCross_CheckedChanged);
+            this.lblMaxFitness.AutoSize = true;
+            this.lblMaxFitness.ForeColor = System.Drawing.Color.White;
+            this.lblMaxFitness.Location = new System.Drawing.Point(131, 494);
+            this.lblMaxFitness.Name = "lblMaxFitness";
+            this.lblMaxFitness.Size = new System.Drawing.Size(53, 13);
+            this.lblMaxFitness.TabIndex = 58;
+            this.lblMaxFitness.Text = "Unknown";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(264, 6);
+            // 
+            // icnStop
+            // 
+            this.icnStop.BackColor = System.Drawing.Color.White;
+            this.icnStop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.icnStop.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.stop;
+            this.icnStop.Location = new System.Drawing.Point(155, 3);
+            this.icnStop.Name = "icnStop";
+            this.icnStop.Size = new System.Drawing.Size(32, 32);
+            this.icnStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.icnStop.TabIndex = 4;
+            this.icnStop.TabStop = false;
+            // 
+            // icnFaster
+            // 
+            this.icnFaster.BackColor = System.Drawing.Color.White;
+            this.icnFaster.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.icnFaster.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.faster;
+            this.icnFaster.Location = new System.Drawing.Point(117, 3);
+            this.icnFaster.Name = "icnFaster";
+            this.icnFaster.Size = new System.Drawing.Size(32, 32);
+            this.icnFaster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.icnFaster.TabIndex = 3;
+            this.icnFaster.TabStop = false;
+            // 
+            // icnSlower
+            // 
+            this.icnSlower.BackColor = System.Drawing.Color.White;
+            this.icnSlower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.icnSlower.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.slower;
+            this.icnSlower.Location = new System.Drawing.Point(79, 3);
+            this.icnSlower.Name = "icnSlower";
+            this.icnSlower.Size = new System.Drawing.Size(32, 32);
+            this.icnSlower.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.icnSlower.TabIndex = 2;
+            this.icnSlower.TabStop = false;
+            // 
+            // icnPause
+            // 
+            this.icnPause.BackColor = System.Drawing.Color.White;
+            this.icnPause.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.icnPause.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.pause;
+            this.icnPause.Location = new System.Drawing.Point(41, 3);
+            this.icnPause.Name = "icnPause";
+            this.icnPause.Size = new System.Drawing.Size(32, 32);
+            this.icnPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.icnPause.TabIndex = 1;
+            this.icnPause.TabStop = false;
+            // 
+            // icnPlay
+            // 
+            this.icnPlay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.icnPlay.Image = global::ReactivePathfinding.WinformsVis.Properties.Resources.play;
+            this.icnPlay.Location = new System.Drawing.Point(3, 3);
+            this.icnPlay.Name = "icnPlay";
+            this.icnPlay.Size = new System.Drawing.Size(32, 32);
+            this.icnPlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.icnPlay.TabIndex = 0;
+            this.icnPlay.TabStop = false;
+            // 
+            // chooseAgentTopologyTemplateToolStripMenuItem
+            // 
+            this.chooseAgentTopologyTemplateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.eightTargetToolStripMenuItem,
+            this.eightTargetFourGradientToolStripMenuItem});
+            this.chooseAgentTopologyTemplateToolStripMenuItem.Name = "chooseAgentTopologyTemplateToolStripMenuItem";
+            this.chooseAgentTopologyTemplateToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.chooseAgentTopologyTemplateToolStripMenuItem.Text = "Set Topology to Template";
+            // 
+            // eightTargetToolStripMenuItem
+            // 
+            this.eightTargetToolStripMenuItem.Name = "eightTargetToolStripMenuItem";
+            this.eightTargetToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.eightTargetToolStripMenuItem.Text = "8 Target";
+            this.eightTargetToolStripMenuItem.Click += new System.EventHandler(this.eightTargetToolStripMenuItem_Click);
+            // 
+            // eightTargetFourGradientToolStripMenuItem
+            // 
+            this.eightTargetFourGradientToolStripMenuItem.Name = "eightTargetFourGradientToolStripMenuItem";
+            this.eightTargetFourGradientToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.eightTargetFourGradientToolStripMenuItem.Text = "8 Target 4 Gradient";
+            this.eightTargetFourGradientToolStripMenuItem.Click += new System.EventHandler(this.eightTargetFourGradientToolStripMenuItem_Click);
+            // 
+            // loadAgentTopologyToolStripMenuItem
+            // 
+            this.loadAgentTopologyToolStripMenuItem.Name = "loadAgentTopologyToolStripMenuItem";
+            this.loadAgentTopologyToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.loadAgentTopologyToolStripMenuItem.Text = "Load Topology";
+            this.loadAgentTopologyToolStripMenuItem.Click += new System.EventHandler(this.loadAgentTopologyToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(264, 6);
+            // 
+            // saveTopologyAsToolStripMenuItem
+            // 
+            this.saveTopologyAsToolStripMenuItem.Name = "saveTopologyAsToolStripMenuItem";
+            this.saveTopologyAsToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.saveTopologyAsToolStripMenuItem.Text = "Save Topology As";
+            this.saveTopologyAsToolStripMenuItem.Click += new System.EventHandler(this.saveTopologyAsToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -1146,11 +1233,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.MainViewContainer)).EndInit();
             this.MainViewContainer.ResumeLayout(false);
             this.pnlSimControls.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.icnStop)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnFaster)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnSlower)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnPause)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.icnPlay)).EndInit();
             this.pnlControls.ResumeLayout(false);
             this.pnlControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numtimeout)).EndInit();
@@ -1160,6 +1242,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numMutation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCrossover)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPopSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnStop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnFaster)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnSlower)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnPause)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.icnPlay)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1259,6 +1346,15 @@
         private System.Windows.Forms.ToolStripMenuItem calculateBestPathToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkArithCross;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lblMaxFitness;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem chooseAgentTopologyTemplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eightTargetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eightTargetFourGradientToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadAgentTopologyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveTopologyAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

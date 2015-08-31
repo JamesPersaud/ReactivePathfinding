@@ -56,6 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgentTemplateForm.Designer.cs">
+      <DependentUpon>AgentTemplateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AgentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,7 @@
       <DependentUpon>CreateExperimentWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FilesystemSettings.cs" />
+    <Compile Include="LoadSaveInterface.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +120,9 @@
     <Compile Include="TargetForm.Designer.cs">
       <DependentUpon>TargetForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AgentTemplateForm.resx">
+      <DependentUpon>AgentTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AgentForm.resx">
       <DependentUpon>AgentForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -139,5 +139,75 @@ namespace ReactivePathfinding.WinformsVis
         {
             BindDropdowns();
         }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            //load the template, add it to the list of templates and then select it from the list.            
+
+            OpenFileDialog loadTemplate = new OpenFileDialog();
+            loadTemplate.Filter = "Agent Template|*." + FilesystemSettings.FILE_EXTENSION_TEMPLATE;
+            loadTemplate.Title = "Load Agent Template";
+            loadTemplate.FileName = "";
+            loadTemplate.InitialDirectory = FilesystemSettings.CurrentPath + FilesystemSettings.PathSeparator + FilesystemSettings.FILE_PATH_TEMPLATE;
+
+            bool retry = false;
+            do
+            {
+                retry = false;
+                if (loadTemplate.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    if (loadTemplate.FileName != "")
+                    {
+                        string fullpath = loadTemplate.FileName;
+                        AgentTemplate loadedTemplate = AgentTemplate.LoadFromFile(fullpath);                                                
+
+                        if (loadedTemplate != null)
+                        {
+                            foreach (AgentTemplate t in templates)
+                            {
+                                if (t.Name.Equals(loadedTemplate.Name))
+                                {
+                                    DialogResult result = MessageBox.Show(
+                                        "A template by that name is already loaded", "Template not loaded",
+                                        MessageBoxButtons.RetryCancel,
+                                        MessageBoxIcon.Error,
+                                        MessageBoxDefaultButton.Button2);
+                                }
+                            }
+
+                            templates.Add(loadedTemplate);
+                            ddlAgentTemplate.SelectedItem = loadedTemplate;
+                            BindDropdowns();
+                        }
+                        else
+                        {
+                            DialogResult result = MessageBox.Show(
+                                "Filesystem error, see log", "Template not loaded",
+                                MessageBoxButtons.RetryCancel,
+                                MessageBoxIcon.Error,
+                                MessageBoxDefaultButton.Button2);
+
+                            retry = (result == System.Windows.Forms.DialogResult.Retry);
+                        }
+                    }
+                    else
+                    {
+                        Logging.Instance.Log("Unable to load Template, no file name specified");
+                        DialogResult result = MessageBox.Show(
+                            "Invalid filename", "Template not loaded",
+                            MessageBoxButtons.RetryCancel,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1);
+
+                        retry = (result == System.Windows.Forms.DialogResult.Retry);
+                    }
+                }
+            } while (retry);            
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using ReactivePathfinding.Core;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ReactivePathfinding.WinformsVis
 {
@@ -8,7 +9,7 @@ namespace ReactivePathfinding.WinformsVis
     /// These are class variables rather than constants so that they could be reconfigured.
     /// </summary>
     public class FilesystemSettings
-    {        
+    {
         public static string FILE_PATH_TEMPLATE = "AgentTemplates";
         public static string FILE_PATH_EXPERIMENT = "Experiments";
         public static string FILE_PATH_HEIGHTMAP = "Heightmaps";
@@ -18,7 +19,40 @@ namespace ReactivePathfinding.WinformsVis
         public static string FILE_EXTENSION_HEIGHTMAP = "htmp";
 
         public static string PathSeparator = Path.DirectorySeparatorChar.ToString();
-        public static string CurrentPath = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;        
+        private static string currentPath = string.Empty;
+
+        /// <summary>
+        /// In development the root path for the application should not be in the bin folder, so that saved files are not destroyed when recompiling
+        /// In a deployed environment, the base path is set according to the ini file
+        /// </summary>
+        public static string CurrentPath
+        {
+            get
+            {
+                if (currentPath.Length == 0)                    
+                {
+                    currentPath = Path.GetDirectoryName(Application.ExecutablePath);
+                    string[] parts = currentPath.Split(new string[] { "\\" }, StringSplitOptions.None);
+                    currentPath = string.Empty;
+
+                    foreach(string part in parts)
+                    {
+                        currentPath += part;
+
+                        if (part.Equals("ReactivePathfinding"))
+                            break;
+                        else
+                            currentPath += PathSeparator;
+                    }
+                }
+
+                return currentPath;
+            }
+            set
+            {
+                currentPath = value;
+            }
+        }            
 
         public static string GetFullPath(string dir, string name, string extension)
         {
@@ -39,5 +73,7 @@ namespace ReactivePathfinding.WinformsVis
         {
             return GetFullPath(FILE_PATH_EXPERIMENT, e.Filename, FILE_EXTENSION_EXPERIMENT);
         }
+
+
     }    
 }

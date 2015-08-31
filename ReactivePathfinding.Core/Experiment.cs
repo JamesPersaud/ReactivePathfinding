@@ -260,7 +260,7 @@ namespace ReactivePathfinding.Core
         {
             get { return heightmapFilename; }
             set { heightmapFilename = value; }
-        }
+        }        
 
         public KeyValuePair<int, float> LifetimeBestAvgFitness
         {
@@ -529,7 +529,7 @@ namespace ReactivePathfinding.Core
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("Generation,MaxFitness,MinFitness,AveFitness,SuccessfulAgents" + Environment.NewLine);
+            sb.Append("Generation,TargetFitness,MaxFitness,MinFitness,AveFitness,SuccessfulAgents" + Environment.NewLine);
 
             for(int i = 0 ; i < previousGenerations.Count; i++)
             {
@@ -539,6 +539,8 @@ namespace ReactivePathfinding.Core
                 Generation g = previousGenerations[i];
 
                 sb.Append(g.GenerationID.ToString());
+                sb.Append(",");
+                sb.Append(g.TargetFitness.ToString());
                 sb.Append(",");
                 sb.Append(g.MaxFitness.ToString());
                 sb.Append(",");

@@ -354,7 +354,8 @@ namespace ReactivePathfinding.Core
                     old_connection.Weight, old_connection.ConnectionType);
             }
 
-            this.WeightGenome = (BoundaryFloatGenome)other.WeightGenome.Clone();
+            if(other.WeightGenome != null)
+                this.WeightGenome = (BoundaryFloatGenome)other.WeightGenome.Clone();
         }                
 
         public Actuator getActuatorByIndex(int i)
